@@ -1,50 +1,119 @@
 menu-width = 230px
 toolbar-color = rgba(#000, 0.3)
 
+// transition
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to{
+  transform: translateX(10px);
+  opacity: 0;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .3s ease-in-out
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+  opacity: 0
+}
+
+// modal
+.my-modal-wrap#qrcode-modal
+  position fixed
+  z-index 99
+  width 100vw
+  height 100vh
+  background-color rgba(#000, 0.5)
+  display flex
+  align-items center
+  .modal-box
+    min-width 300px
+    margin auto
+    background-color coral
+    color #ff
+    text-align center
+    position relative
+    border-radius 10px
+    .close-btn
+      cursor: pointer
+      position absolute
+      right 0
+      top 0
+      margin-top 15px
+      margin-right 20px
+      border 1px solid #fff
+      border-radius 50%
+      width 40px
+      height 40px
+      display flex
+      align-items center
+      i.icon
+        margin auto
+    .modal-box-content
+      padding 30px 20px
+      h4
+        color: #fff
+        font-size: 20px
+        letter-spacing 3px
+        line-height 25px
+      img
+        max-width 70%
+
+
+
+
+
+
 // sidebar
 .sidebar
-  color: #eee
   letter-spacing 3px
   .list__tile
     text-align center
+    color #ddd
   .divider
-    margin: 10px 0
-.sidebar--open, .sidebar--open.sidebar--mobile
-  width: menu-width
-  .logo
-    color: #fff
-    text-align center
-    font-size: 35px
-    margin-top: 13px
-    letter-spacing 2px
-    margin-bottom 30px
+    margin 10px 0
+  &.sidebar--open, .sidebar--open.sidebar--mobile
+    width menu-width
+    .logo
+      color #fff
+      text-align center
+      font-size 35px
+      letter-spacing 2px
+      background-image url(/static/imgs/logo.png)
+      width 160px
+      height 36px
+      margin: 15px auto 30px auto
 .with.left-fixed-sidebar main
-  padding-left: menu-width
-  @media screen and (max-width: 991px)
-    padding-left: 0
+  padding-left menu-width
+  @media screen and (max-width 991px)
+    padding-left 0
 
 // toolbar (top bar)
 .toolbar.trans-dark
-  position: fixed
+  position fixed
   background-color toolbar-color
   box-shadow none
-  height: 58px
+  height 58px
   .toolbar__logo
-    font-size: 35px
+    font-size 35px
+    padding-top: 13px
     display none
-    @media screen and (max-width: 991px)
+    @media screen and (max-width 991px)
       display inline-block
 
 
 .with.top-toolbar main
-  min-height: 100vh
+  min-height 100vh
 
 body
-  background-color: #333
+  background-color #333
   font-family '微軟正黑體'
 
 .content.home
-  background-color: #333
+  background-color #333
   background-image url(/static/imgs/bg.jpg)
   background-repeat no-repeat
   background-size cover
@@ -55,29 +124,29 @@ body
   .slogan-wrap
     text-align center
     h3
-      color: #fff
-      font-size: 32px
+      color #fff
+      font-size 32px
       letter-spacing 12px
       margin-bottom 30px
       //font-weight 800
-      @media screen and (max-width: 991px)
+      @media screen and (max-width 991px)
         letter-spacing 5px
-        font-size: 38px
+        font-size 38px
 
     a
-      color: #fff
-      border: 1px solid #fff
-      margin: auto
-      padding: 5px 50px
+      color #fff
+      border 1px solid #fff
+      margin auto
+      padding 5px 50px
       text-decoration none
-      font-size: 16px
+      font-size 16px
       letter-spacing 7px
-      transition: all 0.1s ease-in-out
-      &:hover
-        background-color: rgba(#fff, 0.2)
-      @media screen and (max-width: 991px)
-        padding: 10px 50px
-        font-size: 18px
+      transition all 0.1s ease-in-out
+      &hover
+        background-color rgba(#fff, 0.2)
+      @media screen and (max-width 991px)
+        padding 10px 50px
+        font-size 18px
 
 
 
