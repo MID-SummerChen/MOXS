@@ -1,0 +1,20 @@
+{
+  "name": "moxs",
+  "description": "A Vue.js project",
+  "main": "",
+  "authors": [
+    "Ruby Chen <ruby@yun-ru.com>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.2.1"
+  }
+}
