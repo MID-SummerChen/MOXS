@@ -5,6 +5,9 @@ import App from './App'
 import router from './router'
 import store from './store'
 import Vuetify from 'vuetify'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-default/index.css'
+
 
 entry()
 
@@ -14,6 +17,7 @@ async function entry() {
 
   require(`./style/${res.current_theme}.styl`)
   Vue.use(Vuetify)
+  Vue.use(ElementUI)
 
   Vue.config.productionTip = false
 

@@ -11,6 +11,7 @@
     "test": "npm run e2e"
   },
   "dependencies": {
+    "element-ui": "^1.2.6",
     "keycode": "^2.1.8",
     "muse-ui": "^2.0.0-rc.5",
     "stylus": "^0.54.5",

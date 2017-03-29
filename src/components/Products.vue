@@ -3,12 +3,9 @@
     <header-cpt></header-cpt>
     <main>
       <side-bar></side-bar>
-      <v-content class="home">
+      <v-content class="products">
         <v-container fluid>
-          <div class="slogan-wrap">
-            <h3 class="slogan">最好吃的漢堡就在這裡</h3>
-            <router-link to="/">立即訂位點餐</router-link>
-          </div>
+          test
 
         </v-container>
       </v-content>
@@ -25,19 +22,19 @@
   import eventHub from '@/utils/eventHub'
   import commonMixin from '@/utils/commonMixin'
   import {mapGetters, mapActions, mapMutations} from 'vuex'
-export default {
-  name: 'Home',
-  components: {
-    HeaderCpt: Header,
-    SideBar,
-    QrcodeModal: QRCodeModal
-  },
-  data () {
-    return {
+  export default {
+    name: 'Products',
+    components: {
+      HeaderCpt: Header,
+      SideBar,
+      QrcodeModal: QRCodeModal
+    },
+    data () {
+      return {
 
+      }
+    },
+    mounted() {
     }
-  },
-  mounted() {
   }
-}
 </script>
