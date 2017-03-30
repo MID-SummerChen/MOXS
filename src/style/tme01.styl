@@ -20,6 +20,16 @@ toolbar-color = rgba(#000, 0.3)
   opacity: 0
 }
 
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+
+.clearfix:after {
+  clear: both
+}
+
 // modal
 .my-modal-wrap#qrcode-modal
   position fixed
@@ -77,14 +87,7 @@ toolbar-color = rgba(#000, 0.3)
     margin 10px 0
   &.sidebar--open, .sidebar--open.sidebar--mobile
     width menu-width
-    .logo
-      color #fff
-      text-align center
-      font-size 35px
-      letter-spacing 2px
-      background-image url(/static/imgs/logo.png)
-      width 160px
-      height 36px
+    .icon-logo
       margin: 15px auto 30px auto
 .with.left-fixed-sidebar main
   padding-left menu-width
@@ -104,15 +107,75 @@ toolbar-color = rgba(#000, 0.3)
     @media screen and (max-width 991px)
       display inline-block
 
+// card
+.el-card
+  .el-card__body
+    img
+      //
+    .card-content
+      padding: 10px 14px
+      display: flex
+      justify-content: space-between
+      align-items center
+      .icon-plus
+        cursor: pointer
+      p
+        margin: 3px 0
+      .tag
+        color: coral
+        border: 1px solid coral
+        text-align center
+        line-height: 16px
+        font-size: 12px
+        letter-spacing 2px
+        display: inline-block
+        padding: 0 10px
+      .title
+        color: #666
+        font-size: 14px
+        letter-spacing 3px
+      .dollar
+        color: coral
+        font-weight: bold
+        letter-spacing 1px
 
-.with.top-toolbar main
-  min-height 100vh
+// button
+.el-button
+  border: 1px solid #999
+  color: #999
+  padding: 8px 25px
+  margin: 10px 0
+  &:hover, &:active, &:focus, &.active
+    border: 1px solid #999
+    background-color: coral
+    color: #fff
+
+// breadcrumb
+.el-breadcrumb__item
+  font-weight bold
+  color: #666
+  font-size: 14px
+.el-breadcrumb__item__inner a:hover, .el-breadcrumb__item__inner:hover
+  color: #888
+
 
 body
   background-color #333
   font-family '微軟正黑體'
 
-.content.home
+.with.top-toolbar main
+  min-height 100vh
+  >.content
+    padding: 40px
+    padding-top: 60px
+
+.page#products .toolbar.trans-dark
+  background-color #fff
+  .btn
+    color: #333
+
+
+.page#home .content
   background-color #333
   background-image url(/static/imgs/bg.jpg)
   background-repeat no-repeat
