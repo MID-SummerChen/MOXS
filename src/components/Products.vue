@@ -3,6 +3,36 @@
     <header-cpt></header-cpt>
     <main>
       <side-bar></side-bar>
+      <div class="cart">
+        <div class="title">訂位點餐</div>
+        <div class="subTitle">請填妥下方預約資訊，完成後按下預約確認按鈕即可完成預約。</div>
+        <!--<div class="content">填寫預約資料...</div>-->
+        <div class="content">
+          <h5>內用點餐</h5>
+          <p>
+            2017/03/20 星期三
+            <span>16:30(2人)</span>
+            <span>線上付款</span>
+          </p>
+          <p>林青揚先生 <span>0921-999888</span></p>
+          <p>台中烏日區健行南路233號10樓</p>
+        </div>
+        <div class="items">
+          <div v-for="n in 4" class="item">
+            <div class="item-img"><img src="/static/imgs/food03.jpg"></div>
+            <div class="item-content">
+              <p class="title">餐點的名稱</p>
+              <p class="tags"><span>加雞蛋</span><span>加雞蛋</span><span>加雞蛋</span></p>
+              <p class="dollar">$180</p>
+            </div>
+          </div>
+        </div>
+        <div class="total">
+          合計 NT$ 170
+          <button type="button" class="submit">確認預約</button>
+        </div>
+        
+      </div>
       <v-content>
         <v-container fluid>
           <el-breadcrumb separator=">">
