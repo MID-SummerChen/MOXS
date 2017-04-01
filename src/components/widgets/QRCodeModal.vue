@@ -1,7 +1,7 @@
 <template>
-  <div id="qrcode-modal" class="my-modal-wrap" @click.self="controlQRCodeModal(false)">
+  <div id="qrcode-modal" class="my-modal-wrap" @click.self="controlModal({target: 'qrcode', boo: false})">
     <div class="modal-box">
-      <div class="close-btn"  @click="controlQRCodeModal(false)">
+      <div class="close-btn"  @click="controlModal({target: 'qrcode', boo: false})">
         <v-icon>clear</v-icon>
       </div>
       <div class="modal-box-content">
@@ -28,12 +28,11 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'isShowQRCodeModal'
     ])
   },
   methods: {
     ...mapMutations([
-      'controlQRCodeModal'
+      'controlModal'
     ]),
 
   }

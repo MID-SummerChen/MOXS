@@ -1,8 +1,9 @@
 <template>
   <div id="app">
     <transition name="fade">
-      <qrcode-modal v-if="isShowQRCodeModal"></qrcode-modal>
-      <checkout-modal v-if="isShowCheckoutModal"></checkout-modal>
+      <qrcode-modal v-if="qrcodeModal"></qrcode-modal>
+      <checkout-modal v-if="checkoutModal"></checkout-modal>
+      <product-modal v-if="productModal"></product-modal>
     </transition>
     <v-app top-toolbar left-fixed-sidebar>
 
@@ -30,6 +31,11 @@
                 <v-list-item v-if="m.divider">
                   <v-divider light />
                 </v-list-item>
+                <v-list-item v-else-if="m.openModal">
+                  <v-list-tile ripple>
+                    <a @click="controlModal({target: m.openModal, boo: true})">{{m.title}}</a>
+                  </v-list-tile>
+                </v-list-item>
                 <v-list-item v-else>
                   <v-list-tile ripple>
                     <router-link :to="m.route">{{m.title}}</router-link>
@@ -55,16 +61,19 @@
   import SideBar from '@/components/layout/SideBar.vue'
   import QRCodeModal from '@/components/widgets/QRCodeModal.vue'
   import CheckoutModal from '@/components/widgets/CheckoutModal.vue'
+  import ProductModal from '@/components/widgets/ProductModal.vue'
   import eventHub from '@/utils/eventHub'
   import commonMixin from '@/utils/commonMixin'
-  import { mapGetters, mapActions, mapMutations } from 'vuex'
+  import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
+
   export default {
     name: 'app',
     components: {
       HeaderCpt: Header,
       SideBar,
       QrcodeModal: QRCodeModal,
-      CheckoutModal
+      CheckoutModal,
+      ProductModal,
     },
     data() {
       return {
@@ -76,22 +85,28 @@
           {title: "動態消息", route: {name: 'Products'}},
           {title: "商店資訊", route: {name: 'Info'}},
           {title: "會員中心", route: {name: 'Products'}},
-          {title: "APP下載", route: {name: 'Products'}},
+          {title: "APP下載", openModal: "qrcode"},
           {divider: true},
           {title: "會員登入", route: {name: 'Products'}},
         ]
       }
     },
     computed: {
+      ...mapState({
+        productModal: state => state.modal.product,
+        checkoutModal: state => state.modal.checkout,
+        qrcodeModal: state => state.modal.qrcode,
+      }),
       ...mapGetters([
-        'isShowQRCodeModal',
-        'isShowCheckoutModal',
       ])
     },
     mounted() {
 
     },
     methods: {
+      ...mapMutations([
+        'controlModal'
+      ])
     }
   }
 

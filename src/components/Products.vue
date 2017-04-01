@@ -5,7 +5,7 @@
       <div class="title">訂位點餐</div>
       <div class="subTitle">請填妥下方預約資訊，完成後按下預約確認按鈕即可完成預約。</div>
       <!--<div class="content">填寫預約資料...</div>-->
-      <div class="content" @click="controlCheckoutModal(true)">
+      <div class="content" @click="controlModal({target: 'checkout', boo: true})">
         <h5>內用點餐</h5>
         <p>
           2017/03/20 星期三
@@ -16,7 +16,7 @@
         <p>台中烏日區健行南路233號10樓</p>
       </div>
       <div class="items">
-        <div v-for="n in 4" class="item">
+        <div v-for="n in 4" class="item" @click="controlModal({target: 'product', boo: true})">
           <div class="item-img"><img src="/static/imgs/food03.jpg"></div>
           <div class="item-content">
             <p class="title">餐點的名稱</p>
@@ -68,14 +68,12 @@
 </template>
 
 <script>
-  import CheckoutModal from '@/components/widgets/CheckoutModal.vue'
   import eventHub from '@/utils/eventHub'
   import commonMixin from '@/utils/commonMixin'
   import { mapGetters, mapActions, mapMutations } from 'vuex'
   export default {
     name: 'Products',
     components: {
-      CheckoutModal
     },
     data() {
       return {
@@ -85,13 +83,11 @@
     },
     computed: {
       ...mapGetters([
-        'isShowCheckoutModal'
       ])
     },
     methods: {
       ...mapMutations([
-        'controlQRCodeModal',
-        'controlCheckoutModal',
+        'controlModal'
       ])
     }
   }

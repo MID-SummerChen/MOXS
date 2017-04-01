@@ -1,7 +1,7 @@
 <template>
-  <div id="checkout-modal" class="my-modal-wrap" @click.self="controlModal({target: 'checkout', boo: false})">
+  <div id="product-modal" class="my-modal-wrap" @click.self="controlModal({target: 'product', boo: false})">
     <div class="modal-box">
-      <div class="close-btn" @click="controlModal({target: 'checkout', boo: false})">
+      <div class="close-btn" @click="controlModal({target: 'product', boo: false})">
         <v-icon>clear</v-icon>
       </div>
       <div class="modal-box-content">
@@ -45,7 +45,7 @@
 <script>
   import { mapGetters, mapActions, mapMutations } from 'vuex'
   export default {
-    name: 'CheckoutModal',
+    name: 'ProductModal',
     data() {
       return {
       }
