@@ -8,9 +8,7 @@
         </v-list-item>
         <v-list-item v-else>
           <v-list-tile ripple>
-            <v-list-tile-title >
-              <router-link :to="m.route">{{m.title}}</router-link>
-            </v-list-tile-title>
+            <router-link :to="m.route">{{m.title}}</router-link>
           </v-list-tile>
         </v-list-item>
         

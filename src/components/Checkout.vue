@@ -72,7 +72,6 @@
 <script>
   import Header from '@/components/layout/Header.vue'
   import SideBar from '@/components/layout/SideBar.vue'
-  import QRCodeModal from '@/components/widgets/QRCodeModal.vue'
   import eventHub from '@/utils/eventHub'
   import commonMixin from '@/utils/commonMixin'
   import {mapGetters, mapActions, mapMutations} from 'vuex'
@@ -81,7 +80,6 @@
     components: {
       HeaderCpt: Header,
       SideBar,
-      QrcodeModal: QRCodeModal
     },
     data () {
       return {

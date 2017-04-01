@@ -1,5 +1,5 @@
 <template>
-  <div id="qrcode-modal" class="my-modal-wrap" @click.self="controlQRCodeModal(false)">
+  <div id="checkout-modal" class="my-modal-wrap" @click.self="controlQRCodeModal(false)">
     <div class="modal-box">
       <div class="close-btn"  @click="controlQRCodeModal(false)">
         <v-icon>clear</v-icon>

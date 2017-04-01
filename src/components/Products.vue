@@ -7,7 +7,7 @@
         <div class="title">訂位點餐</div>
         <div class="subTitle">請填妥下方預約資訊，完成後按下預約確認按鈕即可完成預約。</div>
         <!--<div class="content">填寫預約資料...</div>-->
-        <div class="content">
+        <div class="content" @click="controlQRCodeModal(true)">
           <h5>內用點餐</h5>
           <p>
             2017/03/20 星期三
@@ -85,13 +85,22 @@
     components: {
       HeaderCpt: Header,
       SideBar,
-      QrcodeModal: QRCodeModal
     },
     data () {
       return {
       }
     },
     mounted() {
+    },
+    computed: {
+      ...mapGetters([
+      ])
+    },
+    methods: {
+      ...mapMutations([
+        'controlQRCodeModal',
+        'controlSidebar'
+      ])
     }
   }
 </script>
