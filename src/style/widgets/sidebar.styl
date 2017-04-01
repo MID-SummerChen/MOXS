@@ -1,0 +1,20 @@
+// sidebar
+.sidebar
+  letter-spacing 3px
+  .list__tile
+    text-align center
+    a 
+      color: #eee
+      text-decoration: none
+      display: block
+    color #ddd
+  .divider
+    margin 10px 0
+  &.sidebar--open, .sidebar--open.sidebar--mobile
+    width menu-width
+    .icon-logo
+      margin: 15px auto 30px auto
+.with.left-fixed-sidebar main
+  padding-left menu-width
+  @media screen and (max-width 991px)
+    padding-left 0

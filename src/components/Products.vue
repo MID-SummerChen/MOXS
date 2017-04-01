@@ -25,11 +25,12 @@
               <p class="tags"><span>加雞蛋</span><span>加雞蛋</span><span>加雞蛋</span></p>
               <p class="dollar">$180</p>
             </div>
+            <div class="item-cancel"><i class="el-icon-close"></i></div>
           </div>
         </div>
         <div class="total">
           合計 NT$ 170
-          <button type="button" class="submit">確認預約</button>
+          <button type="button" class="submit" @click="$router.push({name: 'Checkout'})">確認預約</button>
         </div>
         
       </div>

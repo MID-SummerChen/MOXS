@@ -1,0 +1,116 @@
+// 產品頁
+.page#products 
+  main > .content
+    background-color: #f8f8f8
+  .toolbar.trans-dark
+    background-color #f8f8f8
+    .btn
+      color: #333
+  .cart 
+    display: flex
+    flex-direction: column
+    position: fixed
+    height: 100vh
+    z-index: 9
+    right: 0
+    width: 300px
+    background-color: #eee
+    box-shadow: 0 0 5px rgba(#000, 0.2)
+    > .title 
+      background-color: #666
+      color: #fff 
+      text-align: center 
+      line-height: 40px
+      letter-spacing: 5px
+      font-size: 18px
+    > .subTitle 
+      background-color: #fff
+      color: #666
+      font-size: 12px
+      padding: 8px 15px
+    > .content 
+      flex-grow: 0
+      padding: 8px 15px
+      height: 115px
+      background-color: main-color
+      color: #fff
+      h5 
+        color: #fff
+        margin-bottom: 5px
+        font-size: 20px
+        letter-spacing: 2px
+      p 
+        font-size: 12px
+        margin: 2px 0
+        letter-spacing: 1px
+        span 
+          margin-right: 5px
+    > .total 
+      text-align: center
+      font-size: 16px
+      color: #666
+      font-weight: bold
+      padding: 15px
+      > button.submit
+        margin-top: 10px
+        font-size: 15px
+        letter-spacing: 4px
+        height: 40px
+        background-color: main-color
+        display: block
+        width: 100%
+        color: #fff
+    > .items
+      flex-grow: 1
+      flex-shrink: 1
+      overflow-y: scroll
+      .item 
+        display: flex 
+        background-color: #fff
+        border-bottom: 1px solid #ccc
+        .item-img
+          border: 18px solid #fff
+          width: 100px
+          height: 100px
+          overflow: hidden
+          text-align: center
+          // padding: 20px
+          img 
+            width: 150px
+            margin: auto
+
+        .item-content 
+          padding: 20px
+          display: flex
+          flex-direction: column
+          justify-content: center
+          padding-left: 0
+          p
+            letter-spacing: 1px
+          .title
+            font-size: 14px 
+            color: #666
+            margin-bottom: 5px
+          .tags 
+            font-size: 12px
+            color: #999
+            margin-bottom: 2px
+            span 
+              margin-right: 5px
+          .dollar
+            font-size: 13px 
+            font-weight: bold 
+            color: main-color
+        .item-cancel
+          display: flex 
+          align-items: center
+          color: #ccc
+          i 
+            border: 1px solid #ccc
+            border-radius: 50%
+            width: 30px 
+            height: 30px
+            display: flex 
+            align-items: center
+            justify-content: center
+  

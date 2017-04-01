@@ -1,45 +1,23 @@
 <template>
-  <v-sidebar fixed v-model="sidebar2">
+  <v-sidebar fixed v-model="isShowSidebar">
     <div class="icon-logo"></div>
     <v-list>
-      <v-list-item>
-        <v-list-tile ripple>
-          <v-list-tile-title>餐點瀏覽</v-list-tile-title>
-        </v-list-tile>
-      </v-list-item>
-      <v-list-item>
-        <v-list-tile ripple>
-          <v-list-tile-title link="/">訂位點餐</v-list-tile-title>
-        </v-list-tile>
-      </v-list-item>
-      <v-list-item>
-        <v-list-tile ripple>
-          <v-list-tile-title>動態消息</v-list-tile-title>
-        </v-list-tile>
-      </v-list-item>
-      <v-list-item>
-        <v-list-tile ripple>
-          <v-list-tile-title>商店資訊</v-list-tile-title>
-        </v-list-tile>
-      </v-list-item>
-      <v-list-item>
-        <v-list-tile ripple>
-          <v-list-tile-title>會員中心</v-list-tile-title>
-        </v-list-tile>
-      </v-list-item>
-      <v-list-item>
-        <v-list-tile ripple>
-          <v-list-tile-title @click="controlQRCodeModal(true)">APP下載</v-list-tile-title>
-        </v-list-tile>
-      </v-list-item>
-      <v-list-item>
-        <v-divider light />
-      </v-list-item>
-      <v-list-item>
-        <v-list-tile ripple>
-          <v-list-tile-title>會員登入</v-list-tile-title>
-        </v-list-tile>
-      </v-list-item>
+      <template v-for="m in menu">
+        <v-list-item v-if="m.divider">
+          <v-divider light />
+        </v-list-item>
+        <v-list-item v-else>
+          <v-list-tile ripple>
+            <v-list-tile-title >
+              <router-link :to="m.route">{{m.title}}</router-link>
+            </v-list-tile-title>
+          </v-list-tile>
+        </v-list-item>
+        
+        
+      </template>
+      
+      
     </v-list>
   </v-sidebar>
 </template>
@@ -52,13 +30,14 @@ export default {
   data() {
     return {
       menu: [
-        {title: "餐點瀏覽", link: "/"},
-        {title: "訂位點餐", link: "/"},
-        {title: "動態消息", link: "/"},
-        {title: "商店資訊", link: "/"},
-        {title: "會員中心", link: "/"},
-        {title: "APP下載", link: "/"},
-        {title: "會員登入", link: "/"},
+        {title: "餐點瀏覽", route: {name: 'Products'}},
+        {title: "訂位點餐", route: {name: 'Products'}},
+        {title: "動態消息", route: {name: 'Products'}},
+        {title: "商店資訊", route: {name: 'Info'}},
+        {title: "會員中心", route: {name: 'Products'}},
+        {title: "APP下載", route: {name: 'Products'}},
+        {divider: true},
+        {title: "會員登入", route: {name: 'Products'}},
       ]
     }
   },
@@ -75,7 +54,3 @@ export default {
   }
 }
 </script>
-
-<style lang="stylus">
-
-</style>
