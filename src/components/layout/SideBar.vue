@@ -1,5 +1,5 @@
 <template>
-  <v-sidebar fixed v-model="isShowSidebar">
+  <v-sidebar fixed v-model="$parent.showSidebar">
     <div class="icon-logo"></div>
     <v-list>
       <template v-for="m in menu">

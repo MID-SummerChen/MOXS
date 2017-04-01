@@ -2,19 +2,19 @@
 export default {
   state: {
     isShowQRCodeModal: false,
-    isShowSidebar: false,
+    isShowCheckoutModal: false,
   },
   getters: {
     isShowQRCodeModal: (state) => state.isShowQRCodeModal,
-    isShowSidebar: (state) => state.isShowSidebar,
+    isShowCheckoutModal: (state) => state.isShowCheckoutModal,
   },
   mutations: {
     controlQRCodeModal(state, boo) {
       state.isShowQRCodeModal = boo
     },
-    controlSidebar(state, boo) {
-      state.isShowSidebar = boo
-    }
+    controlCheckoutModal(state, boo) {
+      state.isShowCheckoutModal = boo
+    },
   },
   actions: {
 

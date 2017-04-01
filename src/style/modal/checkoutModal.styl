@@ -1,0 +1,110 @@
+// checkoutModal
+.my-modal-wrap#checkout-modal
+  position fixed
+  z-index 99
+  width 100vw
+  height 100vh
+  background-color rgba(#000, 0.5)
+  display flex
+  align-items center
+  padding: 20px
+  .modal-box
+    min-width 300px
+    margin auto
+    background-color #fff
+    color #666
+    text-align center
+    position relative
+    border-radius 10px
+    overflow: hidden
+    .close-btn
+      cursor: pointer
+      position absolute
+      right 0
+      top 0
+      margin-top 15px
+      margin-right 20px
+      border 1px solid #fff
+      border-radius 50%
+      width 40px
+      height 40px
+      display flex
+      align-items center
+      i.icon
+        margin auto
+        color: #fff
+    .modal-box-content
+      text-align: left
+      .img-wrap
+        max-height: 180px
+        img
+          width: 100%
+      .tabs 
+        display: flex
+        .tab
+          flex: 1
+          line-height: 40px 
+          text-align: center
+          background-color: #aaa 
+          color: #fff
+          letter-spacing: 2px
+          &.active 
+            background-color: #fff
+            color: main-color
+      .content 
+        padding: 15px 
+        h5 
+          letter-spacing: 5px 
+          font-size: 18px
+        .selector
+          color: #666
+          line-height: 34px
+          letter-spacing: 2px 
+          border-bottom: 2px dotted #ccc
+          display: flex
+          span:nth-of-type(2)
+            flex-grow: 1
+            text-align: right
+          i
+            font-size: 12px
+            line-height: 34px
+            display: inline-block 
+            margin-left: 10px
+        .plus 
+          color: #666
+          line-height: 30px
+          letter-spacing: 2px 
+          margin-top: 10px
+          span 
+            color: #999
+            border: 1px solid #ccc 
+            display: inline-block 
+            padding: 0 5px
+        .total
+          display: flex 
+          margin-top: 20px
+          div 
+            flex: 1
+            text-align: center
+            font-weight: bold
+            p
+              color: main-color
+              margin-top: 5px
+          div.sign
+            width: 25px
+            flex-shrink: 1
+      .button
+        color: main-color 
+        border-top: 1px solid main-color
+        line-height: 45px
+        font-size: 16px
+        font-weight: bold 
+        letter-spacing: 2px
+        text-align: center
+        cursor: pointer
+            
+            
+          
+          
+
+

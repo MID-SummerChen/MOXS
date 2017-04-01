@@ -1,7 +1,7 @@
 <template>
   <header>
     <v-toolbar class="trans-dark">
-      <v-toolbar-side-icon class="hidden-md-and-up" @click.native.stop="controlSidebar(true)" />
+      <v-toolbar-side-icon class="hidden-md-and-up" @click.native.stop="$parent.showSidebar = !$parent.showSidebar" />
       <v-toolbar-logo><div class="icon-logo"></div></v-toolbar-logo>
       <v-spacer />
       <v-btn icon dark>
