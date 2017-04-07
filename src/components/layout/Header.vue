@@ -7,9 +7,6 @@
       <v-btn icon dark>
         <v-icon>account_circle</v-icon>
       </v-btn>
-      <v-btn icon dark>
-        <v-icon>favorite</v-icon>
-      </v-btn>
     </v-toolbar>
   </header>
 </template>

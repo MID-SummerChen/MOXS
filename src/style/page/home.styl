@@ -9,6 +9,18 @@
   align-items center
   display flex
   height: 100vh
+  // toolbar (top bar)
+  .toolbar.trans-dark
+    position fixed
+    background-color toolbar-color
+    box-shadow none
+    height 58px
+    .toolbar__logo
+      font-size 35px
+      padding-top: 13px
+      display none
+      @media screen and (max-width 991px)
+        display inline-block
   .slogan-wrap
     text-align center
     h3

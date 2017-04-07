@@ -9,76 +9,59 @@
       background-color: #fff
   .toolbar.trans-dark
     background-color #f8f8f8
+    border-bottom: 1px solid #ccc
     @media(max-width: mobile-media)
       position: fixed
       z-index: 99
       background-color: #333
     .btn
       color: #333
-  h5.pageTitle 
-    color: #999 
-    font-size: 17px 
-    letter-spacing: 2px
-    margin-bottom: 15px
+  .main-content 
+    padding-top: 30px
     @media(max-width: mobile-media)
-      margin-top: 20px
-      margin-bottom: 0
-      padding: 0 20px
-      font-size: 20px
-  .paper
-    background-color: #fff 
-    box-shadow: 0 0 5px rgba(#000, 0.1)
-    height: calc(100vh - 180px)
-    display: flex
-    flex-direction: column
-    padding: 20px
-    @media(max-width: mobile-media)
-      padding: 10px 20px
-      box-shadow: none
-    &.location
-      p
-        font-size: 12px
-        line-height: 20px
-        letter-spacing: 1px
-        color: #666
-      p.name
-        font-weight: bold
-        font-size: 14px 
-        margin-bottom: 3px
-        color: #000
-      .items 
-        overflow-y: scroll
-        .item 
-          display: flex 
-          border: 1px solid #ccc
-          padding: 10px
-          margin-bottom: 10px
-          .content 
-            flex-grow: 1
-          .icon-location 
-            position: relative
-            top: 17px
-          
-    &.store-info
+      padding-top: 0
+    .title-img 
+      height: 400px 
+      overflow: hidden
+      display: flex 
+      align-items: center 
+      justify-content: center
+      @media(max-width mobile-media)
+        height: auto
+        margin-top: 58px
       img 
-        @media(max-width: mobile-media)
-          margin: 0 -20px
-      .content 
-        margin-top: 20px
-        p
-          letter-spacing: 1px
-          text-align: justify
-          line-height: 22px
-          font-size: 13px
-          @media(max-width: mobile-media)
-            font-size: 15px
-            line-height: 24px
-      button.block-btn
-        background-color: main-color
-        color: #fff
-        height: 50px
-        font-size: 15px 
-        letter-spacing: 2px
+        max-width: 100%
+    .page-content
+      padding: 30px 50px 
+      background-color: #fff
+      @media(max-width mobile-media)
+        padding: 20px
+      h4 
+        color: main-color
+        margin-bottom: 10px
+        font-size: 22px
         font-weight: bold
-        
-      //
+        letter-spacing: 1px
+      .box 
+        border: 1px solid #ccc 
+        border-radius: 3px
+        padding: 10px
+        margin: 15px 0
+        position: relative
+        .icon-location 
+          position: absolute
+          top: 0 
+          right: 0 
+          margin-right: 10px 
+          margin-top: 10px
+        h5 
+          color: main-color 
+          font-size: 18px 
+          font-weight: bold 
+        p.small 
+          font-size: 11px 
+        p.content 
+          font-size: 11px 
+          color: #777
+          margin-top: 2px
+    

@@ -1,7 +1,28 @@
 // breadcrumb
-.el-breadcrumb__item
-  font-weight bold
-  color: #666
-  font-size: 14px
-.el-breadcrumb__item__inner a:hover, .el-breadcrumb__item__inner:hover
-  color: #888
+.main-title
+  margin-top: -40px
+  z-index: 9 
+  position: fixed
+  @media(max-width: ipad-media)
+    margin-top: 0
+    position: static
+  ul, li
+    margin: 0 
+    padding: 0 
+    list-style: none
+  > ul > li 
+    display: inline-block
+    color: #666
+    font-weight: bold
+    font-size: 16px
+    > a 
+      text-decoration: none 
+      color: #666
+      font-weight: bold
+      font-size: 16px
+    &:before 
+      content: ">"
+      margin: 0 10px
+    &:first-of-type:before 
+      content: ""
+      margin: 0
