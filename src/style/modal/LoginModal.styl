@@ -1,0 +1,118 @@
+// qrcodeModal
+content-width = 280px
+.my-modal-wrap#login-modal
+  position fixed
+  z-index 99
+  width 100vw
+  height 100vh
+  background-color rgba(#000, 0.5)
+  display flex
+  align-items center
+  .modal-box
+    width 100%
+    height: 100%
+    margin auto
+    background-color main-color
+    color #fff
+    justify-content: center
+    align-items: center
+    position relative
+    display: flex
+    .close-btn
+      cursor: pointer
+      position absolute
+      right 0
+      top 0
+      margin-top 15px
+      margin-right 20px
+      border 1px solid #fff
+      border-radius 50%
+      width 40px
+      height 40px
+      display flex
+      align-items center
+      i.icon
+        margin auto
+    .modal-box-content
+      padding 30px 20px
+      display: flex 
+      flex-direction: column
+      justify-content: center
+      align-items: center
+      .back 
+        margin-top: 20px
+        font-size: 16px
+        width: content-width
+        a
+          cursor: pointer
+          color: #fff
+          text-decoration: none
+          i.fa  
+            margin-right: 10px
+      .agreement 
+        width: content-width
+        margin: 10px 0
+        label 
+          font-size: 12px
+          margin-left: 8px
+          a 
+            color: #fff
+            font-weight: bold
+            margin-left: 3px
+      .form-group
+        position: relative
+        height: 52px
+        margin: 8px 0
+        label 
+          position: absolute
+          line-height: 52px
+          margin-left: 10px
+        input
+          background-color: #a74e2e
+          box-shadow: inset 0 0 2px rgba(#000, 0.2)
+          width: content-width
+          height: 52px
+          text-indent: 75px
+          font-weight: bold
+          outline: none
+          &:-webkit-autofill 
+            -webkit-box-shadow: 0 0 0px 1000px #a74e2e inset
+            -webkit-text-fill-color: #fff !important
+        
+      button
+        width: content-width
+        height: 52px
+        margin: 8px 0
+        box-shadow: 1px 1px 6px rgba(#000, 0.4)
+        font-size: 18px
+        font-weight: bold
+        outline: none
+        &.signup 
+          background-color: lighten(#ff7f50, 2%)
+          letter-spacing: 4px
+          &:active,&:focus
+            background-color: darken(#ff7f50, 5%)
+        &.signin 
+          background-color: lighten(#ff7f50, 2%)
+          letter-spacing: 2px
+          &:active,&:focus
+            background-color: darken(#ff7f50, 5%)
+        &.fb 
+          background-color: #3b5998
+          &:active,&:focus
+            background-color: darken(#3b5998, 5%)
+          i.fa 
+            margin-right: 30px
+      .sub-link
+        display: flex 
+        justify-content: space-between
+        width: content-width
+        margin-top: 10px
+        a
+          font-size: 15px
+          color: #fff
+          cursor: pointer
+          &:hover 
+            // text-decoration: underline
+      
+

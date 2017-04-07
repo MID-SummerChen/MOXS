@@ -3,7 +3,8 @@ export default {
   state: {
     qrcode: false,
     checkout: false,
-    product: false
+    product: false,
+    login: false,
   },
   getters: {
   },

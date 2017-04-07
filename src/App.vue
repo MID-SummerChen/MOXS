@@ -4,6 +4,7 @@
       <qrcode-modal v-if="qrcodeModal"></qrcode-modal>
       <checkout-modal v-if="checkoutModal"></checkout-modal>
       <product-modal v-if="productModal"></product-modal>
+      <login-modal v-if="loginModal"></login-modal>
     </transition>
     <v-app top-toolbar left-fixed-sidebar>
 
@@ -62,6 +63,7 @@
   import QRCodeModal from '@/components/widgets/QRCodeModal.vue'
   import CheckoutModal from '@/components/widgets/CheckoutModal.vue'
   import ProductModal from '@/components/widgets/ProductModal.vue'
+  import LoginModal from '@/components/widgets/LoginModal.vue'
   import eventHub from '@/utils/eventHub'
   import commonMixin from '@/utils/commonMixin'
   import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
@@ -74,6 +76,7 @@
       QrcodeModal: QRCodeModal,
       CheckoutModal,
       ProductModal,
+      LoginModal,
     },
     data() {
       return {
@@ -87,7 +90,7 @@
           {title: "會員中心", route: {name: 'Products'}},
           {title: "APP下載", openModal: "qrcode"},
           {divider: true},
-          {title: "會員登入", route: {name: 'Products'}},
+          {title: "會員登入", openModal: "login"},
         ]
       }
     },
@@ -96,6 +99,7 @@
         productModal: state => state.modal.product,
         checkoutModal: state => state.modal.checkout,
         qrcodeModal: state => state.modal.qrcode,
+        loginModal: state => state.modal.login,
       }),
       ...mapGetters([
       ])
