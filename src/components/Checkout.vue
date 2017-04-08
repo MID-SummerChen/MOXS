@@ -1,11 +1,11 @@
 <template>
   <v-content>
     <v-container fluid>
-      <!--<div class="main-title">
+      <div class="main-title">
         <ul>
           <li>帳單設定</li>
         </ul>
-      </div>-->
+      </div>
       <div class="main-content">
         <div class="paper">
           <div class="items-header">
@@ -28,7 +28,7 @@
             合計： <b>$340</b>
           </div>
           <div class="form">
-            <el-row :gutter="20">
+            <el-row :gutter="40">
               <el-col :sm="12">
                 <div class="form-group">
                   <label>付款方式</label>
@@ -66,7 +66,7 @@
           </div>
           <div class="btn-wrap">
             <a href="" class="text-blue">取消</a>
-            <a href="">確認付款</a>
+            <router-link :to="{name: 'CheckoutResult'}">確認付款</router-link>
           </div>
   
         </div>

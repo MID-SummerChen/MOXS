@@ -18,7 +18,50 @@ body
   font-family '微軟正黑體'
 
 .with.top-toolbar main
-  min-height 100vh
+  // min-height 100vh
   >.content
     padding: 40px
     padding-top: 0
+
+.page
+  background-color #f8f8f8
+  main > .content 
+    background-color #f8f8f8
+    @media(max-width: mobile-media)
+      background-color: #fff
+  .toolbar.trans-dark
+    background-color #f8f8f8
+    border-bottom: 1px solid #ccc
+    @media(max-width: mobile-media)
+      position: fixed
+      z-index: 99
+      background-color: #333
+    .btn
+      color: #333
+  .main-content
+    padding-top: 30px
+  .paper
+    width: 800px 
+    height: calc(100vh - 150px)
+    overflow-y: scroll
+    margin: 0 auto
+    background-color: #fff 
+    box-shadow: 0 0 5px rgba(#000, 0.1)
+    padding: 30px
+    @media(max-width: 1024px)
+      width: 100%
+    @media(max-width: mobile-media)
+      height: auto
+      margin: 0 -20px
+      box-shadow: none
+    .btn-wrap 
+      margin-top: 60px
+      text-align: right 
+      a 
+        text-decoration: none 
+        color: #000
+        font-weight: bold 
+        font-size: 16px
+        margin-left: 30px 
+        &.text-blue 
+          color: #2196f3
