@@ -8,6 +8,7 @@ import Info from '@/components/Info'
 import Member from '@/components/Member'
 import MemberEdit from '@/components/MemberEdit'
 import MemberRecord from '@/components/MemberRecord'
+import MemberRecordDetail from '@/components/MemberRecordDetail'
 
 Vue.use(Router)
 
@@ -52,6 +53,11 @@ export default new Router({
       path: '/member/record',
       name: 'MemberRecord',
       component: MemberRecord
+    },
+    {
+      path: '/member/record/:sn',
+      name: 'MemberRecordDetail',
+      component: MemberRecordDetail
     },
 
   ]
