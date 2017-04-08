@@ -5,6 +5,7 @@ import Products from '@/components/Products'
 import Checkout from '@/components/Checkout'
 import CheckoutResult from '@/components/CheckoutResult'
 import Info from '@/components/Info'
+import Member from '@/components/Member'
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/info',
       name: 'Info',
       component: Info
+    },
+    {
+      path: '/member',
+      name: 'Member',
+      component: Member
     },
 
   ]
