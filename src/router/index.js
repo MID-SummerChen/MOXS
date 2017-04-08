@@ -6,6 +6,7 @@ import Checkout from '@/components/Checkout'
 import CheckoutResult from '@/components/CheckoutResult'
 import Info from '@/components/Info'
 import Member from '@/components/Member'
+import MemberEdit from '@/components/MemberEdit'
 
 Vue.use(Router)
 
@@ -40,6 +41,11 @@ export default new Router({
       path: '/member',
       name: 'Member',
       component: Member
+    },
+    {
+      path: '/member/edit',
+      name: 'MemberEdit',
+      component: MemberEdit
     },
 
   ]
