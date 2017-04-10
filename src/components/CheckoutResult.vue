@@ -52,7 +52,6 @@
           <div class="btn-wrap">
             <a href="" class="text-blue">查訊預約記錄</a>
           </div>
-  
         </div>
       </div>
   

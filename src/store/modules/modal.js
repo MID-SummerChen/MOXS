@@ -5,6 +5,7 @@ export default {
     checkout: false,
     product: false,
     login: false,
+    cart: false,
   },
   getters: {
   },

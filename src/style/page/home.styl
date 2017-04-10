@@ -13,10 +13,12 @@
   // toolbar (top bar)
   .toolbar.trans-dark
     position fixed
-    background-color toolbar-color
+    background-color rgba(#000, 0.3)
     border-bottom: none
     box-shadow none
     height 58px
+    @media screen and (max-width 991px)
+      background-color: #333
     .btn
       color: #fff
     .toolbar__logo

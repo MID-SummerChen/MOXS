@@ -8,15 +8,16 @@
         <div class="img-wrap">
           <img src="/static/imgs/food03.jpg" alt="">
         </div>
-        <div class="tabs">
-          <div class="tab">餐點介紹</div>
-          <div class="tab active">餐點預定</div>
+        <h5>起司牛奶鍋</h5>
+        <div class="btn-wrap">
+          <button class="btn-t3">餐點介紹</button>
+          <button class="btn-t1">餐點預定</button>
         </div>
         <div class="content">
-          <h5>起司牛奶鍋</h5>
-          <div class="selector"><span>價格：</span> <span>大390元</span><i class="el-icon-arrow-down"></i></div>
-          <div class="selector"><span>辣度：</span> <span>中辣</span><i class="el-icon-arrow-down"></i></div>
-          <div class="selector"><span>副餐：</span> <span>白飯10元</span><i class="el-icon-arrow-down"></i></div>
+          
+          <div class="selector-t2"><span>價格：</span> <span>大390元</span><i class="el-icon-arrow-down"></i></div>
+          <div class="selector-t2"><span>辣度：</span> <span>中辣</span><i class="el-icon-arrow-down"></i></div>
+          <div class="selector-t2"><span>副餐：</span> <span>白飯10元</span><i class="el-icon-arrow-down"></i></div>
           <div class="plus">加購：
             <span>雞蛋10</span> <span>蔥末10</span> <span>麵10</span>
           </div>
@@ -34,9 +35,10 @@
             </div>
           </div>
         </div>
-        <div class="button">
-          加入購物車
+        <div class="sub-btn-wrap">
+          <div class="button" @click="controlModal({target: 'cart', boo: true})">加入購物車</div>
         </div>
+        
       </div>
     </div>
   </div>

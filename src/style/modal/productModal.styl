@@ -4,7 +4,7 @@
   z-index 99
   width 100vw
   height 100vh
-  background-color rgba(#000, 0.5)
+  // background-color rgba(#000, 0.1)
   display flex
   align-items center
   padding: 20px
@@ -36,27 +36,24 @@
     .modal-box-content
       text-align: left
       .img-wrap
-        max-height: 180px
+        // max-height: 180px
         img
           width: 100%
-      .tabs 
-        display: flex
-        .tab
-          flex: 1
-          line-height: 40px 
-          text-align: center
-          background-color: #aaa 
-          color: #fff
-          letter-spacing: 2px
-          &.active 
-            background-color: #fff
-            color: main-color
+      
+      h5 
+        letter-spacing: 2px 
+        font-size: 18px
+        color: main-color
+        padding: 5px 15px
+      .btn-wrap
+        padding:  0 15px
+        padding-bottom: 20px 
+        border-bottom: 1px solid #eee
+        .btn-t1, .btn-t3
+          margin-right: 10px
       .content 
         padding: 15px 
-        h5 
-          letter-spacing: 5px 
-          font-size: 18px
-        .selector
+        .selector-t2
           color: #666
           line-height: 34px
           letter-spacing: 2px 
@@ -93,16 +90,16 @@
           div.sign
             width: 25px
             flex-shrink: 1
-      .button
-        color: main-color 
-        border-top: 1px solid main-color
-        line-height: 45px
-        font-size: 16px
-        font-weight: bold 
-        letter-spacing: 2px
-        text-align: center
-        cursor: pointer
-            
+      .sub-btn-wrap
+        .button
+          color: main-color
+          line-height: 45px
+          font-size: 16px
+          font-weight: bold 
+          letter-spacing: 2px
+          text-align: center
+          cursor: pointer
+              
             
           
           

@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <transition name="slide-fade">
+      <cart v-if="cart"></cart>
+    </transition>
     <transition name="fade">
       <qrcode-modal v-if="qrcodeModal"></qrcode-modal>
       <checkout-modal v-if="checkoutModal"></checkout-modal>
@@ -10,9 +13,9 @@
 
       <div class="page" :id="$route.name">
         <header>
-          <v-toolbar class="trans-dark">
+          <v-toolbar class="trans-dark" :fixed="true">
             <v-toolbar-side-icon class="hidden-md-and-up" @click.native.stop="showSidebar = !showSidebar" />
-            <v-toolbar-logo>
+            <!--<v-toolbar-logo>
               <div class="icon-logo"></div>
             </v-toolbar-logo>
             <v-spacer />
@@ -21,7 +24,7 @@
             </v-btn>
             <v-btn icon dark>
               <v-icon>favorite</v-icon>
-            </v-btn>
+            </v-btn>-->
           </v-toolbar>
         </header>
         <main>
@@ -64,6 +67,7 @@
   import CheckoutModal from '@/components/widgets/CheckoutModal.vue'
   import ProductModal from '@/components/widgets/ProductModal.vue'
   import LoginModal from '@/components/widgets/LoginModal.vue'
+  import Cart from '@/components/widgets/Cart.vue'
   import eventHub from '@/utils/eventHub'
   import commonMixin from '@/utils/commonMixin'
   import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
@@ -77,6 +81,7 @@
       CheckoutModal,
       ProductModal,
       LoginModal,
+      Cart
     },
     data() {
       return {
@@ -100,6 +105,7 @@
         checkoutModal: state => state.modal.checkout,
         qrcodeModal: state => state.modal.qrcode,
         loginModal: state => state.modal.login,
+        cart: state => state.modal.cart,
       }),
       ...mapGetters([
       ])
