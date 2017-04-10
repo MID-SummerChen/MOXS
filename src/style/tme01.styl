@@ -22,28 +22,22 @@ body
   >.content
     padding: 40px
     padding-top: 0
+    @media(max-width: ipad-media)
+      padding: 20px
 
 .page
   background-color #f8f8f8
+  
   main > .content 
     background-color #f8f8f8
     @media(max-width: mobile-media)
       background-color: #fff
-  .toolbar.trans-dark
-    background-color #f8f8f8
-    border-bottom: 1px solid #ccc
-    @media(max-width: mobile-media)
-      position: fixed
-      z-index: 99
-      background-color: #333
-    .btn
-      color: #333
+  
   .main-content
-    padding-top: 30px
+    padding-top: 40px + 58px
   .paper
     width: 800px 
-    height: calc(100vh - 150px)
-    overflow-y: scroll
+    min-height: calc(100vh - 150px)
     margin: 0 auto
     background-color: #fff 
     box-shadow: 0 0 5px rgba(#000, 0.1)
@@ -51,9 +45,8 @@ body
     @media(max-width: 1024px)
       width: 100%
     @media(max-width: mobile-media)
-      height: auto
-      margin: 0 -20px
       box-shadow: none
+      padding: 0
     .btn-wrap 
       margin-top: 60px
       display: flex 

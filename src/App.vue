@@ -13,7 +13,7 @@
 
       <div class="page" :id="$route.name">
         <header>
-          <v-toolbar class="trans-dark" :fixed="true">
+          <v-toolbar :fixed="true">
             <v-toolbar-side-icon class="hidden-md-and-up" @click.native.stop="showSidebar = !showSidebar" />
             <!--<v-toolbar-logo>
               <div class="icon-logo"></div>

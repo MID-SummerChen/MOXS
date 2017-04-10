@@ -1,5 +1,8 @@
 // 結帳頁
 .page#Checkout 
+  .main-content 
+    @media(max-width: ipad-media)
+      padding-top: 20px
   .btn-wrap 
     margin-top: 60px
     text-align: right 
@@ -15,7 +18,7 @@
     margin-top: 30px
     flex-grow: 1
     @media(max-width: mobile-media)
-      margin: 0 -20px
+      // margin: 0 -20px
     .check-group 
       margin: 25px 0
       input[type="checkbox"]

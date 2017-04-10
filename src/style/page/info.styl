@@ -3,39 +3,34 @@
   main > .content 
     min-height: 100vh
     background-color #f8f8f8
-    @media(max-width: mobile-media)
-      padding-left: 0
-      padding-right: 0
-      background-color: #fff
+    padding-top: 60px
+    @media(max-width: ipad-media)
+      background-color: transparent
   .toolbar.trans-dark
     background-color #f8f8f8
     border-bottom: 1px solid #ccc
-    @media(max-width: mobile-media)
-      position: fixed
-      z-index: 99
-      background-color: #333
     .btn
       color: #333
   .main-content 
     padding-top: 30px
-    @media(max-width: mobile-media)
+    @media(max-width: ipad-media)
       padding-top: 0
     .title-img 
-      height: 400px 
+      // height: 400px 
       overflow: hidden
       display: flex 
       align-items: center 
       justify-content: center
-      @media(max-width mobile-media)
+      @media(max-width ipad-media)
         height: auto
-        margin-top: 58px
+        margin: 20px -20px
       img 
         max-width: 100%
     .page-content
       padding: 30px 50px 
       background-color: #fff
-      @media(max-width mobile-media)
-        padding: 20px
+      @media(max-width ipad-media)
+        padding: 30px 0
       h4 
         color: main-color
         margin-bottom: 10px
