@@ -5,6 +5,7 @@ import Products from '@/components/Products'
 import Checkout from '@/components/Checkout'
 import CheckoutResult from '@/components/CheckoutResult'
 import Info from '@/components/Info'
+import News from '@/components/News'
 import Member from '@/components/Member'
 import MemberEdit from '@/components/MemberEdit'
 import MemberRecord from '@/components/MemberRecord'
@@ -39,6 +40,11 @@ export default new Router({
       path: '/info',
       name: 'Info',
       component: Info
+    },
+    {
+      path: '/news',
+      name: 'News',
+      component: News
     },
     {
       path: '/member',

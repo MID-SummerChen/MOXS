@@ -1,0 +1,81 @@
+.page#News
+    main > .content 
+        min-height: 100vh
+        background-color #f8f8f8
+        padding-top: 60px
+        @media(max-width: ipad-media)
+            background-color: #fff
+    .main-content 
+        padding-top: 30px
+        @media(max-width: ipad-media)
+            padding-top: 20px
+
+    .paper
+        padding: 10px
+        position: relative
+        display: flex 
+        flex-direction: column
+
+        @media(max-width: mobile-media)
+            padding: 0
+        .paper-content
+            flex-grow: 1
+            .items 
+                margin-bottom: 10px
+                .item 
+                    border-bottom: 1px solid #ddd
+                    height: 150px 
+                    padding: 5px 0
+                    @media(max-width: mobile-media)
+                        height: 90px
+                    .item-img
+                        width: 140px
+                        height: 140px
+                        display: inline-block
+                        background-size: cover 
+                        background-position: center center
+                        @media(max-width: mobile-media)
+                            width: 80px
+                            height: 80px
+                    .item-content
+                        padding: 10px 20px
+                        vertical-align: top
+                        display: inline-block
+                        width: calc(100% - 140px - 10px)
+                        @media(max-width: mobile-media)
+                            padding: 10px 15px
+                            width: calc(100% - 80px - 10px)
+                        > p 
+                            color: #666
+                            @media(max-width: mobile-media)
+                                font-size: 13px
+                        > h5 
+                            color: main-color
+                            margin-bottom: 10px
+                            font-weight: bold
+                            @media(max-width: mobile-media)
+                                font-size: 20px
+                                margin-bottom: 0
+                            @media(max-width: mini-media)
+                                font-size: 16px
+                                // line-height: 20px
+                            
+                        .text 
+                            flex-grow: 1
+                            color: #999
+                            font-size: 12px
+                            @media(max-width: mobile-media)
+                                display: none
+
+        .paper-footer 
+            text-align: center 
+            font-size: 22px 
+            font-weight: bold 
+            padding: 10px
+            background-color: #eee
+            margin-left: -10px
+            margin-right: -10px
+            margin-bottom: -10px
+            cursor: pointer
+            &:hover 
+                background-color: #e3e3e3
