@@ -1,4 +1,15 @@
 .page#MemberEdit
+    main > .content 
+        min-height: 100vh
+        background-color #f8f8f8
+        padding-top: 60px
+        @media(max-width: ipad-media)
+            background-color: #fff
+    .main-content 
+        padding-top: 30px
+        @media(max-width: ipad-media)
+            padding-top: 20px
+
     .paper
         display: flex 
         flex-direction: column
@@ -10,6 +21,9 @@
             align-items: center
             justify-content: flex-end
             padding: 0 20px
+            @media(max-width: ipad-media)
+                display: none
+
         .paper-content
             flex-grow: 1
         .left
@@ -26,6 +40,9 @@
                 display: flex 
                 align-items: center
                 justify-content: center
+                @media(max-width: mobile-media)
+                    width: 120px
+                    height: 120px
                 .img
                     width: 110%
 
@@ -36,6 +53,8 @@
                     margin-top: 10px
                     margin-bottom: 25px
                     font-weight: bold
+                    @media(max-width: mobile-media)
+                        margin: 30px 0
                     label 
                         font-weight: bold
                     p 
@@ -43,20 +62,30 @@
                 .form-group-inline 
                     display: flex
                     align-items: center
+                    @media(max-width: mobile-media)
+                        margin: 30px 0
                     label   
                         margin-right: 10px
                         font-weight: bold
                     input 
                         width: 120px
+                        @media(max-width: mobile-media)
+                            height: 38px
                     > span
                         align-items: center
                         margin-right: 10px
-                        &:last-of-type 
-                            display: flex 
-                            div 
-                                flex: 1
+                        display: flex 
+                        @media(max-width: mobile-media)
+                            &:nth-of-type(1) input
+                                width: 50px
+                            &:nth-of-type(2) input
+                                width: 70px
                         .selector 
                             width: 130px
+                            @media(max-width: mobile-media)
+                                width: 80px
+                                height: 38px
+                            
             h5 
                 font-size: 16px 
                 padding-bottom: 3px 

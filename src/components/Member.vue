@@ -14,19 +14,24 @@
                   <p>ryan.mtntech@gmail.com</p>
                   <p>林清揚陽先生</p>
               </div>
-              <button class="btn-t1">編輯帳戶</button>
-              <button class="btn-t1">修改密碼</button>
+              <div>
+                <button class="btn-t1" @click="$router.push({name: 'MemberEdit'})">編輯帳戶</button>
+                <button class="btn-t1">修改密碼</button>
+              </div>
           </div>
           <div class="record">
               <div class="record-header">
                   最新預約記錄
               </div>
               <div class="item" v-for="n in 4">
-                  <p>內用點餐 2017/02/18(三) 18:00</p>
+                  <p>
+                      內用點餐  2017/3/22(三) 18:30 
+                      <router-link target="_new" :to="{name: 'MemberRecordDetail', params: {sn: n}}" ><i class="fa fa-file-text-o"></i></router-link>
+                  </p>
                   <p>台中復興店 4人 $2400</p>
               </div>
               <div class="record-footer">
-                  <button class="btn-t1">查看全部預約記錄</button>
+                  <button class="btn-t1" @click="$router.push({name: 'MemberRecord'})">查看全部預約記錄</button>
               </div>
           </div>
           

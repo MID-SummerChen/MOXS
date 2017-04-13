@@ -1,22 +1,43 @@
 .page#MemberRecord
+    main > .content 
+        min-height: 100vh
+        background-color #f8f8f8
+        padding-top: 60px
+        @media(max-width: ipad-media)
+            background-color: #fff
+    .main-content 
+        padding-top: 30px
+        @media(max-width: ipad-media)
+            padding-top: 20px
+
     .paper
         padding: 50px 40px
         position: relative
-        .date-items 
-            margin-bottom: 20px
-            .date 
-                color: main-color 
-            .items 
-                .item 
-                    padding: 13px 0 
-                    border-bottom: 1px solid #ddd
-                    p
-                        color: #666
-                        &:first-of-type 
-                            font-weight: bold 
-                            color: #000
-                            margin-bottom: 3px
-        .more 
+        display: flex 
+        flex-direction: column
+
+        @media(max-width: mobile-media)
+            padding: 10px
+        .paper-content
+            flex-grow: 1
+            .date-items 
+                margin-bottom: 20px
+                .date 
+                    color: main-color 
+                .items 
+                    .item 
+                        padding: 13px 0 
+                        border-bottom: 1px solid #ddd
+                        p
+                            color: #666
+                            &:first-of-type 
+                                font-weight: bold 
+                                color: #000
+                                margin-bottom: 3px
+                                a 
+                                    margin-left: 10px 
+                                    color: main-color
+        .paper-footer 
             text-align: center 
             font-size: 22px 
             font-weight: bold 

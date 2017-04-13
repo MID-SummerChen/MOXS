@@ -11,18 +11,15 @@
             <div class="main-content">
                 <div class="paper">
                     <div class="top-title">
-                        <div class="text-info">
-                            <h4>內用點餐</h4>
-                            <p>2017/03/22(三) 18:30 (4人) </p>
-                        </div>
-                        <div class="store">台中復興店</div>
+                        <h4>內用點餐 <span>台中復興店</span></h4>
+                        <p>2017/03/22(三) 18:30 (4人) </p>
                     </div>
-                    <el-row :gutter="40" class="record-content">
-                        <el-col :sm="8">
+                    <el-row :gutter="20" class="record-content">
+                        <el-col :xs="12" :sm="8">
                             <label>預約號碼</label>
                             <div class="number-box">123456</div>
                         </el-col>
-                        <el-col :sm="8">
+                        <el-col :xs="12" :sm="8">
                             <label>預約狀態</label>
                             <div class="number-box status">等待中</div>
                         </el-col>

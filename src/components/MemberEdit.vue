@@ -13,8 +13,7 @@
                         <div class="icon icon-store-title"></div>
                     </div>
                     <el-row :gutter="40" class="paper-content">
-                        <el-col :sm="6"
-                                class="left">
+                        <el-col :sm="6" class="left">
                             <div class="img-wrap"><img src="/static/imgs/food03.jpg"
                                      alt=""></div>
                             <button class="btn-t2">更新相片</button>

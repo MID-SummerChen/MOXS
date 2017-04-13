@@ -92,7 +92,7 @@
           {title: "訂位點餐", route: {name: 'Products'}},
           {title: "動態消息", route: {name: 'Products'}},
           {title: "商店資訊", route: {name: 'Info'}},
-          {title: "會員中心", route: {name: 'Products'}},
+          {title: "會員中心", route: {name: 'Member'}},
           {title: "APP下載", openModal: "qrcode"},
           {divider: true},
           {title: "會員登入", openModal: "login"},

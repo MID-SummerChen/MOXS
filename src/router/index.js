@@ -13,6 +13,7 @@ import MemberRecordDetail from '@/components/MemberRecordDetail'
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -30,7 +31,7 @@ export default new Router({
       component: Checkout
     },
     {
-      path: '/checkout-result',
+      path: '/checkout/result',
       name: 'CheckoutResult',
       component: CheckoutResult
     },

@@ -8,8 +8,7 @@
             </div>
             <div class="main-content">
                 <div class="title-img">
-                    <img src="/static/imgs/bg.jpg"
-                         alt="">
+                    <img src="/static/imgs/bg.jpg" alt="">
                 </div>
                 <div class="page-content">
                     <h4>標題在這裡</h4> 壹些內容壹些內容壹些內容壹些內容壹些內容壹些內容，壹些內容壹些內容壹些內容壹些內容壹些內容壹些內容壹些內容壹些內容壹些內容 ，壹些內容壹些內容壹些內容壹些內容，壹些內容壹些內容壹些內容壹些內容壹些內容壹些內容，壹些內容壹些內容壹些內容壹些內容 壹些內容壹些內容壹些內容壹些內容壹些內容壹些內容壹些內容壹些內容，壹些內容壹些內容壹些內容壹些內容壹些內容壹些內容。

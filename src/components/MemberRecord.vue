@@ -9,16 +9,21 @@
             </div>
             <div class="main-content">
                 <div class="paper">
-                    <div class="date-items" v-for="d in 2">
-                        <div class="date">2017年3月</div>
-                        <div class="items">
-                            <div class="item" v-for="n in 4">
-                                <p>內用點餐  2017/3/22(三) 18:30</p>
-                                <p>台中復興店 4人 $2400</p>
+                    <div class="paper-content">
+                        <div class="date-items" v-for="d in 2">
+                            <div class="date">2017年3月</div>
+                            <div class="items">
+                                <div class="item" v-for="n in 4">
+                                    <p>
+                                        內用點餐  2017/3/22(三) 18:30 
+                                        <router-link target="_blank" :to="{name: 'MemberRecordDetail', params: {sn: n}}" ><i class="fa fa-file-text-o"></i></router-link>
+                                    </p>
+                                    <p>台中復興店 4人 $2400</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="more">
+                    <div class="paper-footer">
                         載入更多
                     </div>
     
