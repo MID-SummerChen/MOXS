@@ -6,12 +6,13 @@
       </div>
       
       <div class="modal-box-content">
-        <div class="tabs">
-          <div class="tab active">預約座位</div>
-          <div class="tab">內用點餐</div>
-          <div class="tab">外帶點餐</div>
-          <div class="tab">外送點餐</div>
+        <div class="btn-wrap">
+          <div class="my-btn t2" :class="{active: currentTab === 1}" @click="currentTab = 1">預約座位</div>
+          <div class="my-btn t2" :class="{active: currentTab === 2}" @click="currentTab = 2">內用點餐</div>
+          <div class="my-btn t2" :class="{active: currentTab === 3}" @click="currentTab = 3">外帶點餐</div>
+          <div class="my-btn t2" :class="{active: currentTab === 4}" @click="currentTab = 4">外送點餐</div>
         </div>
+        <el-button>123</el-button>
         <el-row :gutter="20">
           <el-col :sm="24">
             <div class="form-group">
@@ -70,6 +71,11 @@
         <div class="submit-button">
           加入購物車
         </div>
+        <div>
+          <label>
+            <input type="radio">
+          </label>
+        </div>
         
         
       </div>
@@ -84,6 +90,7 @@
     name: 'CheckoutModal',
     data() {
       return {
+        currentTab: 1
       }
     },
     computed: {
