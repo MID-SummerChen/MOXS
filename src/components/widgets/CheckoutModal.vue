@@ -74,12 +74,15 @@
 
         </el-row>
         <div class="submit-button">
-          加入購物車
+          確 認
         </div>
         <div v-if="currentTab !== 1" class="sub-radio-check">
           是否使用線上付款？
           <el-radio class="radio" v-model="isPayNow" :label="1">是</el-radio>
           <el-radio class="radio" v-model="isPayNow" :label="2">否</el-radio>
+        </div>
+        <div class="close-button" @click="controlModal({target: 'checkout', boo: false})">
+          關 閉
         </div>
         
         

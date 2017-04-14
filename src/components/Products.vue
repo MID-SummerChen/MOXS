@@ -14,10 +14,8 @@
         <el-button v-for="n in 8">漢堡</el-button>
       </div>
 
-      <div>
-        <el-row :gutter="20">
-          <el-col :xs="24" :sm="8" :md="6" :lg="4" v-for="(o, index) in 10" style="padding: 10px">
-            <el-card :body-style="{ padding: '0px' }">
+      <div class="items">
+        <el-card v-for="n in 14" :body-style="{ padding: '0px' }">
               <div class="img-wrap">
               </div>
               <div class="card-content">
@@ -29,7 +27,6 @@
               </div>
             </el-card>
           </el-col>
-        </el-row>
       </div>
 
     </v-container>
