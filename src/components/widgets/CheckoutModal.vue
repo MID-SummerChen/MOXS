@@ -12,27 +12,26 @@
           <div class="my-btn t2" :class="{active: currentTab === 3}" @click="currentTab = 3">外帶點餐</div>
           <div class="my-btn t2" :class="{active: currentTab === 4}" @click="currentTab = 4">外送點餐</div>
         </div>
-        <el-button>123</el-button>
         <el-row :gutter="20">
           <el-col :sm="24">
             <div class="form-group">
               <label>分店</label>
-              <input type="text">
+              <input type="text" disabled>
             </div>
           </el-col>
-          <el-col :sm="12">
+          <el-col v-if="currentTab === 1 || currentTab === 2" :sm="12">
             <div class="form-group">
               <label>日期</label>
               <input type="text">
             </div>
           </el-col>
-          <el-col :sm="12">
+          <el-col :sm="currentTab === 1 || currentTab === 2 ? 12 : 24">
             <div class="form-group">
               <label>時間</label>
               <input type="text">
             </div>
           </el-col>
-          <el-col :sm="24">
+          <el-col v-if="currentTab === 1 || currentTab === 2" :sm="24">
             <div class="form-group">
               <label>人數</label>
               <input type="text">
@@ -66,15 +65,21 @@
               <input type="text">
             </div>
           </el-col>
+          <el-col v-if="currentTab === 4" :sm="24">
+            <div class="form-group">
+              <label>地址</label>
+              <input type="text">
+            </div>
+          </el-col>
 
         </el-row>
         <div class="submit-button">
           加入購物車
         </div>
-        <div>
-          <label>
-            <input type="radio">
-          </label>
+        <div v-if="currentTab !== 1" class="sub-radio-check">
+          是否使用線上付款？
+          <el-radio class="radio" v-model="isPayNow" :label="1">是</el-radio>
+          <el-radio class="radio" v-model="isPayNow" :label="2">否</el-radio>
         </div>
         
         
@@ -90,7 +95,8 @@
     name: 'CheckoutModal',
     data() {
       return {
-        currentTab: 1
+        currentTab: 1,
+        isPayNow: 1
       }
     },
     computed: {
