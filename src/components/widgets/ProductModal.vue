@@ -10,12 +10,16 @@
         </div>
         <h5>起司牛奶鍋</h5>
         <div class="btn-wrap">
-          <button class="btn-t3">餐點介紹</button>
-          <button class="btn-t1">餐點預定</button>
+          <button class="my-btn t1" :class="{active: currentTab === 1}" @click="currentTab = 1">餐點介紹</button>
+          <button class="my-btn t1" :class="{active: currentTab === 2}" @click="currentTab = 2">餐點預定</button>
         </div>
         <div class="content">
-          
-          <div class="selector-t2"><span>價格：</span> <span>大390元</span><i class="el-icon-arrow-down"></i></div>
+          <template v-if="currentTab === 1">
+            起司牛奶鍋起司牛奶鍋起司牛奶鍋起司牛奶鍋起司牛奶鍋起司牛奶鍋起司牛奶鍋，起司牛奶鍋起司牛奶鍋起司牛奶鍋起司牛奶鍋起司牛奶鍋，起司牛奶鍋起司牛奶鍋起司牛奶鍋，
+            起司牛奶鍋起司牛奶鍋起司牛奶鍋起司牛奶鍋起司牛奶鍋起司牛奶鍋，起司牛奶鍋起司牛奶鍋起司牛奶鍋起司牛奶鍋，起司牛奶鍋起司牛奶鍋起司牛奶鍋。
+          </template>
+          <template v-else>
+            <div class="selector-t2"><span>價格：</span> <span>大390元</span><i class="el-icon-arrow-down"></i></div>
           <div class="selector-t2"><span>辣度：</span> <span>中辣</span><i class="el-icon-arrow-down"></i></div>
           <div class="selector-t2"><span>副餐：</span> <span>白飯10元</span><i class="el-icon-arrow-down"></i></div>
           <div class="plus">加購：
@@ -25,18 +29,27 @@
             <div>單價
               <p>300元</p>
             </div>
-            <div class="sign">+</div>
+            <div class="sign"><span>+</span></div>
             <div>數量
               <p>6個</p>
             </div>
-            <div class="sign">-</div>
+            <div class="sign"><span>-</span></div>
             <div>小計
               <p>1800元</p>
             </div>
           </div>
+          <div class="ps">
+            <p>備註</p>
+            <textarea></textarea>
+          </div>
+            
+          </template>
+          
+          
         </div>
         <div class="sub-btn-wrap">
-          <div class="button" @click="controlModal({target: 'cart', boo: true})">加入購物車</div>
+          <div class="button" @click="controlModal({target: 'cart', boo: true})">加入預約清單</div>
+          <div class="button" @click="controlModal({target: 'product', boo: false})">關閉</div>
         </div>
         
       </div>
@@ -50,6 +63,7 @@
     name: 'ProductModal',
     data() {
       return {
+        currentTab: 1
       }
     },
     computed: {
