@@ -42,7 +42,7 @@
           <input type="checkbox" id="agree">
           <label for="agree">我已詳閱並同意<a href="/">會員使用條款</a></label>
         </div>
-        <button type="button" class="signup">建立帳戶</button>
+        <button type="button" class="signup" @click="controlModal({target: 'phoneVerify', boo: true})">建立帳戶</button>
         <div class="back">
             <a @click="signupMode = false"><i class="fa fa-arrow-left"></i> 返回登入</a>
         </div>

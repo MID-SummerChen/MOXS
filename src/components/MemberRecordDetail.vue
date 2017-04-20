@@ -49,7 +49,7 @@
                     </div>
                     <div class="btn-wrap">
                         <a href="" class="text-rose">取消預約</a>
-                        <a href="" class="text-blue">交易紀錄</a>
+                        <a href="" @click.prevent="controlModal({target: 'orderRecord', boo: true})" class="text-blue">交易紀錄</a>
                     </div>
                 </div>
             </div>
@@ -65,7 +65,7 @@ import eventHub from '@/utils/eventHub'
 import commonMixin from '@/utils/commonMixin'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 export default {
-    name: 'Products',
+    name: 'memberRecordDetail',
     components: {
         HeaderCpt: Header,
         SideBar,
@@ -75,6 +75,12 @@ export default {
         }
     },
     mounted() {
+        
+    },
+    methods: {
+        ...mapMutations([
+        'controlModal'
+      ]),
     }
 }
 

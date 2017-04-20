@@ -4,10 +4,17 @@
       <cart v-if="cart"></cart>
     </transition>
     <transition name="fade">
+      <phone-verify-modal v-if="phoneVerify"></phone-verify-modal>
+    </transition>
+    <transition name="fade">
+      <login-modal v-if="loginModal"></login-modal>
       <qrcode-modal v-if="qrcodeModal"></qrcode-modal>
       <checkout-modal v-if="checkoutModal"></checkout-modal>
       <product-modal v-if="productModal"></product-modal>
-      <login-modal v-if="loginModal"></login-modal>
+      <order-record-modal v-if="orderRecord"></order-record-modal>
+      <member-pw-modal v-if="memberPw"></member-pw-modal>
+      <news-detail-modal v-if="newsDetail"></news-detail-modal>
+      <store-map-modal v-if="storeMap"></store-map-modal>
     </transition>
     <v-app top-toolbar left-fixed-sidebar>
 
@@ -67,6 +74,11 @@
   import CheckoutModal from '@/components/widgets/CheckoutModal.vue'
   import ProductModal from '@/components/widgets/ProductModal.vue'
   import LoginModal from '@/components/widgets/LoginModal.vue'
+  import OrderRecordModal from '@/components/widgets/OrderRecordModal.vue'
+  import PhoneVerifyModal from '@/components/widgets/PhoneVerifyModal.vue'
+  import MemberPwModal from '@/components/widgets/MemberPwModal.vue'
+  import NewsDetailModal from '@/components/widgets/NewsDetailModal.vue'
+  import StoreMapModal from '@/components/widgets/StoreMapModal.vue'
   import Cart from '@/components/widgets/Cart.vue'
   import eventHub from '@/utils/eventHub'
   import commonMixin from '@/utils/commonMixin'
@@ -81,6 +93,11 @@
       CheckoutModal,
       ProductModal,
       LoginModal,
+      OrderRecordModal,
+      StoreMapModal,
+      NewsDetailModal,
+      MemberPwModal,
+      PhoneVerifyModal,
       Cart
     },
     data() {
@@ -105,6 +122,11 @@
         checkoutModal: state => state.modal.checkout,
         qrcodeModal: state => state.modal.qrcode,
         loginModal: state => state.modal.login,
+        orderRecord: state => state.modal.orderRecord,
+        phoneVerify: state => state.modal.phoneVerify,
+        memberPw: state => state.modal.memberPw,
+        newsDetail: state => state.modal.newsDetail,
+        storeMap: state => state.modal.storeMap,
         cart: state => state.modal.cart,
       }),
       ...mapGetters([

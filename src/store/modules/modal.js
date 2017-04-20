@@ -6,6 +6,11 @@ export default {
     product: false,
     login: false,
     cart: false,
+    orderRecord: false,
+    memberPw: false,
+    storeMap: false,
+    phoneVerify: false,
+    newsDetail: false,
   },
   getters: {
   },

@@ -73,7 +73,7 @@
           </el-col>
 
         </el-row>
-        <div class="submit-button">
+        <div class="submit-button" @click="onCartSubmit">
           確 認
         </div>
         <div v-if="currentTab !== 1" class="sub-radio-check">
@@ -110,6 +110,10 @@
       ...mapMutations([
         'controlModal'
       ]),
+      onCartSubmit() {
+        this.controlModal({target: 'checkout', boo: false})
+        this.controlModal({target: 'phoneVerify', boo: true})
+      }
 
     }
   }

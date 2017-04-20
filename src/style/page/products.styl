@@ -25,8 +25,9 @@
 
   item-img-width = 200px
   .items
+    margin: 0 -30px
     margin-top: 20px
-    margin-left: -5px
+    // margin-left: -5px
     &:after 
       content: ""
       display: table
@@ -36,7 +37,8 @@
       float: left
       margin: 10px
       @media(max-width: mobile-media)
-        width: auto
+        width: calc(50vw + 10px)
+        margin: 0
       .el-card__body
         .img-wrap
           width: 100% 
@@ -44,8 +46,8 @@
           background-size: cover
           background-image: url(/static/imgs/food03.jpg)
           @media(max-width: mobile-media)
-            width: calc(100vw - 40px)
-            height: calc(100vw - 40px)
+            width: calc(50vw + 10px)
+            height: calc(50vw + 10px)
         .card-content
           padding: 10px 14px
           display: flex

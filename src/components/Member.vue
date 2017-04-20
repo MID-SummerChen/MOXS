@@ -16,7 +16,7 @@
               </div>
               <div>
                 <button class="btn-t1" @click="$router.push({name: 'MemberEdit'})">編輯帳戶</button>
-                <button class="btn-t1">修改密碼</button>
+                <button class="btn-t1"  @click="controlModal({target: 'memberPw', boo: true})">修改密碼</button>
               </div>
           </div>
           <div class="record">
@@ -25,7 +25,7 @@
               </div>
               <div class="item" v-for="n in 4">
                   <p>
-                      內用點餐  2017/3/22(三) 18:30 
+                      <span @click="controlModal({target: 'orderRecord', boo: true})">內用點餐  2017/3/22(三) 18:30 </span>
                       <router-link target="_new" :to="{name: 'MemberRecordDetail', params: {sn: n}}" ><i class="fa fa-file-text-o"></i></router-link>
                   </p>
                   <p>台中復興店 4人 $2400</p>
@@ -60,6 +60,11 @@ export default {
     }
   },
   mounted() {
+  },
+  methods: {
+    ...mapMutations([
+      'controlModal'
+    ])
   }
 }
 

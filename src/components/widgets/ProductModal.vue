@@ -48,7 +48,7 @@
           
         </div>
         <div class="sub-btn-wrap">
-          <div class="button" @click="controlModal({target: 'cart', boo: true})">加入預約清單</div>
+          <div class="button" @click="onAddedToCart">加入預約清單</div>
           <div class="button" @click="controlModal({target: 'product', boo: false})">關閉</div>
         </div>
         
@@ -74,6 +74,10 @@
       ...mapMutations([
         'controlModal'
       ]),
+      onAddedToCart() {
+        this.controlModal({target: 'cart', boo: true})
+        this.controlModal({target: 'product', boo: false})
+      }
 
     }
   }
