@@ -4,9 +4,18 @@
       <div class="close-btn" @click="controlModal({target: 'newsDetail', boo: false})">
         <v-icon>clear</v-icon>
       </div>
-      
+      <div class="modal-box-header">
+        <p class="title-top">動態消息類別</p>
+        <h5>新品上市 嚐鮮折扣</h5>
+        <p class="date">2017/03/22</p>
+      </div>
       <div class="modal-box-content">
-        消息標題
+        <div class="img-wrap">
+          <img src="/static/imgs/food01.jpg" alt="">
+        </div>
+        <p>消息內容消息內容消息內容消息內容，消息內容消息內容消息內容消息內容消息內容消息內容，消息內容消息內容消息內容消息內容消息內容消息內容消息內容消息內容消息內容，
+          消息內容消息內容消息內容消息內容消息內容消息內容。
+        </p>
         
         
       </div>

@@ -107,7 +107,7 @@
         menu: [
           {title: "餐點瀏覽", route: {name: 'Products'}},
           {title: "訂位點餐", route: {name: 'Products'}},
-          {title: "動態消息", route: {name: 'Products'}},
+          {title: "動態消息", route: {name: 'News'}},
           {title: "商店資訊", route: {name: 'Info'}},
           {title: "會員中心", route: {name: 'Member'}},
           {title: "APP下載", openModal: "qrcode"},

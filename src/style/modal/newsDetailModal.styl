@@ -12,13 +12,13 @@
     padding: 0
     z-index: 999
   .modal-box
-    min-width 300px
+    width 500px
+    // max-height: 100vh
     margin auto
     background-color #fff
     color #666
-    text-align center
     position relative
-    border-radius 10px
+    border-radius 5px
     @media(max-width: mobile-media)
       overflow-y: scroll
       height: 100%
@@ -28,79 +28,41 @@
       position absolute
       right 0
       top 0
-      margin-top 10px
+      margin-top 15px
       margin-right 15px
       display flex
-      align-items center
       @media(max-width: mobile-media)
         display: none
       i.icon
         margin auto
         color: #999
     
-    .modal-box-content
-      padding: 40px 30px
-      width: 500px
-      @media(max-width: mobile-media)
-        width: 100%
-        padding: 20px
-      .divider
-        border-top: 2px dotted #ccc
-        background: none
-        margin: 15px -30px 
-        width: calc(100% +60px)
-      .btn-wrap 
-        display: flex
-        margin-bottom: 20px
-        .my-btn
-          flex: 1
-          margin-right: 15px
-          cursor: pointer
-          &:last-child
-            margin-right: 0
-      .form-group
-        text-align: left
-        margin-bottom: 12px
-        label 
-          display: block
-        input[type="text"], input[type="number"]
-          border: 1px solid #999
-          line-height: 32px
-          width: 100%
-          &:disabled
-            background-color: #ccc
- 
-      .submit-button
-        margin-top: 20px
-        color: #fff
-        background-color: main-color
-        line-height: 40px
-        font-size: 16px
-        font-weight: bold 
-        letter-spacing: 2px
-        text-align: center
-        cursor: pointer
-      
-      .close-button
-        display: none
-        margin-top: 20px
-        color: #666
-        border: 1px solid #666
-        line-height: 40px
-        font-size: 16px
-        font-weight: bold 
-        letter-spacing: 2px
-        text-align: center
-        cursor: pointer
+    .modal-box-header 
+      border-bottom: 1px solid #ccc
+      padding: 20px
+      p.title-top 
+        color: #999 
+        margin-bottom: 3px
+      h5 
+        color: main-color 
+        margin-bottom: 2px
         @media(max-width: mobile-media)
-          display: block
-      
-      .sub-radio-check
-        text-align: left
-        margin-top: 20px
-            
-            
-          
-          
-
-
+          font-size: 20px
+      p.date 
+        color: main-color
+    .modal-box-content
+      padding: 20px 
+      .img-wrap 
+        max-height: 350px 
+        overflow: hidden 
+        margin-bottom: 20px
+        display: flex 
+        align-items: center 
+        justify-content: center 
+        @media(max-width: mobile-media)
+          width: calc(100vw - 40px)
+          height: calc(100vw - 40px)
+      p 
+        line-height: 20px 
+        letter-spacing: 1px 
+        font-size: 12px
