@@ -23,7 +23,7 @@
             <a @click="signupMode = true">建立會員帳戶</a>
         </div>
         <div style="margin-top: 40px"></div>
-        <button type="button" class="fb"><i class="fa fa-facebook"></i>Facebook帳號登入</button>
+        <button type="button" class="fb" @click="onLoginWithFB"><i class="fa fa-facebook"></i>Facebook帳號登入</button>
       </div>
       <div v-else class="modal-box-content">
         <div class="icon-store-title"></div>
@@ -68,7 +68,7 @@ export default {
       signupMode: false,
       loginForm : {
         email: "",
-        pw: ""
+        pw: "",
       },
       registerForm: {
         email: "",
@@ -143,6 +143,26 @@ export default {
       }
       
     },
+    onLoginWithFB() {
+      FB.login(loginCallBack.bind(this), {scope: 'public_profile,email'});
+
+      async function loginCallBack(fbRes) {
+        if(fbRes.status === "connected") {
+          var accessToken = FB.getAuthResponse().accessToken
+          var data = {
+            accessToken,
+            regType: "FB"
+          }
+          var res = await this.login(data)
+          if(res.resultCode === 10) {
+            this.setAlertMsg("登入成功！")
+            this.controlModal({target: 'login', boo: false})
+            this.controlModal({target: 'alertBox', boo: true, timeout: 2000})
+          }
+        }
+      }
+    },
+    
     checkValidate(formGroup) {
       formGroup.$touch()
       console.log(formGroup)
