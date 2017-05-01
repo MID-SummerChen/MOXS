@@ -19,6 +19,7 @@ export default {
   actions: {
     login: async (store, data) => await apiInit(store, "POST", "form", `cs/org/${orgSn}/sev/${sevSn}/ac/signin`, data),
     register: async (store, data) => await apiInit(store, "POST", "json", `cs/org/${orgSn}/sev/${sevSn}/ac/mb/reg`, data),
+    getPw: async (store, data) => await apiInit(store, "POST", "form", `cs/ac/pw`, data),
   }
 }
 
@@ -46,7 +47,10 @@ async function apiInit(store, method, type, route, data) {
   });
   console.log(response)
 
-  return response.data
+  return {
+    code: response.data.resultCode,
+    data: response.data.data
+  }
 
 
 }

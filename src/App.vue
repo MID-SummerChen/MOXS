@@ -138,7 +138,7 @@
         newsDetail: state => state.modal.newsDetail,
         storeMap: state => state.modal.storeMap,
         cart: state => state.modal.cart,
-        alertBox: state => state.modal.alertBox,
+        alertBox: state => state.alertBox.display,
       }),
       ...mapGetters([
       ])

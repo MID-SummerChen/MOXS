@@ -1,7 +1,7 @@
 <template>
-  <div id="alert-box" class="my-modal-wrap" @click.self="controlModal({target: 'alertBox', boo: false})">
-    <div class="modal-box">
-      <div class="close-btn" @click="controlModal({target: 'alertBox', boo: false})">
+  <div id="alert-box" class="my-modal-wrap" @click.self="displayAlertBox(false)">
+    <div class="modal-box" :class="color">
+      <div class="close-btn" @click="displayAlertBox(false)">
         <v-icon>clear</v-icon>
       </div>
       
@@ -27,13 +27,15 @@
     computed: {
         ...mapState({
           msg: state => state.alertBox.msg,
+          color: state => state.alertBox.color,
         }),
         ...mapGetters([
         ])
     },
     methods: {
         ...mapMutations([
-            'controlModal',
+            'setAlertBox',
+            'displayAlertBox',
         ]),
 
     }

@@ -4,7 +4,8 @@
       <div class="close-btn"  @click="controlModal({target: 'login', boo: false})">
         <v-icon>clear</v-icon>
       </div>
-      <div v-if="!signupMode" class="modal-box-content">
+      <!-- 登入 -->
+      <div v-if="currentMode === 'login'" class="modal-box-content">
         <div class="icon-store-title"></div>
         <div style="margin-top: 20px"></div>
         <div class="form-group">
@@ -19,13 +20,29 @@
         </div>
         <button type="button" class="signin" @click="onLogin">登  入 Sign In</button>
         <div class="sub-link">
-            <a>忘記密碼？</a>
-            <a @click="signupMode = true">建立會員帳戶</a>
+            <a @click="currentMode = 'forget'">忘記密碼？</a>
+            <a @click="currentMode = 'signup'">建立會員帳戶</a>
         </div>
         <div style="margin-top: 40px"></div>
         <button type="button" class="fb" @click="onLoginWithFB"><i class="fa fa-facebook"></i>Facebook帳號登入</button>
       </div>
-      <div v-else class="modal-box-content">
+
+      <!-- 查詢密碼 -->
+      <div v-if="currentMode === 'forget'" class="modal-box-content">
+        <div class="icon-store-title"></div>
+        <div style="margin-top: 20px"></div>
+        <div class="form-group">
+          <label for="email">E-MAIL</label>
+          <input id="email" type="text" v-model="loginForm.email">
+          <p class="error" v-if="$v.loginForm.$dirty && !$v.loginForm.email.required">此為必填</p>
+        </div>
+        <button type="button" class="signin" @click="sendPwMail">查詢密碼</button>
+        <div class="back">
+            <a @click="currentMode = 'login'"><i class="fa fa-arrow-left"></i> 返回登入</a>
+        </div>
+      </div>
+      <!-- 會員註冊 -->
+      <div v-else-if="currentMode === 'signup'" class="modal-box-content">
         <div class="icon-store-title"></div>
         <div style="margin-top: 20px"></div>
         <div class="form-group">
@@ -50,7 +67,7 @@
         </div>
         <button type="button" class="signup" @click="onRegister">建立帳戶</button>
         <div class="back">
-            <a @click="signupMode = false"><i class="fa fa-arrow-left"></i> 返回登入</a>
+            <a @click="currentMode = 'login'"><i class="fa fa-arrow-left"></i> 返回登入</a>
         </div>
       </div>
     </div>
@@ -65,7 +82,10 @@ export default {
   name: 'LoginModal',
   data() {
     return {
-      signupMode: false,
+      currentMode: 'login',
+      forgetForm: {
+        email: ""
+      },
       loginForm : {
         email: "",
         pw: "",
@@ -107,7 +127,7 @@ export default {
     // }
   },
   watch: {
-    signupMode() {
+    currentMode() {
       this.$v.$reset()
     }
   },
@@ -121,12 +141,24 @@ export default {
   methods: {
     ...mapMutations([
       'controlModal',
-      'setAlertMsg',
+      'setAlertBox',
+      'displayAlertBox',
     ]),
     ...mapActions([
       'login',
-      'register'
+      'register',
+      'getPw',
     ]),
+    async sendPwMail() {
+      var data = {
+        id: this.loginForm.email
+      }
+      var res = await this.getPw(data)
+      if(res.code === 10) {
+        this.setAlertBox({msg: "已發送密碼至您的信箱", color: "grey darken-3"})
+        this.displayAlertBox(true)
+      }
+    },
     async onLogin() {
       if(this.checkValidate(this.$v.loginForm)) {
         var f = this.loginForm
@@ -135,10 +167,10 @@ export default {
           pw: f.pw
         }
         var res = await this.login(data)
-        if(res.resultCode === 10) {
-          this.setAlertMsg("登入成功！")
+        if(res.code === 10) {
+          this.setAlertBox({msg: "登入成功！"})
           this.controlModal({target: 'login', boo: false})
-          this.controlModal({target: 'alertBox', boo: true, timeout: 2000})
+          this.displayAlertBox(true)
         }
       }
       
@@ -154,10 +186,10 @@ export default {
             regType: "FB"
           }
           var res = await this.login(data)
-          if(res.resultCode === 10) {
-            this.setAlertMsg("登入成功！")
+          if(res.code === 10) {
+            this.setAlertBox({msg: "登入成功！"})
             this.controlModal({target: 'login', boo: false})
-            this.controlModal({target: 'alertBox', boo: true, timeout: 2000})
+            this.displayAlertBox(true)
           }
         }
       }
@@ -180,12 +212,12 @@ export default {
           }
         }
         var res = await this.register(data)
-        if(res.resultCode === 10) {
+        if(res.code === 10) {
           var res2 = await this.login(data.ac)
-          if(res2.resultCode === 10) {
-            this.setAlertMsg("註冊成功！")
+          if(res2.code === 10) {
+            this.setAlertBox({msg: "註冊成功！"})
             this.controlModal({target: 'login', boo: false})
-            this.controlModal({target: 'alertBox', boo: true, timeout: 2000})
+            this.displayAlertBox(true)
           }
         }
       }
