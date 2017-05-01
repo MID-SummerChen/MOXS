@@ -1,0 +1,54 @@
+// alertBox
+.my-modal-wrap#alert-box
+  position fixed
+  z-index 99
+  // width 800px
+  height 100vh
+  right: 20px 
+  top: 20px
+  background-color rgba(#000, 0)
+  // display flex
+  // align-items center
+  // padding: 20px
+  @media(max-width: mobile-media)
+    padding: 0
+    z-index: 999
+  .modal-box
+    min-width 300px
+    margin auto
+    background-color main-color
+    // background-color #333
+    color #fff
+    // text-align center
+    position relative
+    border-radius 5px
+    @media(max-width: mobile-media)
+      overflow-y: scroll
+      height: 100%
+      border-radius: 0
+    .close-btn
+      cursor: pointer
+      position absolute
+      right 0
+      top 0
+      margin-top 20px
+      margin-right 20px
+      display flex
+      align-items center
+      @media(max-width: mobile-media)
+        display: none
+      i.icon
+        margin auto
+        color: #fff
+    
+    .modal-box-content
+      padding: 20px
+      i
+        vertical-align: middle
+        margin-right: 10px
+      // width: 800px
+      // width: calc(100vw - 40px)
+      @media(max-width: mobile-media)
+        width: 100%
+        padding: 20px
+     

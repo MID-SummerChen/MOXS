@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <transition name="slide-fade">
+    <transition name="slide">
       <cart v-if="cart"></cart>
     </transition>
     <transition name="fade">
@@ -15,6 +15,10 @@
       <member-pw-modal v-if="memberPw"></member-pw-modal>
       <news-detail-modal v-if="newsDetail"></news-detail-modal>
       <store-map-modal v-if="storeMap"></store-map-modal>
+    </transition>
+
+    <transition name="fade">
+      <alert-box v-if="alertBox"></alert-box>
     </transition>
     <v-app top-toolbar left-fixed-sidebar>
 
@@ -52,9 +56,13 @@
                     <router-link :to="m.route">{{m.title}}</router-link>
                   </v-list-tile>
                 </v-list-item>
-
-
               </template>
+
+              <!--<v-list-item>
+                <v-list-tile ripple>
+                  <a href="" @click.prevent="setAlertMsg('have a good time!'); controlModal({target: 'alertBox', boo: true})">alert</a>
+                </v-list-tile>
+              </v-list-item>-->
 
 
             </v-list>
@@ -79,6 +87,7 @@
   import MemberPwModal from '@/components/widgets/MemberPwModal.vue'
   import NewsDetailModal from '@/components/widgets/NewsDetailModal.vue'
   import StoreMapModal from '@/components/widgets/StoreMapModal.vue'
+  import AlertBox from '@/components/widgets/AlertBox.vue'
   import Cart from '@/components/widgets/Cart.vue'
   import eventHub from '@/utils/eventHub'
   import commonMixin from '@/utils/commonMixin'
@@ -98,7 +107,8 @@
       NewsDetailModal,
       MemberPwModal,
       PhoneVerifyModal,
-      Cart
+      AlertBox,
+      Cart,
     },
     data() {
       return {
@@ -128,6 +138,7 @@
         newsDetail: state => state.modal.newsDetail,
         storeMap: state => state.modal.storeMap,
         cart: state => state.modal.cart,
+        alertBox: state => state.modal.alertBox,
       }),
       ...mapGetters([
       ])
@@ -137,7 +148,8 @@
     },
     methods: {
       ...mapMutations([
-        'controlModal'
+        'controlModal',
+        'setAlertMsg',
       ])
     }
   }

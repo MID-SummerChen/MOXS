@@ -1,6 +1,7 @@
 
 export default {
   state: {
+    alertBox: false,
     qrcode: false,
     checkout: false,
     product: false,
@@ -15,9 +16,13 @@ export default {
   getters: {
   },
   mutations: {
-    controlModal(state, {target, boo}) {
+    controlModal(state, {target, boo, timeout = false}) {
       state[target] = boo
-
+      if(timeout) {
+        setTimeout(() => {
+          state[target] = false
+        }, timeout)
+      }
     }
   },
   actions: {

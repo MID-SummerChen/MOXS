@@ -6,6 +6,13 @@ import router from './router'
 import store from './store'
 import Vuetify from 'vuetify'
 import ElementUI from 'element-ui'
+import Vuelidate from 'vuelidate'
+
+Vue.use(Vuetify)
+Vue.use(ElementUI)
+Vue.use(Vuelidate)
+
+Vue.config.productionTip = false
 
 
 entry()
@@ -16,10 +23,7 @@ async function entry() {
 
   require(`./style/${res.current_theme}.styl`)
   require(`../${res.current_theme}/index.css`)
-  Vue.use(Vuetify)
-  Vue.use(ElementUI)
-
-  Vue.config.productionTip = false
+  
 
   /* eslint-disable no-new */
   new Vue({
