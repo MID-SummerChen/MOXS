@@ -18,13 +18,13 @@
           <input id="pw" type="password" v-model="loginForm.pw">
           <p class="error" v-if="$v.loginForm.$dirty && !$v.loginForm.pw.required">此為必填</p>
         </div>
-        <button type="button" class="signin" @click="onLogin">登  入 Sign In</button>
+        <button type="button" class="signin" @click="handleLogin">登  入 Sign In</button>
         <div class="sub-link">
             <a @click="currentMode = 'forget'">忘記密碼？</a>
             <a @click="currentMode = 'signup'">建立會員帳戶</a>
         </div>
         <div style="margin-top: 40px"></div>
-        <button type="button" class="fb" @click="onLoginWithFB"><i class="fa fa-facebook"></i>Facebook帳號登入</button>
+        <button type="button" class="fb" @click="handleLoginWithFB"><i class="fa fa-facebook"></i>Facebook帳號登入</button>
       </div>
 
       <!-- 查詢密碼 -->
@@ -148,6 +148,7 @@ export default {
       'login',
       'register',
       'getPw',
+      'onLogin',
     ]),
     async sendPwMail() {
       var data = {
@@ -159,23 +160,18 @@ export default {
         this.displayAlertBox(true)
       }
     },
-    async onLogin() {
+    async handleLogin() {
       if(this.checkValidate(this.$v.loginForm)) {
         var f = this.loginForm
         var data = {
           id: f.email,
           pw: f.pw
         }
-        var res = await this.login(data)
-        if(res.code === 10) {
-          this.setAlertBox({msg: "登入成功！"})
-          this.controlModal({target: 'login', boo: false})
-          this.displayAlertBox(true)
-        }
+        this.onLogin(data)
       }
       
     },
-    onLoginWithFB() {
+    handleLoginWithFB() {
       FB.login(loginCallBack.bind(this), {scope: 'public_profile,email'});
 
       async function loginCallBack(fbRes) {
@@ -185,12 +181,7 @@ export default {
             accessToken,
             regType: "FB"
           }
-          var res = await this.login(data)
-          if(res.code === 10) {
-            this.setAlertBox({msg: "登入成功！"})
-            this.controlModal({target: 'login', boo: false})
-            this.displayAlertBox(true)
-          }
+          this.onLogin(data)
         }
       }
     },

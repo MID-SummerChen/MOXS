@@ -42,27 +42,45 @@
           <v-sidebar fixed v-model="showSidebar">
             <div class="icon-logo"></div>
             <v-list>
-              <template v-for="m in menu">
-                <v-list-item v-if="m.divider">
-                  <v-divider light />
-                </v-list-item>
-                <v-list-item v-else-if="m.openModal">
-                  <v-list-tile ripple>
-                    <a @click="controlModal({target: m.openModal, boo: true})">{{m.title}}</a>
-                  </v-list-tile>
-                </v-list-item>
-                <v-list-item v-else>
-                  <v-list-tile ripple>
-                    <router-link :to="m.route">{{m.title}}</router-link>
-                  </v-list-tile>
-                </v-list-item>
-              </template>
-
-              <!--<v-list-item>
+              <v-list-item>
                 <v-list-tile ripple>
-                  <a href="" @click.prevent="setAlertMsg('have a good time!'); controlModal({target: 'alertBox', boo: true})">alert</a>
+                  <router-link :to="{name: 'Products'}">餐點瀏覽</router-link>
                 </v-list-tile>
-              </v-list-item>-->
+              </v-list-item>
+              <v-list-item>
+                <v-list-tile ripple>
+                  <router-link :to="{name: 'Products'}">訂位點餐</router-link>
+                </v-list-tile>
+              </v-list-item>
+              <v-list-item>
+                <v-list-tile ripple>
+                  <router-link :to="{name: 'News'}">動態消息</router-link>
+                </v-list-tile>
+              </v-list-item>
+              <v-list-item>
+                <v-list-tile ripple>
+                  <router-link :to="{name: 'Info'}">商店資訊</router-link>
+                </v-list-tile>
+              </v-list-item>
+              <v-list-item>
+                <v-list-tile ripple>
+                  <router-link :to="{name: 'Member'}">會員中心</router-link>
+                </v-list-tile>
+              </v-list-item>
+              <v-list-item>
+                <v-list-tile ripple>
+                  <a @click="controlModal({target: 'qrcode', boo: true})">APP下載</a>
+                </v-list-tile>
+              </v-list-item>
+              <v-list-item>
+                <v-divider light />
+              </v-list-item>
+              <v-list-item>
+                <v-list-tile ripple>
+                  <a v-if="!isLogin" @click="controlModal({target: 'login', boo: true})">會員登入</a>
+                  <a v-else @click="onLogout">會員登出</a>
+                </v-list-tile>
+              </v-list-item>
 
 
             </v-list>
@@ -139,18 +157,24 @@
         storeMap: state => state.modal.storeMap,
         cart: state => state.modal.cart,
         alertBox: state => state.alertBox.display,
+        isLogin: state => state.isLogin,
       }),
       ...mapGetters([
       ])
     },
     mounted() {
+      this.onCheckLogin()
 
     },
     methods: {
       ...mapMutations([
         'controlModal',
         'setAlertMsg',
-      ])
+      ]),
+      ...mapActions([
+        'onCheckLogin',
+        'onLogout',
+      ]),
     }
   }
 
