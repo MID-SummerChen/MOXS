@@ -14,14 +14,15 @@ export default new Vuex.Store({
     alertBox
   },
   state: {
-    isLogin: false
+    isLogin: false,
   },
   getters: {
   },
   mutations: {
     switchLoginStatus(state, status) {
       state.isLogin = status
-    }
+    },
+
   },
   actions: {
     async onCheckLogin({ state, commit, dispatch, rootState }) {

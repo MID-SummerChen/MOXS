@@ -10,11 +10,24 @@ export default {
   state: {
     host: apiHost, // 52.221.138.6:8080
     path: apiPath,
-
+    isLoading: false,
+    loadingApis: []
   },
   getters: {
   },
   mutations: {
+    pushLoadingApi(state, apiUrl) {
+      console.log(Pace)
+      state.isLoading = true
+      state.loadingApis = state.loadingApis.concat([apiUrl])
+      
+    },
+    pullLoadingApi(state, apiUrl) {
+      state.loadingApis = state.loadingApis.filter(url => url !== apiUrl)
+      if(state.loadingApis.length === 0) {
+        state.isLoading = false
+      }
+    }
   },
   actions: {
     handleError,
@@ -41,6 +54,8 @@ async function apiInit(store, method, type, route, data, showErrMsg = true) {
 
   var url = `http://${apiHost}/${apiPath}/${route}`
 
+  store.commit('pushLoadingApi', url)
+
   var response = await axios({
     method,
     url,
@@ -48,10 +63,10 @@ async function apiInit(store, method, type, route, data, showErrMsg = true) {
     data,
     withCredentials: true
   });
-  console.log(response)
+
+  store.commit('pullLoadingApi', url)
 
   var myRes = new Response(response)
-  console.log(showErrMsg)
   if(myRes.code !== 10 && showErrMsg) {
     store.dispatch('handleError', myRes)
   }

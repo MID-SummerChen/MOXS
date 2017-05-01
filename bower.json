@@ -19,6 +19,7 @@
     "materialize": "^0.98.1",
     "uikit": "^2.27.2",
     "normalize-css": "^6.0.0",
-    "font-awesome": "^4.7.0"
+    "font-awesome": "^4.7.0",
+    "PACE": "pace#^1.0.2"
   }
 }
