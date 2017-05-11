@@ -76,10 +76,12 @@
 
 <script>
   import {mapGetters, mapActions, mapMutations} from 'vuex'
+  import commonMixin from '@/utils/commonMixin'
   import { required, minLength, between, sameAs } from 'vuelidate/lib/validators'
 
 export default {
   name: 'LoginModal',
+  mixins: [commonMixin],
   data() {
     return {
       currentMode: 'login',
@@ -186,11 +188,6 @@ export default {
       }
     },
     
-    checkValidate(formGroup) {
-      formGroup.$touch()
-      console.log(formGroup)
-      return !formGroup.$invalid
-    },
     async onRegister() {
       if(this.checkValidate(this.$v.registerForm)) {
         var f = this.registerForm

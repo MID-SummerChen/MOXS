@@ -11,12 +11,12 @@
           <div class="top-info">
               <div class="img-wrap"><img src="/static/imgs/food03.jpg" alt=""></div>
               <div class="text-info">
-                  <p>ryan.mtntech@gmail.com</p>
-                  <p>林清揚陽先生</p>
+                  <p>{{account.email}}</p>
+                  <p>{{account.name}}</p>
               </div>
               <div>
                 <button class="btn-t1" @click="$router.push({name: 'MemberEdit'})">編輯帳戶</button>
-                <button class="btn-t1"  @click="controlModal({target: 'memberPw', boo: true})">修改密碼</button>
+                <button v-if="account && account.regType !== 'FB'" class="btn-t1"  @click="controlModal({target: 'memberPw', boo: true})">修改密碼</button>
               </div>
           </div>
           <div class="record">
@@ -51,6 +51,7 @@ import commonMixin from '@/utils/commonMixin'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 export default {
   name: 'Products',
+  mixins: [commonMixin],
   components: {
     HeaderCpt: Header,
     SideBar,
@@ -61,10 +62,13 @@ export default {
   },
   mounted() {
   },
-  methods: {
-    ...mapMutations([
-      'controlModal'
+  computed: {
+    ...mapGetters([
+      'account'
     ])
+  },
+  methods: {
+  
   }
 }
 

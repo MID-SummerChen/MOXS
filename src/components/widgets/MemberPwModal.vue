@@ -6,34 +6,58 @@
         <form>
             <div class="form-group">
                 <label>原密碼</label>
-                <input type="text">
+                <input type="text" v-model="formData.oldPw">
+                <p class="error" v-if="$v.formData.$dirty && !$v.formData.oldPw.required">此為必填</p>
             </div>
             <div class="form-group">
                 <label>新密碼</label>
-                <input type="text">
+                <input type="password" v-model="formData.newPw">
+                <p class="error" v-if="$v.formData.$dirty && !$v.formData.newPw.required">此為必填</p>
             </div>
             <div class="form-group">
                 <label>確認密碼</label>
-                <input type="text">
+                <input type="password" v-model="formData.newPw_c">
+                <p class="error" v-if="$v.formData.$dirty && !$v.formData.newPw_c.required">此為必填</p>
+                <p class="error" v-if="$v.formData.$dirty && !$v.formData.newPw_c.sameAs">密碼不同</p>
             </div>
         </form>
       </div>
       <div class="modal-box-footer">
         <button @click="controlModal({target: 'memberPw', boo: false})">取消</button>
-        <button class="blue-text">送出</button>
+        <button class="blue-text" @click="handleUpdatePw">送出</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import { mapGetters, mapActions, mapMutations } from 'vuex'
+  import {mapMutations, mapGetters, mapActions} from 'vuex'
+  import { required, minLength, between, sameAs } from 'vuelidate/lib/validators'
+  import commonMixin from '@/utils/commonMixin'
   export default {
     name: 'MemberPwModal',
+    mixins: [commonMixin],
     data() {
       return {
-        currentTab: 1,
-        isPayNow: 1
+        formData: {
+          oldPw: "",
+          newPw: "",
+          newPw_c: "",
+        }
+      }
+    },
+    validations: {
+      formData: {
+        oldPw: {
+          required
+        },
+        newPw: {
+          required
+        },
+        newPw_c: {
+          required,
+          sameAs: sameAs('newPw')
+        },
       }
     },
     computed: {
@@ -41,9 +65,25 @@
       ])
     },
     methods: {
-      ...mapMutations([
-        'controlModal'
+      ...mapActions([
+        'updatePw'
       ]),
+      async handleUpdatePw() {
+        if(this.checkValidate(this.$v.formData)) {
+          var f = this.formData
+          var data = {
+            oldPw: f.oldPw,
+            newPw: f.newPw,
+          }
+          var res = await this.updatePw(data)
+          if(res.code === 10) {
+            this.controlModal({target: "memberPw", boo: false})
+            this.setAlertBox({msg: "更新密碼成功"})
+            this.displayAlertBox(true)
+          }
+        }
+        
+      }
 
     }
   }

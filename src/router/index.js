@@ -22,7 +22,7 @@ export default new Router({
       component: Home
     },
     {
-      path: '/products',
+      path: '/products/:lv1?/:lv2?/:lv3?',
       name: 'Products',
       component: Products
     },

@@ -8,6 +8,7 @@ import Vuetify from 'vuetify'
 import ElementUI from 'element-ui'
 import Vuelidate from 'vuelidate'
 import moment from 'moment'
+require('vuetify/dist/vuetify.min.css')
 
 Vue.use(Vuetify)
 Vue.use(ElementUI)

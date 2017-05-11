@@ -11,24 +11,30 @@ export default new Vuex.Store({
   modules: {
     api,
     modal,
-    alertBox
+    alertBox,
   },
   state: {
     isLogin: false,
+    account: {}
   },
   getters: {
+    isLogin: state => state.isLogin,
+    account: state => state.account,
   },
   mutations: {
     switchLoginStatus(state, status) {
       state.isLogin = status
     },
-
+    gotAccount(state, account) {
+      state.account = account
+    }
   },
   actions: {
     async onCheckLogin({ state, commit, dispatch, rootState }) {
       var res = await dispatch('checkLogin')
       if(res.code === 10) {
         commit('switchLoginStatus', true)
+        commit('gotAccount', res.data.mb)
       }else {
         commit('switchLoginStatus', false)
       }
@@ -41,7 +47,7 @@ export default new Vuex.Store({
         commit('displayAlertBox', true)
         commit('switchLoginStatus', false)
       }
-      return 
+      return res
     },
     async onLogin({ state, commit, dispatch, rootState }, data) {
       var res = await dispatch('login', data)

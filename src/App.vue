@@ -62,7 +62,7 @@
                   <router-link :to="{name: 'Info'}">商店資訊</router-link>
                 </v-list-tile>
               </v-list-item>
-              <v-list-item>
+              <v-list-item v-if="isLogin">
                 <v-list-tile ripple>
                   <router-link :to="{name: 'Member'}">會員中心</router-link>
                 </v-list-tile>
@@ -78,7 +78,7 @@
               <v-list-item>
                 <v-list-tile ripple>
                   <a v-if="!isLogin" @click="controlModal({target: 'login', boo: true})">會員登入</a>
-                  <a v-else @click="onLogout">會員登出</a>
+                  <a v-else @click="_onLogout">會員登出</a>
                 </v-list-tile>
               </v-list-item>
 
@@ -132,16 +132,16 @@
       return {
         showSidebar: true,
         eventHub,
-        menu: [
-          {title: "餐點瀏覽", route: {name: 'Products'}},
-          {title: "訂位點餐", route: {name: 'Products'}},
-          {title: "動態消息", route: {name: 'News'}},
-          {title: "商店資訊", route: {name: 'Info'}},
-          {title: "會員中心", route: {name: 'Member'}},
-          {title: "APP下載", openModal: "qrcode"},
-          {divider: true},
-          {title: "會員登入", openModal: "login"},
-        ]
+        // menu: [
+        //   {title: "餐點瀏覽", route: {name: 'Products'}},
+        //   {title: "訂位點餐", route: {name: 'Products'}},
+        //   {title: "動態消息", route: {name: 'News'}},
+        //   {title: "商店資訊", route: {name: 'Info'}},
+        //   {title: "會員中心", route: {name: 'Member'}},
+        //   {title: "APP下載", openModal: "qrcode"},
+        //   {divider: true},
+        //   {title: "會員登入", openModal: "login"},
+        // ]
       }
     },
     computed: {
@@ -164,6 +164,8 @@
     },
     mounted() {
       this.onCheckLogin()
+      this.getStoreList()
+      this.getGeo()
 
     },
     methods: {
@@ -174,7 +176,17 @@
       ...mapActions([
         'onCheckLogin',
         'onLogout',
+        'getStoreList',
+        'polling',
+        'getGeo',
       ]),
+      async _onLogout() {
+        var res = await this.onLogout()
+        console.log(res)
+        if(res.code === 10) {
+          this.$router.push({name: 'Home'})
+        }
+      }
     }
   }
 

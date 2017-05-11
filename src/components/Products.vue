@@ -10,17 +10,18 @@
           </li>
         </ul>
       </div>
-      <div class="category-btn-group">
-        <el-button v-for="n in 8">漢堡</el-button>
+      <div v-if="itemsCls.length > 0" class="category-btn-group">
+        <!--<i v-if="itemsCls[0].parentId" class="prevClsBtn fa fa-arrow-left" @click="goBack"></i>-->
+        <el-button v-for="cls in itemsCls" :disabled="cls.childrenCount === 0" @click="toNextCls(cls.id, cls.level)">{{cls.name}}</el-button>
       </div>
 
-      <div class="items">
-        <el-card v-for="n in 14" :body-style="{ padding: '0px' }">
+      <div class="items uk-grid-width-small-1-2 uk-grid-width-medium-1-3 uk-grid-width-large-1-4" data-uk-grid="{gutter: 0}">
+        <el-card v-for="t in items" :body-style="{ padding: '0px' }">
               <div class="img-wrap">
               </div>
               <div class="card-content">
                 <div>
-                  <p class="title">藍帶豬排堡</p>
+                  <p class="title">{{t.desc}}</p>
                   <p class="dollar">$180</p>
                 </div>
                 <div class="icon-plus"  @click="controlModal({target: 'product', boo: true})"></div>
@@ -40,11 +41,16 @@
   import { mapGetters, mapActions, mapMutations } from 'vuex'
   export default {
     name: 'Products',
+    mixins: [commonMixin],
     components: {
     },
     data() {
       return {
         isShowCart: false,
+        currentClsId: "",
+        itemsCls: [],
+        items: [],
+        currentCls: [],
         bread: [
           {name: "主餐", link: "/"},
           {name: "美式", link: "/"},
@@ -53,6 +59,10 @@
       }
     },
     mounted() {
+      this.updateItems()
+    },
+    watch: {
+      $route: "updateItems"
     },
     computed: {
       ...mapGetters([
@@ -61,7 +71,47 @@
     methods: {
       ...mapMutations([
         'controlModal'
-      ])
+      ]),
+      ...mapActions([
+        'getItems',
+        'getItemsCls',
+      ]),
+      updateItems() {
+        this.currentClsId = ""
+        this.items = []
+        // this.itemsCls = []
+        var keys = Object.keys(this.$route.query)
+        if(keys.length > 0) {
+          console.log(_.map(this.$route.query)[keys.length-1])
+          this.currentClsId = _.map(this.$route.query)[keys.length-1]
+        }
+        this._getItemsCls()
+        this._getItems()
+      },
+      async _getItemsCls() {
+        var data = {
+          superId: this.currentClsId
+        }
+        var res = await this.getItemsCls(data)
+        if(res.code === 10) {
+          this.itemsCls = res.data
+        }
+      },
+      async _getItems() {
+        var data = {
+          clsId: this.currentClsId
+        }
+        var res = await this.getItems(data)
+        if(res.code === 10) {
+          this.items = res.data.items
+        }
+      },
+      toNextCls(clsId, clsLevel) {
+        this.$router.push({name: 'Products', query: {
+          ...this.$route.query,
+          [`lv${clsLevel}`]: clsId
+        }})
+      }
     }
   }
 
