@@ -42,8 +42,8 @@ async function entry() {
 
   var res = await $.get("/static/theme.json");
 
-  require(`./style/${res.current_theme}.styl`)
   require(`../${res.current_theme}/index.css`)
+  require(`./style/${res.current_theme}.styl`)
   
 
   /* eslint-disable no-new */

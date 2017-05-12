@@ -15,7 +15,7 @@
         <el-button v-for="cls in itemsCls" :disabled="cls.childrenCount === 0" @click="toNextCls(cls.id, cls.level)">{{cls.name}}</el-button>
       </div>
 
-      <div class="items uk-grid-width-small-1-2 uk-grid-width-medium-1-3 uk-grid-width-large-1-4" data-uk-grid="{gutter: 0}">
+      <div class="items" data-uk-grid="{gutter: 0}">
         <el-card v-for="t in items" :body-style="{ padding: '0px' }">
               <div class="img-wrap">
               </div>
