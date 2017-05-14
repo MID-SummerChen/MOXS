@@ -1,7 +1,8 @@
-var apiHost = "moxs.com:8080"
-var apiPath = {
-  sys: "moxs_sys/api",
-  sev: "moxs_sev/api"
+// var apiHost = "moxs.com:8080"  // 52.221.138.6:8080
+var apiHost = "106.1.80.127:33266"  // 52.221.138.6:8080
+var apiModule = {
+  sys: "moxs_sys",
+  sev: "moxs_sev"
 }
 var orgSn = "ORG17041916230000"
 var sevSn = "SEV17041917210000"
@@ -11,12 +12,13 @@ import Qs from 'query-string'
 
 export default {
   state: {
-    host: apiHost, // 52.221.138.6:8080
-    path: apiPath,
     isLoading: false,
     loadingApis: []
   },
   getters: {
+    apiHost: state => apiHost,
+    apiModule: state => apiModule,
+
   },
   mutations: {
     pushLoadingApi(state, apiUrl) {
@@ -43,36 +45,33 @@ export default {
     register: async (store, data) => await apiInit(store, "POST", "json", 'sys', `cs/org/${orgSn}/sev/${sevSn}/ac/mb/reg`, data),
     getPw: async (store, data) => await apiInit(store, "POST", "form", 'sys', `cs/ac/pw`, data),
     updatePw: async (store, data) => await apiInit(store, "POST", "form", 'sys', `cs/ac/pw/update`, data),
+    updateMember: async (store, data) => await apiInit(store, "POST", "json", 'sys', `cs/ac/mb/update`, data),
+    memImgUpload: async (store, data) => await apiInit(store, "POST", "multi", 'sys', `res/img/add`, data),
     getStoreList: async (store, data) => await apiInit(store, "GET", "form", 'sys', `cs/org/${orgSn}/sev/${sevSn}/sto`, data),
     // service
     getItemsCls: async (store, data) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/item/cls`, data),
     getItems: async (store, data) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/item`, data),
+    getItem: async (store, itemSn) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/item/${itemSn}`),
   }
 }
 
 
-async function apiInit(store, method, contentType = 'form', apiGroup = 'sys', route, data, showErrMsg = true) {
+async function apiInit(store, method, contentType = 'form', moduleType = 'sys', route, data, showErrMsg = true) {
   var headers = {}
+
+  var url = `http://${apiHost}/${apiModule[moduleType]}/api/${route}`
   if(contentType === "json") {
     headers["Content-Type"] = "application/json"
-    // data = JSON.stringify(data)
   }else if(contentType === "multi") {
     headers["Content-Type"] = "multipart/form-data"
   }else {
     headers["Content-Type"] = "application/x-www-form-urlencoded"
-    // data = Qs.stringify(data)
-    // url+= `?${data}`
+    if(method === 'GET') {
+      url+= `?${Qs.stringify(data)}`
+    }else {
+      data = Qs.stringify(data)
+    }
   }
-
-  
-
-  var url = `http://${apiHost}/${apiPath[apiGroup]}/${route}`
-  
-  if(method === 'GET') {
-    console.log(data)
-    url+= `?${Qs.stringify(data)}`
-  }
-
   store.commit('pushLoadingApi', url)
 
   var res = await axios({

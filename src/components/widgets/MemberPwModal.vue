@@ -6,7 +6,7 @@
         <form>
             <div class="form-group">
                 <label>原密碼</label>
-                <input type="text" v-model="formData.oldPw">
+                <input type="password" v-model="formData.oldPw">
                 <p class="error" v-if="$v.formData.$dirty && !$v.formData.oldPw.required">此為必填</p>
             </div>
             <div class="form-group">

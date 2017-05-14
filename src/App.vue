@@ -163,7 +163,7 @@
       ])
     },
     mounted() {
-      this.onCheckLogin()
+      this.checkLoginStatus()
       this.getStoreList()
       this.getGeo()
 
@@ -174,7 +174,7 @@
         'setAlertMsg',
       ]),
       ...mapActions([
-        'onCheckLogin',
+        'checkLoginStatus',
         'onLogout',
         'getStoreList',
         'polling',

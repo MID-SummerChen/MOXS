@@ -6,12 +6,13 @@ import router from './router'
 import store from './store'
 import Vuetify from 'vuetify'
 import ElementUI from 'element-ui'
+import locale from 'element-ui/lib/locale/lang/zh-TW'
 import Vuelidate from 'vuelidate'
 import moment from 'moment'
 require('vuetify/dist/vuetify.min.css')
 
 Vue.use(Vuetify)
-Vue.use(ElementUI)
+Vue.use(ElementUI, { locale })
 Vue.use(Vuelidate)
 
 Vue.config.productionTip = false

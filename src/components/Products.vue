@@ -20,11 +20,11 @@
               <div class="img-wrap">
               </div>
               <div class="card-content">
-                <div>
+                <div class="card-content-title">
                   <p class="title">{{t.desc}}</p>
                   <p class="dollar">$180</p>
                 </div>
-                <div class="icon-plus"  @click="controlModal({target: 'product', boo: true})"></div>
+                <div class="icon-plus"  @click="onClickItem(t.sn)"></div>
               </div>
             </el-card>
           </el-col>
@@ -70,11 +70,13 @@
     },
     methods: {
       ...mapMutations([
-        'controlModal'
+        'controlModal',
+        'gotProductData',
       ]),
       ...mapActions([
         'getItems',
         'getItemsCls',
+        'getItem',
       ]),
       updateItems() {
         this.currentClsId = ""
@@ -104,6 +106,13 @@
         var res = await this.getItems(data)
         if(res.code === 10) {
           this.items = res.data.items
+        }
+      },
+      async onClickItem(itemSn) {
+        var res = await this.getItem(itemSn)
+        if(res.code === 10) {
+          this.gotProductData(res.data)
+          this.controlModal({target: 'product', boo: true})
         }
       },
       toNextCls(clsId, clsLevel) {

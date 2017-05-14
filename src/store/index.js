@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import api from './modules/api'
 import modal from './modules/modal'
 import alertBox from './modules/modals/alertBox'
+import productModal from './modules/modals/productModal'
 
 
 Vue.use(Vuex)
@@ -12,9 +13,10 @@ export default new Vuex.Store({
     api,
     modal,
     alertBox,
+    productModal,
   },
   state: {
-    isLogin: false,
+    isLogin: null,
     account: {}
   },
   getters: {
@@ -30,15 +32,15 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async onCheckLogin({ state, commit, dispatch, rootState }) {
+    async checkLoginStatus({ state, commit, dispatch, rootState }) {
       var res = await dispatch('checkLogin')
       if(res.code === 10) {
         commit('switchLoginStatus', true)
-        commit('gotAccount', res.data.mb)
+        commit('gotAccount', res.data)
       }else {
         commit('switchLoginStatus', false)
       }
-      return
+      return res
     },
     async onLogout({ state, commit, dispatch, rootState }) {
       var res = await dispatch('logout')

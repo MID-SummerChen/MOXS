@@ -203,9 +203,12 @@ export default {
         if(res.code === 10) {
           var res2 = await this.login(data.ac)
           if(res2.code === 10) {
-            this.setAlertBox({msg: "註冊成功！"})
             this.controlModal({target: 'login', boo: false})
-            this.displayAlertBox(true)
+            this.$message({
+              message: '註冊成功！',
+              type: 'success'
+            });
+            this.checkLoginStatus()
           }
         }
       }

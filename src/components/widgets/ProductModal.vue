@@ -8,15 +8,15 @@
         <div class="img-wrap">
           <img src="/static/imgs/food03.jpg" alt="">
         </div>
-        <h5>起司牛奶鍋</h5>
+        <h5>{{product.desc}}</h5>
+        <!--{{product}}-->
         <div class="btn-wrap">
           <button class="my-btn t1" :class="{active: currentTab === 1}" @click="currentTab = 1">餐點介紹</button>
           <button class="my-btn t1" :class="{active: currentTab === 2}" @click="currentTab = 2">餐點預定</button>
         </div>
         <div class="content">
           <template v-if="currentTab === 1">
-            起司牛奶鍋起司牛奶鍋起司牛奶鍋起司牛奶鍋起司牛奶鍋起司牛奶鍋起司牛奶鍋，起司牛奶鍋起司牛奶鍋起司牛奶鍋起司牛奶鍋起司牛奶鍋，起司牛奶鍋起司牛奶鍋起司牛奶鍋，
-            起司牛奶鍋起司牛奶鍋起司牛奶鍋起司牛奶鍋起司牛奶鍋起司牛奶鍋，起司牛奶鍋起司牛奶鍋起司牛奶鍋起司牛奶鍋，起司牛奶鍋起司牛奶鍋起司牛奶鍋。
+            {{product.intro}}
           </template>
           <template v-else>
             <div class="selector-t2"><span>價格：</span> <span>大390元</span><i class="el-icon-arrow-down"></i></div>
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-  import { mapGetters, mapActions, mapMutations } from 'vuex'
+  import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
   export default {
     name: 'ProductModal',
     data() {
@@ -68,7 +68,10 @@
     },
     computed: {
       ...mapGetters([
-      ])
+      ]),
+      ...mapState({
+        product: state => state.productModal.product
+      })
     },
     methods: {
       ...mapMutations([

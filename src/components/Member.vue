@@ -61,6 +61,7 @@ export default {
     }
   },
   mounted() {
+    this.limitedPageCheck()
   },
   computed: {
     ...mapGetters([
