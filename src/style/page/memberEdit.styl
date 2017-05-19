@@ -5,109 +5,146 @@
         padding-top: 60px
         @media(max-width: ipad-media)
             background-color: #fff
+    .toolbar
+        position fixed
+        background-color #fff
+        border-bottom: 1px solid #ddd
+        box-shadow none
+        height 58px
+        @media screen and (max-width 991px)
+            background-color: #333
+        .btn
+            color: #fff
+        .toolbar__logo
+            font-size 35px
+            padding-top: 13px
+            display none
+            @media screen and (max-width 991px)
+                display inline-block
+
+
     .main-content 
-        padding-top: 30px
+        padding-top: 100px
         @media(max-width: ipad-media)
             padding-top: 20px
+            
 
     .paper
-        display: flex 
-        flex-direction: column
-        .paper-top-bar 
-            background-color: #555
-            margin: -30px -30px 50px -30px
-            height: 40px
-            display: flex 
-            align-items: center
-            justify-content: flex-end
-            padding: 0 20px
-            @media(max-width: ipad-media)
-                display: none
-
-        .paper-content
-            flex-grow: 1
+        &:after 
+            content: ""
+            clear: both 
+            display: table
+        padding: 0
+        min-height: calc(100vh - 300px)
+        height: calc(100vh - 300px)
+        @media(max-width: mobile-media)
+            height: auto
+            margin: 0 -20px
+            width: 100vw
         .left
+            float: left 
+            width: 40%
             display: flex 
             flex-direction: column
             align-items: center
+            background-color: brand-color2
+            background-image: linear-gradient(brand-color1, brand-color2)
+            color: #fff
+            padding: 20px 
+            padding-top: 100px
+            height: 100%
+            @media(max-width: mobile-media)
+                width: 100%
+                padding: 30px 0
+
 
             .img-wrap 
                 margin-bottom: 20px
                 border-radius: 50% 
-                height: 60px
-                width: 60px
+                height: 100px
+                width: 100px
                 background-size: cover 
                 background-position: center center
                 @media(max-width: mobile-media)
                     width: 120px
                     height: 120px
+            p 
+                margin: 2px 0
+            .btns 
+                margin-top: 30px
+                .my-btn
+                    margin: 0 5px
+                    border: 1px solid #fff
+                    color: #fff
+                    padding: 6px 12px
+                    font-size: 13px
                 
 
         .right 
+            float: left 
+            width: 60%
+            @media(max-width: mobile-media)
+                width: 100%
+                padding-left: 0
+                padding: 0 20px
             padding-left: 60px
-            .top-info 
-                .form-group 
-                    margin-top: 10px
-                    margin-bottom: 25px
-                    font-weight: bold
-                    @media(max-width: mobile-media)
-                        margin: 30px 0
-                    label 
-                        font-weight: bold
-                    p 
-                        margin-top: 5px
-                .form-group-inline 
-                    display: flex
-                    align-items: center
-                    @media(max-width: mobile-media)
-                        margin: 30px 0
-                    label   
-                        margin-right: 10px
-                        font-weight: bold
-                    input 
-                        width: 120px
-                        @media(max-width: mobile-media)
-                            height: 38px
-                    > span
-                        align-items: center
-                        margin-right: 10px
-                        display: flex 
-                        @media(max-width: mobile-media)
-                            &:nth-of-type(1) input
-                                width: 50px
-                            &:nth-of-type(2) input
-                                width: 70px
-                        .selector 
-                            width: 130px
-                            @media(max-width: mobile-media)
-                                width: 80px
-                                height: 38px
+            display: flex 
+            flex-direction: column
+            height: 100%
+            
                             
             h5 
                 font-size: 16px 
                 padding-bottom: 3px 
                 margin-top: 30px 
                 color: #666 
-                border-bottom: 1px solid #ccc
-                margin-bottom: 35px
                 font-weight: bold
             form 
+                flex-grow: 1
+                margin: 0 -10px
                 .form-group 
                     display: flex 
                     margin: 20px 0
                     margin-right: 50px
                     align-items: flex-start
+                    flex-wrap: wrap
+                    @media(max-width: mobile-media)
+                        margin-right: 0
                     label 
-                        width: 80px
-                        text-align: right
-                        padding: 0 20px
+                        width: 60px
                         padding-top: 5px
                         font-weight: bold
-                    input
-                        width: 100%
-                .el-row 
-                    width: 100%
-                    .selector 
-                        margin-bottom: 20px
+                        text-align: center
+                        @media(max-width: mobile-media)
+                            width: 50px
+                    .form-content-static
+                        width: calc(100% - 60px)
+                        padding-top: 5px
+                    .form-content
+                        width: calc(100% - 60px)
+                        input 
+                            width: 100%
+                            padding: 0
+                        label
+                            padding: 0 10px
+                            @media(max-width: mobile-media)
+                                padding: 0
+                        .form-inline-content
+                            display: inline-block
+                            > input 
+                                width: 60px
+                                @media(max-width: mobile-media)
+                                    width: 50px
+                            .el-select
+                                width: 70px
+
+            .btn-wrap
+                margin: 0
+                margin-right: 50px
+                padding-bottom: 30px
+                @media(max-width: mobile-media)
+                    margin-right: 0
+                    margin-top: 30px
+
 
                         

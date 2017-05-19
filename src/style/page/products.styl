@@ -3,11 +3,24 @@
   main > .content
     background-color: #f8f8f8
     padding-top: 60px
-  .toolbar.trans-dark
-    background-color #f8f8f8
-    border-bottom: 1px solid #ccc
+  
+  .toolbar
+    position fixed
+    background-color #fff
+    border-bottom: 1px solid #ddd
+    box-shadow none
+    height 58px
+    @media screen and (max-width 991px)
+        background-color: #333
     .btn
-      color: #333
+        color: #fff
+    .toolbar__logo
+        font-size 35px
+        padding-top: 13px
+        display none
+        @media screen and (max-width 991px)
+            display inline-block
+
 
   .category-btn-group
     padding-top: 20px
@@ -84,6 +97,10 @@
             color: main-color
             font-size: 14px
             letter-spacing 3px
+            text-overflow: ellipsis
+            // width: 100%
+            white-space: nowrap
+            overflow: hidden
           .dollar
             color: #666
             font-weight: bold

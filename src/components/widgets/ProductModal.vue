@@ -8,7 +8,7 @@
         <div class="img-wrap">
           <img src="/static/imgs/food03.jpg" alt="">
         </div>
-        <h5>{{product.desc}}</h5>
+        <h5>{{product.name}}</h5>
         <!--{{product}}-->
         <div class="btn-wrap">
           <button class="my-btn t1" :class="{active: currentTab === 1}" @click="currentTab = 1">餐點介紹</button>
@@ -16,7 +16,7 @@
         </div>
         <div class="content">
           <template v-if="currentTab === 1">
-            {{product.intro}}
+            {{product.desc}}
           </template>
           <template v-else>
             <div class="selector-t2"><span>價格：</span> <span>大390元</span><i class="el-icon-arrow-down"></i></div>

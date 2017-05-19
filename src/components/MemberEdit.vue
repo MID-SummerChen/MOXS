@@ -9,88 +9,105 @@
             </div>
             <div class="main-content">
                 <div class="paper">
-                    <div class="paper-top-bar">
-                        <div class="icon icon-store-title"></div>
+                    <div class="left">
+                        <div v-if="memPicSrc" class="img-wrap" :style="'background-image: url(' + memPicSrc  +')'"></div>
+                        <div v-else class="img-wrap"
+                             style="background-image: url('/static/imgs/food01.jpg')"></div>
+                        <p>{{form.email}}</p>
+                        <p>{{account.mb.name}} 女士</p>
+                        <div class="btns">
+                            <button v-if="!editMode"
+                                    class="my-btn"
+                                    @click="editMode = true">編輯帳戶</button>
+                            <button class="my-btn"
+                                    @click="triggerFileSelector">更新相片</button>
+                            <button class="my-btn"
+                                    @click="controlModal({target: 'memberPw', boo: true})">變更密碼</button>
+                        </div>
+                        <input ref="fileSelector"
+                               v-show="false"
+                               type="file"
+                               @change="onUpload">
                     </div>
-                    <el-row :gutter="40" class="paper-content">
-                        <el-col :sm="6" class="left">
-                            <div class="img-wrap" :style="'background-image: url(' + memPicSrc  +')'"></div>
-                            <button class="btn-t2" @click="triggerFileSelector">更新相片</button>
-                            <input ref="fileSelector" v-show="false" type="file" @change="onUpload">
-                        </el-col>
-                        <el-col :sm="18"
-                                class="right">
-                            <div class="top-info">
-                                <div class="form-group">
-                                    <!--{{account}}-->
-                                    <label>E-MAIL帳號</label>
-                                    <p>{{form.email}}</p>
-                                </div>
-                                <div class="form-group-inline">
-                                    <span>
-                                        <label>姓</label>
-                                        <input type="text" v-model="form.lastName">
-                                    </span>
-                                    <span>
-                                        <label>名</label>
-                                        <input type="text" v-model="form.firstName">
-                                    </span>
-                                    <span>
-                                        <label>稱謂</label>
+                    <div class="right">
+                        <h5>帳戶資訊</h5>
+                        <form>
+                            <div v-if="editMode" class="form-group">
+                                <label>姓</label>
+                                <div class="form-content">
+                                    <div class="form-inline-content">
+                                        <input type="text"
+                                            v-model="form.lastName">
+                                    </div>
+                                    <label>名</label>
+                                    <div class="form-inline-content">
+                                        <input type="text"
+                                            v-model="form.firstName">
+                                    </div>
+                                    <label>稱謂</label>
+                                    <div class="form-inline-content">
                                         <el-select v-model="form.gender">
-                                            <el-option
-                                            v-for="o in genderOpts"
-                                            :label="o.label"
-                                            :value="o.value">
+                                            <el-option v-for="o in genderOpts"
+                                                    :label="o.label"
+                                                    :value="o.value">
                                             </el-option>
                                         </el-select>
-                                    </span>
+                                    </div>
                                 </div>
+    
                             </div>
-    
-                            <h5>聯絡資訊</h5>
-                            <form>
-                                <div class="form-group">
-                                    <label>手機</label>
-                                    <input type="text" v-model="form.cell">
+                            <div class="form-group">
+                                <label>生日</label>
+                                <div v-if="editMode" class="form-content">
+                                    <input type="text"
+                                           v-model="form.birth">
                                 </div>
-                                <div class="form-group">
-                                    <label>住址</label>
-                                    <el-row :gutter="20">
-                                        <el-col :sm="8">
-                                            <el-select v-model="form.city">
-                                                <el-option
-                                                v-for="o in cityOpts"
-                                                :label="o.value"
-                                                :value="o.value">
-                                                </el-option>
-                                            </el-select>
-                                        </el-col>
-                                        <el-col :sm="8">
-                                            <el-select v-model="form.area">
-                                                <el-option
-                                                v-for="o in areaOpts"
-                                                :label="o.value"
-                                                :value="o.value">
-                                                </el-option>
-                                            </el-select>
-                                        </el-col>
-                                        <el-col :sm="24">
-                                            <div style="margin-top: 10px"></div>
-                                            <input type="text" v-model="form.addr">
-                                        </el-col>
+                                <div v-else class="form-content-static">{{form.birth}}</div>
     
-                                    </el-row>
+                            </div>
+                            <div class="form-group">
+                                <label>手機</label>
+                                <div v-if="editMode" class="form-content">
+                                    <input type="text"
+                                           v-model="form.cell">
                                 </div>
-                            </form>
-                        </el-col>
+                                <div v-else class="form-content-static">{{form.cell}}</div>
     
-                    </el-row>
+                            </div>
+                            <div class="form-group">
+                                <label>住址</label>
+                                <div v-if="editMode" class="form-content">
+                                    <div>
+                                        <el-select v-model="form.city"
+                                                   style="width: 100px">
+                                            <el-option v-for="o in cityOpts"
+                                                       :label="o.value"
+                                                       :value="o.value">
+                                            </el-option>
+                                        </el-select>
+                                        <el-select v-model="form.area"
+                                                   style="width: 100px">
+                                            <el-option v-for="o in areaOpts"
+                                                       :label="o.value"
+                                                       :value="o.value">
+                                            </el-option>
+                                        </el-select>
+                                    </div>
+                                    <div style="margin-top: 20px">
+                                        <input type="text"
+                                               v-model="form.addr">
+                                    </div>
+                                </div>
+                                <div v-else class="form-content-static">{{form.city}}{{form.area}}{{form.addr}}</div>
     
-                    <div class="btn-wrap">
-                        <a href="">取消</a>
-                        <a href=""
-                           class="text-blue" @click.prevent="onSubmit">儲存</a>
+                            </div>
+                        </form>
+                        <div v-if="editMode" class="btn-wrap">
+                            <a href="" @click.prevent="editMode = false">取消</a>
+                            <a href=""
+                            class="text-blue" @click.prevent="onSubmit">儲存</a>
+                        </div>
+    
                     </div>
     
                 </div>
@@ -107,7 +124,7 @@ import eventHub from '@/utils/eventHub'
 import commonMixin from '@/utils/commonMixin'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 export default {
-    name: 'Products',
+    name: 'MemberEdit',
     mixins: [commonMixin],
     components: {
         HeaderCpt: Header,
@@ -117,6 +134,7 @@ export default {
         return {
             limitedPage: true,
             memPicSrc: "",
+            editMode: false,
             form: {
                 lastName: "",
                 firstName: "",
@@ -124,6 +142,7 @@ export default {
                 cell: "",
                 city: "",
                 area: "",
+                birth: "",
                 addr: "",
                 email: "",
                 ac: {
@@ -131,17 +150,17 @@ export default {
                 }
             },
             genderOpts: [
-                {label: "女士", value: "FEMALE"},
-                {label: "先生", value: "MALE"},
+                { label: "女士", value: "FEMALE" },
+                { label: "先生", value: "MALE" },
             ],
             cityOpts: [
-                {value: "台中"},
+                { value: "台中" },
             ],
             areaOpts: [
-                {value: "南區"},
-                {value: "北區"},
-                {value: "東區"},
-                {value: "西區"},
+                { value: "南區" },
+                { value: "北區" },
+                { value: "東區" },
+                { value: "西區" },
             ]
         }
     },
@@ -163,7 +182,7 @@ export default {
             'checkLoginStatus',
         ]),
         setData() {
-            if(this.account.mb) {
+            if (this.account.mb) {
                 this.form.email = this.account.mb.email
                 this.form.lastName = this.account.mb.lastName || ""
                 this.form.firstName = this.account.mb.firstName || ""
@@ -171,9 +190,10 @@ export default {
                 this.form.area = this.account.mb.area || ""
                 this.form.addr = this.account.mb.addr || ""
                 this.form.cell = this.account.mb.cell || ""
+                this.form.birth = this.account.mb.birth || ""
                 this.form.ac.resId = this.account.resId || ""
-                this.memPicSrc = `http://${this.apiHost}/${this.apiModule.sys}${this.account.resUrl}` || ""
-            }else {
+                this.memPicSrc = this.account.resUrl ? `http://${this.apiHost}/${this.apiModule.sys}${this.account.resUrl}` : ""
+            } else {
                 setTimeout(this.setData, 500)
             }
         },
@@ -186,14 +206,14 @@ export default {
             var data = new FormData()
             data.append('file', e.target.files[0])
             var res = await this.memImgUpload(data)
-            if(res.code === 10) {
+            if (res.code === 10) {
                 this.$message({
                     message: '圖片上傳成功',
                     type: 'success'
                 });
                 this.memPicSrc = `http://${this.apiHost}/${this.apiModule.sys}${res.data.url}`
                 this.form.ac.resId = res.data.id
-                
+
             }
 
         },
@@ -205,11 +225,12 @@ export default {
                 ...this.form,
             }
             var res = await this.updateMember(data)
-            if(res.code === 10) {
+            if (res.code === 10) {
                 this.$message({
                     message: '更新成功',
                     type: 'success'
                 });
+                this.editMode = false
             }
         }
     }

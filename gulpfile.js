@@ -42,9 +42,10 @@ gulp.task('fonts', () => {
 
 gulp.task('clean', function() {
   return del([
-    'dist/static/bower',
-    'dist/static/demo_data',
+    'dist/static/plugins',
     'dist/static/css/**/*',
+    '!dist/static/css/sprite.css',
+    '!dist/static/css/sprite.png',
     '!dist/static/css/combined.css',
     '!dist/static/css/app.*.{css,map}',
     'dist/static/js/**/*',

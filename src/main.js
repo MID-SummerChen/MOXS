@@ -10,6 +10,7 @@ import locale from 'element-ui/lib/locale/lang/zh-TW'
 import Vuelidate from 'vuelidate'
 import moment from 'moment'
 require('vuetify/dist/vuetify.min.css')
+require(`../theme/index.css`)
 
 Vue.use(Vuetify)
 Vue.use(ElementUI, { locale })
@@ -43,7 +44,7 @@ async function entry() {
 
   var res = await $.get("/static/theme.json");
 
-  require(`../${res.current_theme}/index.css`)
+  
   require(`./style/${res.current_theme}.styl`)
   
 

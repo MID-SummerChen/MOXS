@@ -12,7 +12,8 @@ content-width = 280px
     width 100%
     height: 100%
     margin auto
-    background-color main-color
+    background-color #029BBC
+    background-image: linear-gradient(#00C0B9, #029BBC)
     color #fff
     justify-content: center
     align-items: center
@@ -67,8 +68,9 @@ content-width = 280px
           position: absolute
           line-height: 52px
           margin-left: 10px
+          color: #fff
         input
-          background-color: #a74e2e
+          background-color: darken(#01B1BA, 20%)
           box-shadow: inset 0 0 2px rgba(#000, 0.2)
           width: content-width
           height: 52px
@@ -76,8 +78,11 @@ content-width = 280px
           font-weight: bold
           outline: none
           &:-webkit-autofill 
-            -webkit-box-shadow: 0 0 0px 1000px #a74e2e inset
+            -webkit-box-shadow: 0 0 0px 1000px darken(#029BBC, 20%) inset
             -webkit-text-fill-color: #fff !important
+
+        input[type="text"]
+          border: 0
         
       button
         width: content-width
@@ -88,15 +93,15 @@ content-width = 280px
         font-weight: bold
         outline: none
         &.signup 
-          background-color: lighten(#ff7f50, 2%)
+          background-color: lighten(#00C0B9, 2%)
           letter-spacing: 4px
           &:active,&:focus
-            background-color: darken(#ff7f50, 5%)
+            background-color: darken(#00C0B9, 5%)
         &.signin 
-          background-color: lighten(#ff7f50, 2%)
+          background-color: lighten(#00C0B9, 2%)
           letter-spacing: 2px
           &:active,&:focus
-            background-color: darken(#ff7f50, 5%)
+            background-color: darken(#00C0B9, 5%)
         &.fb 
           background-color: #3b5998
           &:active,&:focus

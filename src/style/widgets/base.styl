@@ -1,0 +1,61 @@
+.clearfix
+  &:after 
+    clear: both 
+    content: ""
+    display: table
+
+*
+  box-sizing: border-box
+p, h1, h2, h3, h4, h5, h6
+  margin: 0
+
+body
+  background-color #333
+  font-family '微軟正黑體'
+
+.with.top-toolbar main
+  min-height 100vh
+  >.content
+    padding: 40px
+    padding-top: 0
+    @media(max-width: ipad-media)
+      padding: 20px
+
+.form-group 
+  p.error 
+    padding: 3px 10px
+    color: #fff
+  
+main > .content 
+  background-color #f8f8f8
+  @media(max-width: mobile-media)
+    background-color: #fff
+
+.main-content
+  padding-top: 40px + 58px
+.paper
+  width: 800px 
+  min-height: calc(100vh - 150px)
+  margin: 0 auto
+  background-color: #fff 
+  box-shadow: 0 0 5px rgba(#000, 0.1)
+  padding: 30px
+  @media(max-width: 1024px)
+    width: 100%
+  @media(max-width: mobile-media)
+    box-shadow: none
+    padding: 0
+  .btn-wrap 
+    margin-top: 60px
+    display: flex 
+    justify-content: flex-end
+    a 
+      text-decoration: none 
+      color: #000
+      font-weight: bold 
+      font-size: 16px
+      margin-left: 30px 
+      &.text-blue 
+        color: main-blue
+      &.text-rose
+        color: main-pink
