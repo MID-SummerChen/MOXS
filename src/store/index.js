@@ -17,7 +17,12 @@ export default new Vuex.Store({
   },
   state: {
     isLogin: null,
-    account: {}
+    account: {},
+    menu: {},
+    org: {},
+    sev: {},
+    imgs: {},
+    colors: {},
   },
   getters: {
     isLogin: state => state.isLogin,
@@ -29,7 +34,14 @@ export default new Vuex.Store({
     },
     gotAccount(state, account) {
       state.account = account
-    }
+    },
+    gotConfig(state, res) {
+      state.menu = res.modules_config
+      state.org = res.organization
+      state.sev = res.service
+      state.imgs = res.sev_theme_res
+      state.colors = res.sev_theme
+    },
   },
   actions: {
     async checkLoginStatus({ state, commit, dispatch, rootState }) {

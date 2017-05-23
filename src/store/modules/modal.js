@@ -1,4 +1,4 @@
-
+var noScrollModals = ['product', 'checkout']
 export default {
   state: {
     alertBox: false,
@@ -12,12 +12,16 @@ export default {
     storeMap: false,
     phoneVerify: false,
     newsDetail: false,
+    noScroll: false,
   },
   getters: {
   },
   mutations: {
     controlModal(state, {target, boo, timeout = false}) {
       state[target] = boo
+      if(noScrollModals.indexOf(target) > -1) {
+        state.noScroll = boo
+      }
       if(timeout) {
         setTimeout(() => {
           state[target] = false

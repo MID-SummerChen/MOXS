@@ -78,8 +78,10 @@
           var res = await this.updatePw(data)
           if(res.code === 10) {
             this.controlModal({target: "memberPw", boo: false})
-            this.setAlertBox({msg: "更新密碼成功"})
-            this.displayAlertBox(true)
+            this.$message({
+                message: '密碼更新成功',
+                type: 'success'
+            });
           }
         }
         

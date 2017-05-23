@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :class="{noScroll: noScroll}">
     <transition name="slide">
       <cart v-if="cart"></cart>
     </transition>
@@ -156,6 +156,7 @@
         newsDetail: state => state.modal.newsDetail,
         storeMap: state => state.modal.storeMap,
         cart: state => state.modal.cart,
+        noScroll: state => state.modal.noScroll,
         alertBox: state => state.alertBox.display,
         isLogin: state => state.isLogin,
       }),
@@ -172,6 +173,7 @@
       ...mapMutations([
         'controlModal',
         'setAlertMsg',
+        'gotConfig',
       ]),
       ...mapActions([
         'checkLoginStatus',
@@ -185,6 +187,12 @@
         console.log(res)
         if(res.code === 10) {
           this.$router.push({name: 'Home'})
+        }
+      },
+      async getConfig() {
+        var res = await this.polling()
+        if(res.code === 10) {
+          
         }
       }
     }

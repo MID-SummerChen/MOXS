@@ -14,7 +14,7 @@
                         <div v-else class="img-wrap"
                              style="background-image: url('/static/imgs/food01.jpg')"></div>
                         <p>{{form.email}}</p>
-                        <p>{{account.mb.name}} 女士</p>
+                        <p>{{account.mb.lastName}} {{account.mb.firstName}} {{toGender(account.mb.gender)}}</p>
                         <div class="btns">
                             <button v-if="!editMode"
                                     class="my-btn"
@@ -181,6 +181,10 @@ export default {
             'memImgUpload',
             'checkLoginStatus',
         ]),
+        toGender(val) {
+          var i = this.genderOpts.findIndex(opt => opt.value === val)
+          return i > -1 ? this.genderOpts[i].label : ""
+        },
         setData() {
             if (this.account.mb) {
                 this.form.email = this.account.mb.email
