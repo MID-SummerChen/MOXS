@@ -12,6 +12,7 @@ import moment from 'moment'
 require('vuetify/dist/vuetify.min.css')
 require(`../theme/index.css`)
 
+
 Vue.use(Vuetify)
 Vue.use(ElementUI, { locale })
 Vue.use(Vuelidate)

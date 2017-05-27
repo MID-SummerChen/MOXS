@@ -15,10 +15,10 @@
                     <div style="margin-top: 20px"></div>
                     <el-row :gutter="30">
                         <el-col :sm="8"
-                                v-for="n in 4">
+                                v-for="store in storeList">
                             <div class="box">
                                 <div class="icon-location"></div>
-                                <h5>商店名稱商店</h5>
+                                <h5>{{store.name}}</h5>
                                 <p class="small">台中市北區繼光街199號2F</p>
                                 <p class="small">04-12345678</p>
                                 <p class="small">08:00 ~ 21:00</p>
@@ -51,9 +51,22 @@ export default {
     },
     data() {
         return {
+            storeList: []
         }
     },
     mounted() {
+        this._getStoreList()
+    },
+    methods: {
+        ...mapActions([
+            'getStoreList'
+        ]),
+        async _getStoreList() {
+            var res = await this.getStoreList()
+            if(res.code === 10) {
+                this.storeList = res.data.items
+            }
+        }
     }
 }
 

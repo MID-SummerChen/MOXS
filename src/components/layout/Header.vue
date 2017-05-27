@@ -1,11 +1,23 @@
 <template>
   <header>
-    <v-toolbar class="trans-dark">
+    <v-toolbar :fixed="true">
       <v-toolbar-side-icon class="hidden-md-and-up" @click.native.stop="$parent.showSidebar = !$parent.showSidebar" />
-      <v-toolbar-logo><div class="icon-logo"></div></v-toolbar-logo>
+      <v-toolbar-logo>
+        <div class="icon-logo"></div>
+      </v-toolbar-logo>
       <v-spacer />
-      <v-btn icon dark>
+      <v-btn :ripple="false">
+        <v-icon>today</v-icon>
+        預約點餐
+      </v-btn>
+      <v-btn :ripple="false">
         <v-icon>account_circle</v-icon>
+        {{account.mb ? account.mb.lastName + account.mb.firstName : ''}}
+        <div class="headerSubMenu">
+          <p>aveeee</p>
+          <p>aveeee</p>
+          <p>aveeee</p>
+        </div>
       </v-btn>
     </v-toolbar>
   </header>
@@ -21,13 +33,11 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'isShowSidebar'
+      'account'
     ])
   },
   methods: {
     ...mapMutations([
-      'controlQRCodeModal',
-      'controlSidebar'
     ])
   }
 }

@@ -25,46 +25,54 @@
       <div class="page" :id="$route.name">
         <header>
           <v-toolbar :fixed="true">
-            <v-toolbar-side-icon class="hidden-md-and-up" @click.native.stop="showSidebar = !showSidebar" />
+            <v-toolbar-side-icon :ripple="false" class="hidden-md-and-up" @click.native.stop="showSidebar = !showSidebar" />
             <!--<v-toolbar-logo>
-              <div class="icon-logo"></div>
-            </v-toolbar-logo>
+              <img v-if="imgs.logoDarkWImg" :src="getLogoImg()" alt="">
+            </v-toolbar-logo>-->
             <v-spacer />
-            <v-btn icon dark>
-              <v-icon>account_circle</v-icon>
+            <v-btn :ripple="false">
+              <v-icon>today</v-icon>
+              <span class="toolbar-icon-title">預約點餐</span>
             </v-btn>
-            <v-btn icon dark>
-              <v-icon>favorite</v-icon>
-            </v-btn>-->
+            <v-btn v-if="isLogin" :ripple="false">
+              <v-icon>account_circle</v-icon>
+              <span class="toolbar-icon-title">{{account.mb ? account.mb.lastName + account.mb.firstName : '訪客'}}</span>
+              <div class="headerSubMenu">
+                <router-link :to="{name: 'Member'}">會員中心</router-link>
+                <a href="" @click.prevent="_onLogout">登   出</a>
+              </div>
+            </v-btn>
           </v-toolbar>
         </header>
         <main>
           <v-sidebar fixed v-model="showSidebar">
-            <div class="icon-logo"></div>
+            <router-link to="/" class="logo">
+              <img v-if="imgs.logoDarkWImg" :src="getLogoImg()" alt="">
+            </router-link>
             <v-list>
-              <v-list-item>
+              <v-list-item v-if="menu.ITEM">
                 <v-list-tile ripple>
-                  <router-link :to="{name: 'Products'}">餐點瀏覽</router-link>
+                  <router-link :to="{name: 'Products'}">{{menu.ITEM.TITLE}}</router-link>
+                </v-list-tile>
+              </v-list-item>
+              <!--<v-list-item v-if="menu.RESV">
+                <v-list-tile ripple>
+                  <router-link :to="{name: 'Products'}">{{menu.RESV.TITLE}}</router-link>
+                </v-list-tile>
+              </v-list-item>-->
+              <v-list-item>
+                <v-list-tile v-if="menu.NEWS" ripple>
+                  <router-link :to="{name: 'News'}">{{menu.NEWS.TITLE}}</router-link>
                 </v-list-tile>
               </v-list-item>
               <v-list-item>
-                <v-list-tile ripple>
-                  <router-link :to="{name: 'Products'}">訂位點餐</router-link>
+                <v-list-tile v-if="menu.INFO" ripple>
+                  <router-link :to="{name: 'Info'}">{{menu.INFO.TITLE}}</router-link>
                 </v-list-tile>
               </v-list-item>
-              <v-list-item>
+              <v-list-item v-if="isLogin && menu.ACCOUNT">
                 <v-list-tile ripple>
-                  <router-link :to="{name: 'News'}">動態消息</router-link>
-                </v-list-tile>
-              </v-list-item>
-              <v-list-item>
-                <v-list-tile ripple>
-                  <router-link :to="{name: 'Info'}">商店資訊</router-link>
-                </v-list-tile>
-              </v-list-item>
-              <v-list-item v-if="isLogin">
-                <v-list-tile ripple>
-                  <router-link :to="{name: 'Member'}">會員中心</router-link>
+                  <router-link :to="{name: 'Member'}">{{menu.ACCOUNT.TITLE}}</router-link>
                 </v-list-tile>
               </v-list-item>
               <v-list-item>
@@ -75,10 +83,9 @@
               <v-list-item>
                 <v-divider light />
               </v-list-item>
-              <v-list-item>
+              <v-list-item v-if="!isLogin">
                 <v-list-tile ripple>
-                  <a v-if="!isLogin" @click="controlModal({target: 'login', boo: true})">會員登入</a>
-                  <a v-else @click="_onLogout">會員登出</a>
+                  <a @click="controlModal({target: 'login', boo: true})">會員登入</a>
                 </v-list-tile>
               </v-list-item>
 
@@ -159,15 +166,18 @@
         noScroll: state => state.modal.noScroll,
         alertBox: state => state.alertBox.display,
         isLogin: state => state.isLogin,
+        menu: state => state.menu,
+        imgs: state => state.imgs,
       }),
       ...mapGetters([
+        'account',
+        'apiHost',
+        'apiModule',
       ])
     },
     mounted() {
       this.checkLoginStatus()
-      this.getStoreList()
-      this.getGeo()
-
+      this._getConfig()
     },
     methods: {
       ...mapMutations([
@@ -178,21 +188,23 @@
       ...mapActions([
         'checkLoginStatus',
         'onLogout',
-        'getStoreList',
-        'polling',
-        'getGeo',
+        'getConfig',
       ]),
+      getLogoImg() {
+        return `http://${this.apiHost}/${this.apiModule.sys}/${this.imgs.logoDarkWImg}`
+      },
       async _onLogout() {
         var res = await this.onLogout()
         console.log(res)
         if(res.code === 10) {
           this.$router.push({name: 'Home'})
+          this.checkLoginStatus()
         }
       },
-      async getConfig() {
-        var res = await this.polling()
+      async _getConfig() {
+        var res = await this.getConfig()
         if(res.code === 10) {
-          
+          this.gotConfig(res.data)
         }
       }
     }

@@ -6,37 +6,48 @@
       </div>
       
       <div class="modal-box-content">
-        <div class="btn-wrap">
-          <div class="my-btn t2" :class="{active: currentTab === 1}" @click="currentTab = 1">預約座位</div>
-          <div class="my-btn t2" :class="{active: currentTab === 2}" @click="currentTab = 2">內用點餐</div>
-          <div class="my-btn t2" :class="{active: currentTab === 3}" @click="currentTab = 3">外帶點餐</div>
-          <div class="my-btn t2" :class="{active: currentTab === 4}" @click="currentTab = 4">外送點餐</div>
-        </div>
         <el-row :gutter="20">
+          <el-col :sm="24">
+            <div class="form-group">
+              <el-select style="width: 100%; height: 50px" v-model="currentTab">
+                <el-option v-for="tab in tabs" :label="tab.label" :value="tab"></el-option>
+              </el-select>
+              <p class="tabMsg">{{currentTab.msg}}</p>
+            </div>
+          </el-col>
           <el-col :sm="24">
             <div class="form-group">
               <label>分店</label>
               <input type="text" disabled>
             </div>
           </el-col>
-          <el-col v-if="currentTab === 1 || currentTab === 2" :sm="12">
-            <div class="form-group">
-              <label>日期</label>
-              <input type="text">
-            </div>
-          </el-col>
-          <el-col :sm="currentTab === 1 || currentTab === 2 ? 12 : 24">
+          <template v-if="currentTab.value === 1">
+            <el-col :sm="6">
+              <div class="form-group">
+                <label>人數</label>
+                <input type="text">
+              </div>
+            </el-col>
+            <el-col :sm="9">
+              <div class="form-group">
+                <label>日期</label>
+                <input type="text">
+              </div>
+            </el-col>
+            <el-col :sm="9">
+              <div class="form-group">
+                <label>時間</label>
+                <input type="text">
+              </div>
+            </el-col>
+          </template>
+          <el-col v-else :sm="24">
             <div class="form-group">
               <label>時間</label>
               <input type="text">
             </div>
           </el-col>
-          <el-col v-if="currentTab === 1 || currentTab === 2" :sm="24">
-            <div class="form-group">
-              <label>人數</label>
-              <input type="text">
-            </div>
-          </el-col>
+          
           <el-col :sm="24">
             <hr class="divider">
           </el-col>
@@ -65,7 +76,7 @@
               <input type="text">
             </div>
           </el-col>
-          <el-col v-if="currentTab === 4" :sm="24">
+          <el-col v-if="currentTab.value === 3" :sm="24">
             <div class="form-group">
               <label>地址</label>
               <input type="text">
@@ -76,7 +87,7 @@
         <div class="submit-button" @click="onCartSubmit">
           確 認
         </div>
-        <div v-if="currentTab !== 1" class="sub-radio-check">
+        <div class="sub-radio-check">
           是否使用線上付款？
           <el-radio class="radio" v-model="isPayNow" :label="1">是</el-radio>
           <el-radio class="radio" v-model="isPayNow" :label="2">否</el-radio>
@@ -98,8 +109,13 @@
     name: 'CheckoutModal',
     data() {
       return {
-        currentTab: 1,
-        isPayNow: 1
+        currentTab: {},
+        isPayNow: 1,
+        tabs: [
+          {label: "內用", value: 1, msg: "內用的說明"},
+          {label: "外帶", value: 2, msg: "外帶的說明"},
+          {label: "外送", value: 3, msg: "外送的說明"},
+        ]
       }
     },
     computed: {

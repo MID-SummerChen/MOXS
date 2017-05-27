@@ -35,12 +35,12 @@ export default new Vuex.Store({
     gotAccount(state, account) {
       state.account = account
     },
-    gotConfig(state, res) {
-      state.menu = res.modules_config
-      state.org = res.organization
-      state.sev = res.service
-      state.imgs = res.sev_theme_res
-      state.colors = res.sev_theme
+    gotConfig(state, data) {
+      state.menu = data.modules_config
+      state.org = data.organization
+      state.sev = data.service
+      state.imgs = data.sev_theme_res
+      state.colors = data.sev_theme
     },
   },
   actions: {
