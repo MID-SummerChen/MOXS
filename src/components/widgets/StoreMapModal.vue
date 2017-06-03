@@ -40,10 +40,14 @@
         'controlModal'
       ]),
       async onGotMapInfo() {
+        var address = this.mapInfo.city && this.mapInfo.area && this.mapInfo.addr 
+                    ? this.mapInfo.city + this.mapInfo.area + this.mapInfo.addr 
+                    : '台中市'
         var data = {
           key: this.googleKey,
-          address: this.mapInfo.addr || '台中市南區新和街',
+          address,
         }
+        console.log(data.address)
         var res = await $.get('https://maps.googleapis.com/maps/api/geocode/json', data)
         if(res.status === 'OK') {
           var {lat, lng} = res.results[0].geometry.location

@@ -14,7 +14,7 @@
                         <div v-else class="img-wrap"
                              style="background-image: url('/static/imgs/food01.jpg')"></div>
                         <p>{{form.email}}</p>
-                        <p>{{account.mb.lastName}} {{account.mb.firstName}} {{toGender(account.mb.gender)}}</p>
+                        <p v-if="account.mb">{{account.mb.lastName}} {{account.mb.firstName}} {{toGender(account.mb.gender)}}</p>
                         <div v-if="!editMode" class="btns">
                             <button class="my-btn"
                                     @click="editMode = true">編輯帳戶</button>
@@ -123,7 +123,7 @@ import eventHub from '@/utils/eventHub'
 import commonMixin from '@/utils/commonMixin'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 export default {
-    name: 'Member',
+    name: 'MemberEdit',
     mixins: [commonMixin],
     components: {
         HeaderCpt: Header,
@@ -229,6 +229,7 @@ export default {
             }
             var res = await this.updateMember(data)
             if (res.code === 10) {
+                this.checkLoginStatus()
                 this.$message({
                     message: '更新成功',
                     type: 'success'
