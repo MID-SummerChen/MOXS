@@ -9,8 +9,9 @@ import ElementUI from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/zh-TW'
 import Vuelidate from 'vuelidate'
 import moment from 'moment'
-require('vuetify/dist/vuetify.min.css')
+// require('vuetify/dist/vuetify.min.css')
 require(`../theme/index.css`)
+
 
 
 Vue.use(Vuetify)

@@ -20,6 +20,7 @@
             <div v-for="attr in product.attrs" class="attr">
               {{attr.name}}: {{attr.value}}
             </div>
+            <div style="margin-top: 30px"></div>
           </template>
           <template v-else>
             <div v-for="prc in product.prcs" class="selector-t2">
@@ -29,23 +30,7 @@
                 </el-option>
               </el-select>
             </div>
-            <!--<div v-for="chk in product.chks" class="selector-t2">
-              <label>{{chk.name}}：</label>
-              <el-select v-model="selectedChks">
-                <el-option v-for="opt in chk.opts" :value="opt" :label="opt.name + opt.value + '元'">
-                </el-option>
-              </el-select>
-            </div>-->
-            
-            <!--<div class="selector-t2"><span>辣度：</span> <span>中辣</span><i class="el-icon-arrow-down"></i></div>-->
-            <!--<div class="selector-t2"><span>副餐：</span> <span>白飯10元</span><i class="el-icon-arrow-down"></i></div>-->
-            <!--<div v-for="attr in product.attrs" class="selector-t2">
-              <label>{{attr.name}}：</label> 
-              <div class="static-content">
-                {{attr.value}}
-              </div>
-            </div>-->
-            
+
             <div v-for="chk in product.chks" class="plus">{{chk.name}}：
               <span v-for="opt in chk.opts" :class="{active: selectedChks.indexOf(opt.id) > -1}" @click="onSelectChk(chk, opt.id)">{{opt.name + opt.value}}</span> 
             </div>
@@ -72,7 +57,7 @@
           
         </div>
         <div class="sub-btn-wrap">
-          <div class="button" @click="onAddedToCart">加入預約清單</div>
+          <div v-show="currentTab === 2" class="button" @click="onAddedToCart">加入預約清單</div>
           <div class="button" @click="controlModal({target: 'product', boo: false})">關閉</div>
         </div>
         
@@ -101,7 +86,10 @@
       })
     },
     mounted() {
-      this.selectedPrc = this.product.prcs[0].opts[0]
+      if(this.product.prcs.length > 0) {
+        this.selectedPrc = this.product.prcs[0].opts[0]
+      }
+      
     },
     methods: {
       ...mapMutations([

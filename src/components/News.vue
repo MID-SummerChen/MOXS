@@ -10,11 +10,11 @@
                 <div class="paper">
                     <div class="paper-content">
                         <div class="items">
-                            <div class="item" v-for="n in 4">
+                            <div class="item" v-for="n in 4" @click="controlModal({target: 'newsDetail', boo: true})">
                                 <div class="item-img" :style="{'background-image': 'url(/static/imgs/food03.jpg)'}"></div>
                                 <div class="item-content">
                                     <p>消息類別消息類別標題</p>
-                                    <h5 @click="controlModal({target: 'newsDetail', boo: true})">新品上市 嚐鮮折扣</h5>
+                                    <h5>新品上市 嚐鮮折扣</h5>
                                     <div class="text">
                                         項目內容項目內容項目內容，項目內容項目內容項目內容項目內容項目內容項目內容項目內容，項目內容項目內容，
                                         項目內容項目內容項目內容項目內容項目內容項目內容...

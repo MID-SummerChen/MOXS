@@ -16,15 +16,14 @@
       </div>
 
       <div class="items" data-uk-grid="{gutter: 0}">
-        <el-card v-for="t in items" :body-style="{ padding: '0px' }">
-              <div class="img-wrap">
-              </div>
+        <el-card v-for="t in items" :body-style="{ padding: '0px' }" >
+              <div class="img-wrap" @click="onClickItem(t.sn)"></div>
               <div class="card-content">
                 <div class="card-content-title">
                   <p class="title">{{t.name}}</p>
                   <p class="dollar">{{t.price ? '$'+t.price : ''}}</p>
                 </div>
-                <div class="icon-plus"  @click="onClickItem(t.sn)"></div>
+                <div class="icon-plus" @click="onClickItem(t.sn)"></div>
               </div>
             </el-card>
           </el-col>

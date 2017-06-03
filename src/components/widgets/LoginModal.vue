@@ -62,8 +62,8 @@
           <p class="error" v-if="$v.registerForm.$dirty && !$v.registerForm.pw_c.sameAsPw">密碼不同</p>
         </div>
         <div class="agreement">
-          <input type="checkbox" id="agree">
-          <label for="agree">我已詳閱並同意<a href="/">會員使用條款</a></label>
+          <input type="checkbox" id="agree" v-model="registerForm.isAgree">
+          <label for="agree">我已詳閱並同意<a href="/" target="_blank">會員使用條款</a></label>
         </div>
         <button type="button" class="signup" @click="onRegister">建立帳戶</button>
         <div class="back">
@@ -95,7 +95,8 @@ export default {
       registerForm: {
         email: "",
         pw: "",
-        pw_c: ""
+        pw_c: "",
+        isAgree: false,
       },
     }
   },
@@ -190,27 +191,33 @@ export default {
     
     async onRegister() {
       if(this.checkValidate(this.$v.registerForm)) {
-        var f = this.registerForm
-        var data = {
-          devType: "WEB",
-          email: f.email,
-          ac: {
-            id: f.email,
-            pw: f.pw
+        if(this.registerForm.isAgree) {
+          var f = this.registerForm
+          var data = {
+            devType: "WEB",
+            email: f.email,
+            ac: {
+              id: f.email,
+              pw: f.pw
+            }
           }
-        }
-        var res = await this.register(data)
-        if(res.code === 10) {
-          var res2 = await this.login(data.ac)
-          if(res2.code === 10) {
-            this.controlModal({target: 'login', boo: false})
-            this.$message({
-              message: '註冊成功！',
-              type: 'success'
-            });
-            this.checkLoginStatus()
+          var res = await this.register(data)
+          if(res.code === 10) {
+            var res2 = await this.login(data.ac)
+            if(res2.code === 10) {
+              this.controlModal({target: 'login', boo: false})
+              this.$message({
+                message: '註冊成功！',
+                type: 'success'
+              });
+              this.checkLoginStatus()
+            }
           }
+        }else {
+          this.setAlertBox({msg: "請先閱讀會員條款後勾選確認"})
+          this.displayAlertBox(true)
         }
+        
       }
       
       

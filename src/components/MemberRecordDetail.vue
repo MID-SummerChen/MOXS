@@ -3,7 +3,7 @@
         <v-container fluid>
             <div class="main-title">
                 <ul>
-                    <li>會員中心</li>
+                    <li @click="$router.push({name: 'Member'})">會員中心</li>
                     <li>預約記錄</li>
                     <li>RES91239124912</li>
                 </ul>

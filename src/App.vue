@@ -32,7 +32,7 @@
             <v-spacer />
             <v-btn :ripple="false">
               <v-icon>today</v-icon>
-              <span class="toolbar-icon-title">預約點餐</span>
+              <span class="toolbar-icon-title" @click="controlModal({target: 'cart', boo: true})">預約點餐</span>
             </v-btn>
             <v-btn v-if="isLogin" :ripple="false">
               <v-icon>account_circle</v-icon>
@@ -41,6 +41,10 @@
                 <router-link :to="{name: 'Member'}">會員中心</router-link>
                 <a href="" @click.prevent="_onLogout">登   出</a>
               </div>
+            </v-btn>
+            <v-btn v-else :ripple="false">
+              <v-icon>account_circle</v-icon>
+              <span class="toolbar-icon-title" @click="controlModal({target: 'login', boo: true})">會員登入</span>
             </v-btn>
           </v-toolbar>
         </header>
@@ -80,14 +84,14 @@
                   <a @click="controlModal({target: 'qrcode', boo: true})">APP下載</a>
                 </v-list-tile>
               </v-list-item>
-              <v-list-item>
+              <!--<v-list-item>
                 <v-divider light />
               </v-list-item>
               <v-list-item v-if="!isLogin">
                 <v-list-tile ripple>
                   <a @click="controlModal({target: 'login', boo: true})">會員登入</a>
                 </v-list-tile>
-              </v-list-item>
+              </v-list-item>-->
 
 
             </v-list>
@@ -191,7 +195,7 @@
         'getConfig',
       ]),
       getLogoImg() {
-        return `http://${this.apiHost}/${this.apiModule.sys}/${this.imgs.logoDarkWImg}`
+        return `http://${this.apiHost}/${this.apiModule.sys}/${this.imgs.logoLightWImg}`
       },
       async _onLogout() {
         var res = await this.onLogout()
@@ -213,5 +217,78 @@
 </script>
 
 <style lang="stylus">
+.toolbar
+  background-color #fff
+  border-bottom: 1px solid #ccc
+  box-shadow none
+  @media(max-width: mobile-media)
+    z-index: 99
+    background-color: #333
+  .btn
+    color: #666
+    background-color: transparent
+    border: 0
+    box-shadow: none
+    padding: 0 10px
+    transition: none 
+    font-size: 15px
+    height: 100%
+    @media(max-width: mobile-media)
+      margin: 0
+      min-width: 20px
+      color: #fff
+    span.toolbar-icon-title
+      @media(max-width: mobile-media)
+        display: none
+    &:hover 
+      color: #333
+      @media(max-width: mobile-media)
+        color: #fff
+      transition: none 
+      .headerSubMenu
+        display: block
+    
+
+  i 
+    font-size: 30px
+    margin-right: 5px
+    
+  .headerSubMenu
+    display: none
+    position: absolute
+    width: 120px
+    background-color: rgba(#000, 0.6)
+    top: 0 
+    right: 0 
+    margin-top: 63px 
+    margin-right: -15px
+    &:hover 
+      display: block
+    &:after 
+      content: ""
+      display: block 
+      position: absolute
+      border-bottom: 10px solid rgba(#000, 0.6)
+      border-left: 5px solid transparent
+      border-right: 5px solid transparent
+      top: 0 
+      margin-top: -10px
+      right: 30px
+      z-index: 9
+
+    a 
+      display: block 
+      padding: 8px 5px 
+      text-align: center
+      text-decoration: none 
+      color: #eee
+      font-size: 16px
+
+      &:hover 
+        color: #fff
+        font-weight: bold
+
+
+
 
 </style>

@@ -3,7 +3,7 @@
         <v-container fluid>
             <div class="main-title">
                 <ul>
-                    <li>會員中心</li>
+                    <li @click="$router.push({name: 'Member'})">會員中心</li>
                     <li>編輯帳戶</li>
                 </ul>
             </div>
@@ -14,10 +14,9 @@
                         <div v-else class="img-wrap"
                              style="background-image: url('/static/imgs/food01.jpg')"></div>
                         <p>{{form.email}}</p>
-                        <p>{{account.mb.name}} 女士</p>
-                        <div class="btns">
-                            <button v-if="!editMode"
-                                    class="my-btn"
+                        <p>{{account.mb.lastName}} {{account.mb.firstName}} {{toGender(account.mb.gender)}}</p>
+                        <div v-if="!editMode" class="btns">
+                            <button class="my-btn"
                                     @click="editMode = true">編輯帳戶</button>
                             <button class="my-btn"
                                     @click="triggerFileSelector">更新相片</button>
@@ -124,7 +123,7 @@ import eventHub from '@/utils/eventHub'
 import commonMixin from '@/utils/commonMixin'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 export default {
-    name: 'MemberEdit',
+    name: 'Member',
     mixins: [commonMixin],
     components: {
         HeaderCpt: Header,
@@ -181,6 +180,10 @@ export default {
             'memImgUpload',
             'checkLoginStatus',
         ]),
+        toGender(val) {
+          var i = this.genderOpts.findIndex(opt => opt.value === val)
+          return i > -1 ? this.genderOpts[i].label : ""
+        },
         setData() {
             if (this.account.mb) {
                 this.form.email = this.account.mb.email

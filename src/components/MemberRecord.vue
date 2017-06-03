@@ -3,7 +3,7 @@
         <v-container fluid>
             <div class="main-title">
                 <ul>
-                    <li>會員中心</li>
+                    <li @click="$router.push({name: 'Member'})">會員中心</li>
                     <li>預約記錄</li>
                 </ul>
             </div>
@@ -13,10 +13,10 @@
                         <div class="date-items" v-for="d in 2">
                             <div class="date">2017年3月</div>
                             <div class="items">
-                                <div class="item" v-for="n in 4">
+                                <div class="item" v-for="n in 4" @click="$router.push({name: 'MemberRecordDetail', params: {sn: n}})">
                                     <p>
                                         內用點餐  2017/3/22(三) 18:30 
-                                        <router-link target="_blank" :to="{name: 'MemberRecordDetail', params: {sn: n}}" ><i class="fa fa-file-text-o"></i></router-link>
+                                        <i class="fa fa-file-text-o"></i>
                                     </p>
                                     <p>台中復興店 4人 $2400</p>
                                 </div>

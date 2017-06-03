@@ -4,6 +4,7 @@ import api from './modules/api'
 import modal from './modules/modal'
 import alertBox from './modules/modals/alertBox'
 import productModal from './modules/modals/productModal'
+import storeMapModal from './modules/modals/storeMapModal'
 
 
 Vue.use(Vuex)
@@ -14,6 +15,7 @@ export default new Vuex.Store({
     modal,
     alertBox,
     productModal,
+    storeMapModal,
   },
   state: {
     isLogin: null,
@@ -23,6 +25,7 @@ export default new Vuex.Store({
     sev: {},
     imgs: {},
     colors: {},
+    googleKey: 'AIzaSyCJwqPoYKWtOxe2xnb3tneHV1Vu9EdKZAQ'
   },
   getters: {
     isLogin: state => state.isLogin,
@@ -70,6 +73,7 @@ export default new Vuex.Store({
         commit('setAlertBox', {msg: "登入成功"})
         commit('displayAlertBox', true)
         commit('switchLoginStatus', true)
+        dispatch('checkLoginStatus')
       }
       return 
       

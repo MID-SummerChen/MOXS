@@ -28,6 +28,10 @@ module.exports = {
   },
   module: {
     rules: [
+      // {
+      //   test: /\.styl$/,
+      //   loader: ['style', 'css', 'stylus']
+      // },
       {
         test: /\.vue$/,
         loader: 'vue-loader',

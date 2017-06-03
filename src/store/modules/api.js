@@ -1,5 +1,4 @@
-// var apiHost = "moxs.com:8080"  // 52.221.138.6:8080
-var apiHost = "106.1.80.127:33266"  // 52.221.138.6:8080
+var apiHost = "moxs.com:33266" 
 var apiModule = {
   sys: "moxs_sys",
   sev: "moxs_sev"
@@ -48,6 +47,8 @@ export default {
     updateMember: async (store, data) => await apiInit(store, "POST", "json", 'sys', `cs/ac/mb/update`, data),
     memImgUpload: async (store, data) => await apiInit(store, "POST", "multi", 'sys', `res/img/add`, data),
     getStoreList: async (store, data) => await apiInit(store, "GET", "form", 'sys', `cs/org/${orgSn}/sev/${sevSn}/sto`, data),
+    getStore: async (store, stoSn) => await apiInit(store, "GET", "form", 'sys', `cs/org/${orgSn}/sev/${sevSn}/sto/${stoSn}`),
+    
     // service
     getItemsCls: async (store, data) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/item/cls`, data),
     getItems: async (store, data) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/item`, data),

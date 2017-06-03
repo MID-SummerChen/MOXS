@@ -16,7 +16,7 @@
                     <el-row :gutter="30">
                         <el-col :sm="8"
                                 v-for="store in storeList">
-                            <div class="box">
+                            <div class="box" @click="showStoreMap(store)">
                                 <div class="icon-location"></div>
                                 <h5>{{store.name}}</h5>
                                 <p class="small">台中市北區繼光街199號2F</p>
@@ -58,15 +58,45 @@ export default {
         this._getStoreList()
     },
     methods: {
+        ...mapMutations([
+            'controlModal',
+            'setAlertMsg',
+            'gotMapInfo',
+        ]),
         ...mapActions([
-            'getStoreList'
+            'getStoreList',
+            'getStore',
         ]),
         async _getStoreList() {
             var res = await this.getStoreList()
             if(res.code === 10) {
                 this.storeList = res.data.items
+                // this.$nextTick(() => {
+                //     _.each(this.storeList, (sto, i) => {
+                //         console.log(this.$refs.map[i])
+                //         var _opt = {
+                //             center: { lat: -34.397, lng: 150.644},
+                //             zoom: 8
+                //         };
+                //         var map = new google.maps.Map(
+                //             this.$refs.map[i],
+                //             _opt);
+                //     })
+                    
+                // })
+                
+                
             }
+        },
+        async showStoreMap(store) {
+            var res = await this.getStore(store.sn)
+            if(res.code === 10) {
+                this.gotMapInfo(res.data)
+                this.controlModal({target: 'storeMap', boo: true})
+            }
+            
         }
+        
     }
 }
 
