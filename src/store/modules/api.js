@@ -1,4 +1,4 @@
-var apiHost = "moxs.com:33266" 
+var apiHost = "106.1.80.127:33266" 
 var apiModule = {
   sys: "moxs_sys",
   sev: "moxs_sev"
