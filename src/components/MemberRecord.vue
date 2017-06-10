@@ -16,7 +16,7 @@
                                 <div class="item" v-for="n in 4" @click="$router.push({name: 'MemberRecordDetail', params: {sn: n}})">
                                     <p>
                                         內用點餐  2017/3/22(三) 18:30 
-                                        <i class="fa fa-file-text-o"></i>
+                                        <!--<i class="fa fa-file-text-o"></i>-->
                                     </p>
                                     <p>台中復興店 4人 $2400</p>
                                 </div>

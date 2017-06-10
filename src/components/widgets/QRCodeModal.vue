@@ -1,18 +1,18 @@
 <template>
   <div id="qrcode-modal" class="my-modal-wrap" @click.self="controlModal({target: 'qrcode', boo: false})">
     <div class="modal-box">
-      <div class="close-btn"  @click="controlModal({target: 'qrcode', boo: false})">
-        <v-icon>clear</v-icon>
+      <div class="modal-box-title">
+        下載官方APP
+        <div class="close-btn"  @click="controlModal({target: 'qrcode', boo: false})">
+          <v-icon>clear</v-icon>
+        </div>
       </div>
       <div class="modal-box-content">
-        <div style="margin-top: 10px"></div>
-        <h4>下載官方APP<br>預約更即時！</h4>
-        <div style="margin-top: 10px"></div>
-        <div><img src="/static/imgs/qrcode.png"></div>
-        <div style="margin-top: 5px"></div>
-        <div><img src="/static/imgs/appstore.png"></div>
-        <div style="margin-top: 5px"></div>
-        <div><img src="/static/imgs/googleplay.png"></div>
+        <img src="/static/imgs/qrcode2.png">
+        <div class="app-icons">
+          <img src="/static/imgs/qrcode2.png">
+          <img src="/static/imgs/qrcode2.png">
+        </div>
       </div>
     </div>
   </div>

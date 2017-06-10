@@ -6,7 +6,9 @@
       </div>
       <!-- 登入 -->
       <div v-if="currentMode === 'login'" class="modal-box-content">
-        <div class="icon-store-title"></div>
+        <div class="logo">
+          <img v-if="imgs.logoDarkWImg" :src="getLogoImg()" alt="">
+        </div>
         <div style="margin-top: 20px"></div>
         <div class="form-group">
           <label for="email">E-MAIL</label>
@@ -15,7 +17,7 @@
         </div>
         <div class="form-group">
           <label for="pw">密碼</label>
-          <input id="pw" type="password" v-model="loginForm.pw">
+          <input id="pw" type="password" v-model="loginForm.pw" @keyup.enter="handleLogin">
           <p class="error" v-if="$v.loginForm.$dirty && !$v.loginForm.pw.required">此為必填</p>
         </div>
         <button type="button" class="signin" @click="handleLogin">登  入 Sign In</button>
@@ -29,7 +31,9 @@
 
       <!-- 查詢密碼 -->
       <div v-if="currentMode === 'forget'" class="modal-box-content">
-        <div class="icon-store-title"></div>
+        <div class="logo">
+          <img v-if="imgs.logoDarkWImg" :src="getLogoImg()" alt="">
+        </div>
         <div style="margin-top: 20px"></div>
         <div class="form-group">
           <label for="email">E-MAIL</label>
@@ -75,7 +79,7 @@
 </template>
 
 <script>
-  import {mapGetters, mapActions, mapMutations} from 'vuex'
+  import {mapState, mapGetters, mapActions, mapMutations} from 'vuex'
   import commonMixin from '@/utils/commonMixin'
   import { required, minLength, between, sameAs } from 'vuelidate/lib/validators'
 
@@ -136,7 +140,12 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'apiHost',
+      'apiModule',
     ]),
+    ...mapState({
+        imgs: state => state.imgs,
+    })
   },
   mounted() {
     console.log(this)
@@ -153,6 +162,9 @@ export default {
       'getPw',
       'onLogin',
     ]),
+    getLogoImg() {
+      return `http://${this.apiHost}/${this.apiModule.sys}/${this.imgs.logoLightWImg}`
+    },
     async sendPwMail() {
       var data = {
         id: this.loginForm.email

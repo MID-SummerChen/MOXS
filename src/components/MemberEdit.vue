@@ -17,7 +17,7 @@
                         <p v-if="account.mb">{{account.mb.lastName}} {{account.mb.firstName}} {{toGender(account.mb.gender)}}</p>
                         <div v-if="!editMode" class="btns">
                             <button class="my-btn"
-                                    @click="editMode = true">編輯帳戶</button>
+                                    @click="editMode = true">編輯MOXS帳戶</button>
                             <button class="my-btn"
                                     @click="triggerFileSelector">更新相片</button>
                             <button class="my-btn"
@@ -102,7 +102,7 @@
                             </div>
                         </form>
                         <div v-if="editMode" class="btn-wrap">
-                            <a href="" @click.prevent="editMode = false">取消</a>
+                            <a href="" @click.prevent="onCancel">取消</a>
                             <a href=""
                             class="text-blue" @click.prevent="onSubmit">儲存</a>
                         </div>
@@ -236,6 +236,10 @@ export default {
                 });
                 this.editMode = false
             }
+        },
+        onCancel() {
+            this.setData()
+            this.editMode = false
         }
     }
 }

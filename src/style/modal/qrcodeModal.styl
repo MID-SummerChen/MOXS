@@ -9,36 +9,48 @@
   align-items center
   padding: 20px
   .modal-box
-    min-width 300px
+    width 250px
     margin auto
-    background-color main-color
-    color #ff
-    text-align center
+    background-color #eee
     position relative
     border-radius 10px
-    .close-btn
-      cursor: pointer
-      position absolute
-      right 0
-      top 0
-      margin-top 15px
-      margin-right 20px
-      border 1px solid #fff
-      border-radius 50%
-      width 40px
-      height 40px
-      display flex
-      align-items center
-      i.icon
-        margin auto
+    overflow: hidden
+    .modal-box-title
+      color #fff
+      line-height: 40px
+      background-color main-color
+      padding: 0 15px
+      font-weight: bold
+      .close-btn
+        cursor: pointer
+        position absolute
+        right 0
+        top 0
+        margin-top 8px
+        margin-right 10px
+        border 1px solid #fff
+        border-radius 50%
+        width 22px
+        height 22px
+        display flex
+        align-items center
+        i.icon
+          margin auto
+          font-size: 15px
     .modal-box-content
-      padding 30px 20px
+      padding 15px
       h4
         color: #fff
         font-size: 20px
         letter-spacing 3px
         line-height 25px
       img
-        max-width 70%
+        width 100%
+      
+      .app-icons
+        text-align: center
+        img 
+          width: 48.5%
+
 
 

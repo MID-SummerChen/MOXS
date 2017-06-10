@@ -22,10 +22,9 @@
               <div class="record-header">
                   最新預約記錄
               </div>
-              <div class="item" v-for="n in 4" @click="controlModal({target: 'orderRecord', boo: true})">
+              <div class="item" v-for="n in 4" @click="$router.push({name: 'MemberRecordDetail', params: {sn: n}})">
                   <p>
                       <span>內用點餐  2017/3/22(三) 18:30 </span>
-                      <router-link target="_new" :to="{name: 'MemberRecordDetail', params: {sn: n}}" ><i class="fa fa-file-text-o"></i></router-link>
                   </p>
                   <p>台中復興店 4人 $2400</p>
               </div>
