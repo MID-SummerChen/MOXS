@@ -14,6 +14,9 @@
         <!--<i v-if="itemsCls[0].parentId" class="prevClsBtn fa fa-arrow-left" @click="goBack"></i>-->
         <el-button v-for="cls in itemsCls" @click="toNextCls(cls.id, cls.level)">{{cls.name}}</el-button>
       </div>
+      <div v-else style="padding-top: 42px">
+        
+      </div>
 
       <div class="items" data-uk-grid="{gutter: 0}">
         <el-card v-for="t in items" :body-style="{ padding: '0px' }" >
