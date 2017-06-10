@@ -9,10 +9,10 @@
       <div class="main-content">
         <div class="paper">
           <div class="top-info">
-              <div class="img-wrap"><img src="/static/imgs/food03.jpg" alt=""></div>
-              <div class="text-info">
-                  <p>{{account.email}}</p>
-                  <p>{{account.name}}</p>
+              <div class="img-wrap" :style="{'background-image': 'url(' +memPicSrc +')'}"></div>
+              <div v-if="account.mb" class="text-info">
+                  <p class="email">{{account.id}}</p>
+                  <p class="username">{{account.mb.lastName}}{{account.mb.firstName}}</p>
               </div>
               <div>
                 <button class="btn-t1" @click="$router.push({name: 'MemberEdit'})">編輯帳戶</button>
@@ -56,14 +56,18 @@ export default {
   },
   data() {
     return {
+      memPicSrc: ""
     }
   },
   mounted() {
     this.limitedPageCheck()
+    this.memPicSrc = this.account.resUrl ? `http://${this.apiHost}/${this.apiModule.sys}${this.account.resUrl}` : ""
   },
   computed: {
     ...mapGetters([
-      'account'
+      'account',
+      'apiHost',
+      'apiModule',
     ])
   },
   methods: {

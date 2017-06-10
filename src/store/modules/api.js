@@ -36,7 +36,7 @@ export default {
   actions: {
     handleError,
     // system
-    getGeo: async (store) => await apiInit(store, "GET", "form", 'sys', `xs/sys/geo`),
+    getGeo: async (store, data) => await apiInit(store, "GET", "form", 'sys', `xs/sys/geo`, data),
     getConfig: async (store) => await apiInit(store, "GET", "form", 'sys', `cs/org/${orgSn}/sev/${sevSn}/conf`),
     login: async (store, data) => await apiInit(store, "POST", "form", 'sys', `cs/org/${orgSn}/sev/${sevSn}/ac/signin`, data),
     logout: async (store, data) => await apiInit(store, "POST", "form", 'sys', `cs/ac/signout`, data),

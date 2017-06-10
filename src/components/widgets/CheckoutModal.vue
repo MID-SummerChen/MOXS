@@ -10,9 +10,9 @@
           <el-col :sm="24">
             <div class="form-group">
               <el-select style="width: 100%; height: 50px" v-model="currentTab">
-                <el-option v-for="tab in tabs" :label="tab.label" :value="tab"></el-option>
+                <el-option v-for="tab in tabs" :label="tab.label" :value="tab.value"></el-option>
               </el-select>
-              <p class="tabMsg">{{currentTab.msg}}</p>
+              <p class="tabMsg">{{tabs.find(t => t.value ===currentTab).msg}}</p>
             </div>
           </el-col>
           <el-col :sm="24">
@@ -21,7 +21,7 @@
               <input type="text" disabled>
             </div>
           </el-col>
-          <template v-if="currentTab.value === 1">
+          <template v-if="currentTab === 1">
             <el-col :sm="6">
               <div class="form-group">
                 <label>人數</label>
@@ -76,22 +76,27 @@
               <input type="text">
             </div>
           </el-col>
-          <el-col v-if="currentTab.value === 3" :sm="24">
+          <el-col v-if="currentTab === 3" :sm="24">
             <div class="form-group">
               <label>地址</label>
               <input type="text">
             </div>
           </el-col>
+          <el-col :sm="24">
+            <div class="sub-radio-check">
+              是否使用線上付款？
+              <el-radio class="radio" v-model="isPayNow" :label="1">是</el-radio>
+              <el-radio class="radio" v-model="isPayNow" :label="2">否</el-radio>
+            </div>
+          </el-col>
 
         </el-row>
+
+        
         <div class="submit-button" @click="onCartSubmit">
           確 認
         </div>
-        <div class="sub-radio-check">
-          是否使用線上付款？
-          <el-radio class="radio" v-model="isPayNow" :label="1">是</el-radio>
-          <el-radio class="radio" v-model="isPayNow" :label="2">否</el-radio>
-        </div>
+        
         <div class="close-button" @click="controlModal({target: 'checkout', boo: false})">
           關 閉
         </div>
@@ -109,7 +114,7 @@
     name: 'CheckoutModal',
     data() {
       return {
-        currentTab: {},
+        currentTab: 1,
         isPayNow: 1,
         tabs: [
           {label: "內用", value: 1, msg: "內用的說明"},

@@ -59,11 +59,11 @@
                   <router-link :to="{name: 'Products'}">{{menu.ITEM.TITLE}}</router-link>
                 </v-list-tile>
               </v-list-item>
-              <!--<v-list-item v-if="menu.RESV">
+              <v-list-item v-if="menu.RESV">
                 <v-list-tile ripple>
                   <router-link :to="{name: 'Products'}">{{menu.RESV.TITLE}}</router-link>
                 </v-list-tile>
-              </v-list-item>-->
+              </v-list-item>
               <v-list-item>
                 <v-list-tile v-if="menu.NEWS" ripple>
                   <router-link :to="{name: 'News'}">{{menu.NEWS.TITLE}}</router-link>

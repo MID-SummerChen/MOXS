@@ -12,21 +12,20 @@
       </div>
       <div v-if="itemsCls.length > 0" class="category-btn-group">
         <!--<i v-if="itemsCls[0].parentId" class="prevClsBtn fa fa-arrow-left" @click="goBack"></i>-->
-        <el-button v-for="cls in itemsCls" :disabled="cls.childrenCount === 0" @click="toNextCls(cls.id, cls.level)">{{cls.name}}</el-button>
+        <el-button v-for="cls in itemsCls" @click="toNextCls(cls.id, cls.level)">{{cls.name}}</el-button>
       </div>
 
       <div class="items" data-uk-grid="{gutter: 0}">
         <el-card v-for="t in items" :body-style="{ padding: '0px' }" >
-              <div class="img-wrap" @click="onClickItem(t.sn)"></div>
-              <div class="card-content">
-                <div class="card-content-title">
-                  <p class="title">{{t.name}}</p>
-                  <p class="dollar">{{t.price ? '$'+t.price : ''}}</p>
-                </div>
-                <div class="icon-plus" @click="onClickItem(t.sn)"></div>
-              </div>
-            </el-card>
-          </el-col>
+          <div class="img-wrap" @click="onClickItem(t.sn)"></div>
+          <div class="card-content">
+            <div class="card-content-title">
+              <p class="title">{{t.name}}</p>
+              <p class="dollar">{{t.price ? '$'+t.price : ''}}</p>
+            </div>
+            <div class="icon-plus" @click="onClickItem(t.sn)"></div>
+          </div>
+        </el-card>
       </div>
 
     </v-container>

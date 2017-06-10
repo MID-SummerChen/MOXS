@@ -78,17 +78,19 @@
                                 <div v-if="editMode" class="form-content">
                                     <div>
                                         <el-select v-model="form.city"
+                                                    @change="onCityOptsChanged"
                                                    style="width: 100px">
                                             <el-option v-for="o in cityOpts"
-                                                       :label="o.value"
-                                                       :value="o.value">
+                                                       :label="o.geoName"
+                                                       :value="o.geoName"
+                                                       >
                                             </el-option>
                                         </el-select>
                                         <el-select v-model="form.area"
                                                    style="width: 100px">
                                             <el-option v-for="o in areaOpts"
-                                                       :label="o.value"
-                                                       :value="o.value">
+                                                       :label="o.geoName"
+                                                       :value="o.geoName">
                                             </el-option>
                                         </el-select>
                                     </div>
@@ -152,20 +154,14 @@ export default {
                 { label: "女士", value: "FEMALE" },
                 { label: "先生", value: "MALE" },
             ],
-            cityOpts: [
-                { value: "台中" },
-            ],
-            areaOpts: [
-                { value: "南區" },
-                { value: "北區" },
-                { value: "東區" },
-                { value: "西區" },
-            ]
+            cityOpts: [],
+            areaOpts: [],
         }
     },
     mounted() {
         this.limitedPageCheck()
         this.setData()
+        this._getGeo()
     },
     computed: {
         ...mapGetters([
@@ -179,14 +175,31 @@ export default {
             'updateMember',
             'memImgUpload',
             'checkLoginStatus',
+            'getGeo',
         ]),
         toGender(val) {
           var i = this.genderOpts.findIndex(opt => opt.value === val)
           return i > -1 ? this.genderOpts[i].label : ""
         },
+        async _getGeo(superCode) {
+            console.log(superCode)
+            var data ={
+                superCode
+            }
+            var res = await this.getGeo(data)
+            if(res.code === 10) {
+                superCode
+                ? this.areaOpts = res.data
+                : this.cityOpts = res.data
+            }
+        },
+        onCityOptsChanged() {
+            this.form.area = ""
+            this._getGeo(this.cityOpts.find(o => o.geoName === this.form.city).code)
+        },
         setData() {
             if (this.account.mb) {
-                this.form.email = this.account.mb.email
+                this.form.email = this.account.id
                 this.form.lastName = this.account.mb.lastName || ""
                 this.form.firstName = this.account.mb.firstName || ""
                 this.form.city = this.account.mb.city || ""
@@ -216,6 +229,8 @@ export default {
                 });
                 this.memPicSrc = `http://${this.apiHost}/${this.apiModule.sys}${res.data.url}`
                 this.form.ac.resId = res.data.id
+
+                this.onSubmit()
 
             }
 
