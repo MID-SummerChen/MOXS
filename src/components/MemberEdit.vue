@@ -34,7 +34,7 @@
                                 @change="onUpload">
                         </div>
                     </div>
-                    <div class="right">
+                    <div ref="scrollBox" class="right">
                         <h5>帳戶資訊</h5>
                         <form>
                             <div v-if="editMode" class="form-group">
@@ -166,9 +166,11 @@ export default {
         }
     },
     mounted() {
+        Ps.initialize(this.$refs.scrollBox);
         this.limitedPageCheck()
         this.setData()
         this._getGeo()
+        
     },
     computed: {
         ...mapGetters([
