@@ -9,9 +9,13 @@
       </div>
       <div class="modal-box-content">
         <img src="/static/imgs/qrcode2.png">
-        <div class="app-icons">
-          <img src="/static/imgs/qrcode2.png">
-          <img src="/static/imgs/qrcode2.png">
+        <div class="app-icons clearfix">
+          <div>
+            <img src="/static/imgs/ios_icon.png" alt="">
+          </div>
+          <div>
+            <img src="/static/imgs/android_icon.png" alt="">
+          </div>
         </div>
       </div>
     </div>

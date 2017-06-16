@@ -9,7 +9,7 @@
         <el-row :gutter="20">
           <el-col :sm="24">
             <div class="form-group">
-              <el-select style="width: 100%; height: 50px" v-model="currentTab">
+              <el-select class="main" style="width: 100%; height: 50px" v-model="currentTab">
                 <el-option v-for="tab in tabs" :label="tab.label" :value="tab.value"></el-option>
               </el-select>
               <p class="tabMsg">{{tabs.find(t => t.value ===currentTab).msg}}</p>
@@ -21,32 +21,27 @@
               <input type="text" disabled>
             </div>
           </el-col>
-          <template v-if="currentTab === 1">
+          <template>
             <el-col :sm="6">
               <div class="form-group">
                 <label>人數</label>
-                <input type="text">
+                <input type="text" :disabled="currentTab !== 1">
               </div>
             </el-col>
             <el-col :sm="9">
               <div class="form-group">
                 <label>日期</label>
-                <input type="text">
+                <!--<input type="text" v-model="form.date" :disabled="currentTab !== 1">-->
+                <el-date-picker type="date" placeholder="选择日期" v-model="form.date" style="width: 100%;"  :disabled="currentTab !== 1"></el-date-picker>
               </div>
             </el-col>
             <el-col :sm="9">
               <div class="form-group">
                 <label>時間</label>
-                <input type="text">
+                <el-time-picker type="fixed-time" placeholder="选择时间" v-model="form.time" style="width: 100%;" format="HH:mm"></el-time-picker>
               </div>
             </el-col>
           </template>
-          <el-col v-else :sm="24">
-            <div class="form-group">
-              <label>時間</label>
-              <input type="text">
-            </div>
-          </el-col>
           
           <el-col :sm="24">
             <hr class="divider">
@@ -110,8 +105,10 @@
 
 <script>
   import { mapGetters, mapActions, mapMutations } from 'vuex'
+  import commonMixin from '@/utils/commonMixin'
   export default {
     name: 'CheckoutModal',
+    mixins: [commonMixin],
     data() {
       return {
         currentTab: 1,
@@ -120,7 +117,11 @@
           {label: "內用", value: 1, msg: "內用的說明"},
           {label: "外帶", value: 2, msg: "外帶的說明"},
           {label: "外送", value: 3, msg: "外送的說明"},
-        ]
+        ],
+        form: {
+          date: moment(),
+          time: moment()
+        }
       }
     },
     computed: {

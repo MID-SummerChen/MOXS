@@ -33,5 +33,13 @@ export default {
       console.log(formGroup)
       return !formGroup.$invalid
     },
+  },
+  filters: {
+    date(val) {
+      return moment(val).format("MM/DD")
+    },
+    time(val) {
+      return moment(val).format("hh:mm")
+    },
   }
 }

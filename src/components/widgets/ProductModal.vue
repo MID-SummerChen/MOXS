@@ -1,6 +1,6 @@
 <template>
   <div id="product-modal" class="my-modal-wrap" @click.self="controlModal({target: 'product', boo: false})">
-    <div class="modal-box">
+    <div ref="scrollBox" class="modal-box">
       <!--<div class="close-btn" @click="controlModal({target: 'product', boo: false})">
         <v-icon>clear</v-icon>
       </div>-->
@@ -86,6 +86,7 @@
       })
     },
     mounted() {
+      Ps.initialize(this.$refs.scrollBox);
       if(this.product.prcs.length > 0) {
         this.selectedPrc = this.product.prcs[0].opts[0]
       }

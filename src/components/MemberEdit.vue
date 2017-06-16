@@ -10,23 +10,29 @@
             <div class="main-content">
                 <div class="paper">
                     <div class="left">
-                        <div v-if="memPicSrc" class="img-wrap" :style="'background-image: url(' + memPicSrc  +')'"></div>
-                        <div v-else class="img-wrap"
-                             style="background-image: url('/static/imgs/food01.jpg')"></div>
-                        <p>{{form.email}}</p>
-                        <p v-if="account.mb">{{account.mb.lastName}} {{account.mb.firstName}} {{toGender(account.mb.gender)}}</p>
-                        <div v-if="!editMode" class="btns">
-                            <button class="my-btn"
-                                    @click="editMode = true">編輯MOXS帳戶</button>
-                            <button class="my-btn"
-                                    @click="triggerFileSelector">更新相片</button>
-                            <button class="my-btn"
-                                    @click="controlModal({target: 'memberPw', boo: true})">變更密碼</button>
+                        <div class="inside-wrap">
+                            <div v-if="memPicSrc" class="img-wrap" :style="'background-image: url(' + memPicSrc  +')'">
+                                <transition name="fade">
+                                    <div v-if="picLoading" class="cover"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></div>
+                                </transition>
+                            </div>
+                            <div v-else class="img-wrap" 
+                                style="background-image: url('/static/imgs/food01.jpg')"></div> <!-- 預設圖 -->
+                            <p>{{form.email}}</p>
+                            <p v-if="account.mb">{{account.mb.lastName}} {{account.mb.firstName}} {{toGender(account.mb.gender)}}</p>
+                            <div v-if="!editMode" class="btns">
+                                <button class="my-btn"
+                                        @click="editMode = true">編輯MOXS帳戶</button>
+                                <button class="my-btn"
+                                        @click="triggerFileSelector">更新相片</button>
+                                <button class="my-btn"
+                                        @click="controlModal({target: 'memberPw', boo: true})">變更密碼</button>
+                            </div>
+                            <input ref="fileSelector"
+                                v-show="false"
+                                type="file"
+                                @change="onUpload">
                         </div>
-                        <input ref="fileSelector"
-                               v-show="false"
-                               type="file"
-                               @change="onUpload">
                     </div>
                     <div class="right">
                         <h5>帳戶資訊</h5>
@@ -136,6 +142,7 @@ export default {
             limitedPage: true,
             memPicSrc: "",
             editMode: false,
+            picLoading: false,
             form: {
                 lastName: "",
                 firstName: "",
@@ -221,12 +228,14 @@ export default {
             console.dir(e.target.files[0])
             var data = new FormData()
             data.append('file', e.target.files[0])
+            this.picLoading = true
             var res = await this.memImgUpload(data)
             if (res.code === 10) {
                 this.$message({
                     message: '圖片上傳成功',
                     type: 'success'
                 });
+                this.picLoading = false
                 this.memPicSrc = `http://${this.apiHost}/${this.apiModule.sys}${res.data.url}`
                 this.form.ac.resId = res.data.id
 

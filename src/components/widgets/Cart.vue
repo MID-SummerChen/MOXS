@@ -17,8 +17,8 @@
         <p>林青揚先生 <span>0921-999888</span></p>
         <p>台中烏日區健行南路233號10樓</p>
       </div>
-      <div class="items">
-        <div v-for="n in 4" class="item">
+      <div ref="scrollBox" class="items">
+        <div v-for="n in 10" class="item">
           <div class="item-content">
             <p class="title">餐點的名稱</p>
             <p class="sub-title">大 <span>3份</span></p>
@@ -48,6 +48,9 @@ export default {
   computed: {
     ...mapGetters([
     ])
+  },
+  mounted() {
+    Ps.initialize(this.$refs.scrollBox);
   },
   methods: {
     ...mapMutations([
