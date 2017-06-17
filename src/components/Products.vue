@@ -5,8 +5,8 @@
     <v-container fluid>
       <div class="main-title">
         <ul>
-          <li v-for="b in bread">
-            <router-link :to="b.link">{{b.name}}</router-link>
+          <li v-for="b in breadcrumb">
+            <router-link :to="{name: 'Products', query: {id: b.id}}">{{b.name}}</router-link>
           </li>
         </ul>
       </div>
@@ -53,11 +53,7 @@
         itemsCls: [],
         items: [],
         currentCls: [],
-        bread: [
-          {name: "主餐", link: "/"},
-          {name: "美式", link: "/"},
-          {name: "漢堡", link: "/"},
-        ]
+        breadcrumb: [],
       }
     },
     mounted() {
@@ -84,10 +80,8 @@
         this.currentClsId = ""
         this.items = []
         // this.itemsCls = []
-        var keys = Object.keys(this.$route.query)
-        if(keys.length > 0) {
-          console.log(_.map(this.$route.query)[keys.length-1])
-          this.currentClsId = _.map(this.$route.query)[keys.length-1]
+        if(this.$route.query.id) {
+          this.currentClsId = this.$route.query.id
         }
         this._getItemsCls()
         this._getItems()
@@ -98,7 +92,8 @@
         }
         var res = await this.getItemsCls(data)
         if(res.code === 10) {
-          this.itemsCls = res.data
+          this.itemsCls = res.data.children
+          this.breadcrumb = res.data.parent
         }
       },
       async _getItems() {
@@ -119,8 +114,7 @@
       },
       toNextCls(clsId, clsLevel) {
         this.$router.push({name: 'Products', query: {
-          ...this.$route.query,
-          [`lv${clsLevel}`]: clsId
+          id: clsId
         }})
       }
     }

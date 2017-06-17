@@ -26,9 +26,12 @@
         <header>
           <v-toolbar :fixed="true">
             <v-toolbar-side-icon :ripple="false" class="hidden-md-and-up" @click.native.stop="showSidebar = !showSidebar" />
-            <!--<v-toolbar-logo>
-              <img v-if="imgs.logoDarkWImg" :src="getLogoImg()" alt="">
-            </v-toolbar-logo>-->
+            <v-toolbar-logo>
+              <router-link to="/" class="logo">
+                <img v-if="imgs.logoDarkWImg" :src="getLogoImg()" alt="">
+              </router-link>
+              <!--<img v-if="imgs.logoDarkWImg" :src="getLogoImg()" alt="">-->
+            </v-toolbar-logo>
             <v-spacer />
             <v-btn v-if="menu.RESV" :ripple="false" @click.native="controlModal({target: 'cart', boo: true})">
               <v-icon>today</v-icon>
