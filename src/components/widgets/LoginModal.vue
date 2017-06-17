@@ -7,7 +7,7 @@
       <!-- 登入 -->
       <div v-if="currentMode === 'login'" class="modal-box-content">
         <div class="logo">
-          <img v-if="imgs.logoDarkWImg" :src="getLogoImg()" alt="">
+          <img src="/static/imgs/moxs_logo.png" alt="">
         </div>
         <div style="margin-top: 20px"></div>
         <div class="form-group">

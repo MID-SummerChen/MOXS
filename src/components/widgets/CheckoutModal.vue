@@ -71,12 +71,41 @@
               <input type="text">
             </div>
           </el-col>
-          <el-col v-if="currentTab === 3" :sm="24">
-            <div class="form-group">
-              <label>地址</label>
-              <input type="text">
-            </div>
-          </el-col>
+          <template v-if="currentTab === 3">
+            <el-col :sm="6">
+              <div class="form-group">
+                <label>縣市</label>
+                <el-select v-model="form.city"
+                            @change="onCityOptsChanged"
+                            style="width: 100%">
+                    <el-option v-for="o in cityOpts"
+                                :label="o.geoName"
+                                :value="o.geoName"
+                                >
+                    </el-option>
+                </el-select>
+                
+              </div>
+            </el-col>
+            <el-col :sm="6">
+              <div class="form-group">
+                <label>地區</label>
+                <el-select v-model="form.area"
+                            style="width: 100%">
+                    <el-option v-for="o in areaOpts"
+                                :label="o.geoName"
+                                :value="o.geoName">
+                    </el-option>
+                </el-select>
+              </div>
+            </el-col>
+            <el-col :sm="12">
+              <div class="form-group">
+                <label>地址</label>
+                <input type="text" v-model="form.addr">
+              </div>
+            </el-col>
+          </template>
           <el-col :sm="24">
             <div class="sub-radio-check">
               是否使用線上付款？
@@ -120,18 +149,45 @@
         ],
         form: {
           date: moment(),
-          time: moment()
-        }
+          time: moment(),
+          city: "",
+          area: "",
+          addr: "",
+        },
+        cityOpts: [],
+        areaOpts: [],
       }
     },
     computed: {
       ...mapGetters([
       ])
     },
+    mounted() {
+      this._getGeo()
+    },
     methods: {
       ...mapMutations([
         'controlModal'
       ]),
+      ...mapActions([
+        'getGeo'
+      ]),
+      async _getGeo(superCode) {
+          console.log(superCode)
+          var data ={
+              superCode
+          }
+          var res = await this.getGeo(data)
+          if(res.code === 10) {
+              superCode
+              ? this.areaOpts = res.data
+              : this.cityOpts = res.data
+          }
+      },
+      onCityOptsChanged() {
+          this.form.area = ""
+          this._getGeo(this.cityOpts.find(o => o.geoName === this.form.city).code)
+      },
       onCartSubmit() {
         this.controlModal({target: 'checkout', boo: false})
         this.controlModal({target: 'phoneVerify', boo: true})
