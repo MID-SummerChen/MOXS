@@ -1,9 +1,9 @@
 <template>
   <div id="product-modal" class="my-modal-wrap" @click.self="controlModal({target: 'product', boo: false})">
     <div class="modal-box">
-      <!--<div class="close-btn" @click="controlModal({target: 'product', boo: false})">
+      <div class="close-btn" @click="controlModal({target: 'product', boo: false})">
         <v-icon>clear</v-icon>
-      </div>-->
+      </div>
       <div class="modal-box-content">
         <div class="img-wrap">
           <img src="/static/imgs/food03.jpg" alt="">
