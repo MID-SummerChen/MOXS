@@ -1,4 +1,5 @@
-var apiHost = "106.1.80.127:33266" 
+// var apiHost = "106.1.80.127:33266" 
+var apiHost = "114.33.8.32:8890" 
 var apiModule = {
   sys: "moxs_sys",
   sev: "moxs_sev"
@@ -38,6 +39,7 @@ export default {
     // system
     getGeo: async (store, data) => await apiInit(store, "GET", "form", 'sys', `xs/sys/geo`, data),
     getConfig: async (store) => await apiInit(store, "GET", "form", 'sys', `cs/org/${orgSn}/sev/${sevSn}/conf`),
+    getService: async (store) => await apiInit(store, "GET", "form", 'sys', `cs/org/${orgSn}/sev/${sevSn}`),
     login: async (store, data) => await apiInit(store, "POST", "form", 'sys', `cs/org/${orgSn}/sev/${sevSn}/ac/signin`, data),
     logout: async (store, data) => await apiInit(store, "POST", "form", 'sys', `cs/ac/signout`, data),
     checkLogin: async (store, data) => await apiInit(store, "GET", "form", 'sys', `cs/ac/signed`, data, false),

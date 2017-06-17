@@ -22,7 +22,7 @@
                             <p v-if="account.mb">{{account.mb.lastName}} {{account.mb.firstName}} {{toGender(account.mb.gender)}}</p>
                             <div v-if="!editMode" class="btns">
                                 <button class="my-btn"
-                                        @click="editMode = true">編輯MOXS帳戶</button>
+                                        @click="editMode = true">編輯帳戶</button>
                                 <button class="my-btn"
                                         @click="triggerFileSelector">更新相片</button>
                                 <button class="my-btn"

@@ -25,14 +25,14 @@
             <el-col :sm="6">
               <div class="form-group">
                 <label>人數</label>
-                <input type="text" :disabled="currentTab !== 1">
+                <input type="text" :disabled="currentTab !== 'TABLE'">
               </div>
             </el-col>
             <el-col :sm="9">
               <div class="form-group">
                 <label>日期</label>
-                <!--<input type="text" v-model="form.date" :disabled="currentTab !== 1">-->
-                <el-date-picker type="date" placeholder="选择日期" v-model="form.date" style="width: 100%;"  :disabled="currentTab !== 1"></el-date-picker>
+                <!--<input type="text" v-model="form.date" :disabled="currentTab !== 'TABLE'">-->
+                <el-date-picker type="date" placeholder="选择日期" v-model="form.date" style="width: 100%;"  :disabled="currentTab !== 'TABLE'"></el-date-picker>
               </div>
             </el-col>
             <el-col :sm="9">
@@ -71,7 +71,7 @@
               <input type="text">
             </div>
           </el-col>
-          <template v-if="currentTab === 3">
+          <template v-if="currentTab === 'DELIVER'">
             <el-col :sm="6">
               <div class="form-group">
                 <label>縣市</label>
@@ -140,12 +140,12 @@
     mixins: [commonMixin],
     data() {
       return {
-        currentTab: 1,
+        currentTab: "TABLE",
         isPayNow: 1,
         tabs: [
-          {label: "內用", value: 1, msg: "內用的說明"},
-          {label: "外帶", value: 2, msg: "外帶的說明"},
-          {label: "外送", value: 3, msg: "外送的說明"},
+          {label: "內用", value: "TABLE", msg: "內用的說明"},
+          {label: "外帶", value: "TOGO", msg: "外帶的說明"},
+          {label: "外送", value: "DELIVER", msg: "外送的說明"},
         ],
         form: {
           date: moment(),
@@ -160,6 +160,7 @@
     },
     computed: {
       ...mapGetters([
+        'menu'
       ])
     },
     mounted() {

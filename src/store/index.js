@@ -30,6 +30,7 @@ export default new Vuex.Store({
   getters: {
     isLogin: state => state.isLogin,
     account: state => state.account,
+    menu: state => state.menu,
   },
   mutations: {
     switchLoginStatus(state, status) {

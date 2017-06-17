@@ -1,6 +1,6 @@
 <template>
   <div id="product-modal" class="my-modal-wrap" @click.self="controlModal({target: 'product', boo: false})">
-    <div ref="scrollBox" class="modal-box">
+    <div class="modal-box">
       <!--<div class="close-btn" @click="controlModal({target: 'product', boo: false})">
         <v-icon>clear</v-icon>
       </div>-->
@@ -14,7 +14,7 @@
           <button class="my-btn t1" :class="{active: currentTab === 1}" @click="currentTab = 1">餐點介紹</button>
           <button class="my-btn t1" :class="{active: currentTab === 2}" @click="currentTab = 2">餐點預定</button>
         </div>
-        <div class="content">
+        <div class="content" ref="scrollBox">
           <template v-if="currentTab === 1">
             {{product.desc}}
             <div v-for="attr in product.attrs" class="attr">
@@ -30,11 +30,12 @@
                 </el-option>
               </el-select>
             </div>
+            
 
             <div v-for="chk in product.chks" class="plus">{{chk.name}}：
               <span v-for="opt in chk.opts" :class="{active: selectedChks.indexOf(opt.id) > -1}" @click="onSelectChk(chk, opt.id)">{{opt.name + opt.value}}</span> 
             </div>
-            <div class="total">
+            <div v-if="product.prcs.length > 0" class="total">
               <div>單價
                 <p>{{getUnitPrice()}}元</p>
               </div>
@@ -47,6 +48,10 @@
                 <p>{{getUnitPrice() * count}}元</p>
               </div>
             </div>
+            <div v-else class="singleCount">
+              <span>數量：</span>
+              <el-input-number v-model="count" :min="1" :max="10" size="small" ></el-input-number>
+            </div>
             <div class="ps">
               <p>備註</p>
               <textarea></textarea>
@@ -58,7 +63,7 @@
         </div>
         <div class="sub-btn-wrap">
           <div v-show="currentTab === 2" class="button" @click="onAddedToCart">加入預約清單</div>
-          <div class="button" @click="controlModal({target: 'product', boo: false})">關閉</div>
+          <!--<div class="button" @click="controlModal({target: 'product', boo: false})">關閉</div>-->
         </div>
         
       </div>
@@ -91,6 +96,13 @@
         this.selectedPrc = this.product.prcs[0].opts[0]
       }
       
+    },
+    watch: {
+      currentTab() {
+        setTimeout(() => {
+          Ps.update(this.$refs.scrollBox)
+        })
+      }
     },
     methods: {
       ...mapMutations([

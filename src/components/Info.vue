@@ -7,14 +7,10 @@
                 </ul>
             </div>
             <div class="main-content">
-                <div class="title-img">
-                    <img src="/static/imgs/bg.jpg" alt="">
-                </div>
+                <div class="title-img" :style="{'background-image': 'url('+ bgImgSrc +')'}"></div>
                 <div class="page-content">
-                    <h4>標題在這裡</h4>
-                    <p class="desc">
-                        壹些內容壹些內容壹些內容壹些內容壹些內容壹些內容，壹些內容壹些內容壹些內容壹些內容壹些內容壹些內容壹些內容壹些內容壹些內容 ，壹些內容壹些內容壹些內容壹些內容，壹些內容壹些內容壹些內容壹些內容壹些內容壹些內容，壹些內容壹些內容壹些內容壹些內容 壹些內容壹些內容壹些內容壹些內容壹些內容壹些內容壹些內容壹些內容，壹些內容壹些內容壹些內容壹些內容壹些內容壹些內容。
-                    </p>
+                    <h4>{{serviceInfo.name}}</h4>
+                    <p class="desc">{{serviceInfo.desc}} </p>
                     <div style="margin-top: 20px"></div>
                     <el-row :gutter="30">
                         <el-col :sm="8"
@@ -22,11 +18,11 @@
                             <div class="box" @click="showStoreMap(store)">
                                 <div class="icon-location"></div>
                                 <h5>{{store.name}}</h5>
-                                <p class="small">台中市北區繼光街199號2F</p>
-                                <p class="small">04-12345678</p>
-                                <p class="small">08:00 ~ 21:00</p>
+                                <p class="small">{{store.city}}{{store.area}}{{store.addr}}</p>
+                                <p class="small">{{store.tel}}</p>
+                                <!--<p class="small">08:00 ~ 21:00</p>-->
                                 <p class="content">
-                                    壹些內容壹些內容壹些內容壹些內容壹些內容壹些內容，壹些內容壹些內容壹些內容壹些內容
+                                    {{store.info}}
                                 </p>
                             </div>
                         </el-col>
@@ -44,7 +40,7 @@ import SideBar from '@/components/layout/SideBar.vue'
 import QRCodeModal from '@/components/widgets/QRCodeModal.vue'
 import eventHub from '@/utils/eventHub'
 import commonMixin from '@/utils/commonMixin'
-import { mapGetters, mapActions, mapMutations } from 'vuex'
+import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 export default {
     name: 'Products',
     components: {
@@ -54,11 +50,26 @@ export default {
     },
     data() {
         return {
-            storeList: []
+            storeList: [],
+            serviceInfo: {}
         }
     },
     mounted() {
+        this._getService()
         this._getStoreList()
+    },
+    computed: {
+        ...mapState({
+            imgs: state => state.imgs,
+        }),
+        ...mapGetters([
+            'account',
+            'apiHost',
+            'apiModule',
+        ]),
+        bgImgSrc() {
+            return this.imgs.bgPrimaryWImg ? `http://${this.apiHost}/${this.apiModule.sys}/${this.imgs.bgPrimaryWImg}` : ''
+        }
     },
     methods: {
         ...mapMutations([
@@ -69,7 +80,14 @@ export default {
         ...mapActions([
             'getStoreList',
             'getStore',
+            'getService',
         ]),
+        async _getService() {
+            var res = await this.getService()
+            if(res.code === 10) {
+                this.serviceInfo = res.data
+            }
+        },
         async _getStoreList() {
             var res = await this.getStoreList()
             if(res.code === 10) {

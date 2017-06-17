@@ -15,7 +15,7 @@
                   <p class="username">{{account.mb.lastName}}{{account.mb.firstName}}</p>
               </div>
               <div>
-                <button class="btn-t1" @click="$router.push({name: 'MemberEdit'})">編輯帳戶</button>
+                <button class="btn-t1" @click="$router.push({name: 'MemberEdit'})">編輯MOXS帳戶</button>
               </div>
           </div>
           <div class="record">

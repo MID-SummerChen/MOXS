@@ -16,10 +16,12 @@
     .logo 
       width: 100%
       padding: 20px
+      height: 100px
       img 
-        max-width: 100%
-
+        max-width: 150px
+        @media(max-width: mobile-media)
+          display: none
 .with.left-fixed-sidebar main
   padding-left menu-width
-  @media screen and (max-width 991px)
+  @media(max-width: ipad-media)
     padding-left 0

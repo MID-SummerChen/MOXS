@@ -30,9 +30,9 @@
               <img v-if="imgs.logoDarkWImg" :src="getLogoImg()" alt="">
             </v-toolbar-logo>-->
             <v-spacer />
-            <v-btn :ripple="false">
+            <v-btn v-if="menu.RESV" :ripple="false" @click.native="controlModal({target: 'cart', boo: true})">
               <v-icon>today</v-icon>
-              <span class="toolbar-icon-title" @click="controlModal({target: 'cart', boo: true})">預約點餐</span>
+              <span class="toolbar-icon-title">預約點餐</span>
             </v-btn>
             <v-btn v-if="isLogin" :ripple="false">
               <v-icon>account_circle</v-icon>
@@ -42,9 +42,9 @@
                 <a href="" @click.prevent="_onLogout">登   出</a>
               </div>
             </v-btn>
-            <v-btn v-else :ripple="false">
+            <v-btn v-else :ripple="false" @click.native="controlModal({target: 'login', boo: true})">
               <v-icon>account_circle</v-icon>
-              <span class="toolbar-icon-title" @click="controlModal({target: 'login', boo: true})">會員登入</span>
+              <span class="toolbar-icon-title">會員登入</span>
             </v-btn>
           </v-toolbar>
         </header>
@@ -59,11 +59,11 @@
                   <router-link :to="{name: 'Products'}">{{menu.ITEM.TITLE}}</router-link>
                 </v-list-tile>
               </v-list-item>
-              <v-list-item v-if="menu.RESV">
+              <!--<v-list-item v-if="menu.RESV">
                 <v-list-tile ripple>
                   <router-link :to="{name: 'Products'}">{{menu.RESV.TITLE}}</router-link>
                 </v-list-tile>
-              </v-list-item>
+              </v-list-item>-->
               <v-list-item>
                 <v-list-tile v-if="menu.NEWS" ripple>
                   <router-link :to="{name: 'News'}">{{menu.NEWS.TITLE}}</router-link>
