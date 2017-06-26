@@ -47,6 +47,7 @@ gulp.task('clean', function() {
     '!dist/static/css/sprite.css',
     '!dist/static/css/sprite.png',
     '!dist/static/css/combined.css',
+    '!dist/static/css/custom.css',
     '!dist/static/css/app.*.{css,map}',
     'dist/static/js/**/*',
     '!dist/static/js/combined.js',
