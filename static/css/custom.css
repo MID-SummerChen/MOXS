@@ -1,3 +1,15 @@
 .page#Info .main-content .page-content h4 {
-  color: ${mainColor}
+  color: ${COLOR_PRIMARY}
+  background-color: ${COLOR_PRIMARY_DARK}
+}
+
+.page#Info .main-content .page-content .box {
+  background-color: ${COLOR_SECONDARY}
+}
+
+.page#Info .main-content .page-content .box h5 {
+  color: ${COLOR_PRIMARY}
+}
+.page#Info .main-content .page-content .box p.content {
+  color: ${COLOR_SECONDARY_DARK}
 }
