@@ -12,7 +12,7 @@
               <div class="img-wrap" :style="{'background-image': 'url(' +memPicSrc +')'}"></div>
               <div v-if="account.mb" class="text-info">
                   <p class="email">{{account.id}}</p>
-                  <p class="username">{{account.mb.lastName}}{{account.mb.firstName}}</p>
+                  <p class="username">{{account.mb.name}}</p>
               </div>
               <div>
                 <button class="btn-t1" @click="$router.push({name: 'MemberEdit'})">編輯MOXS帳戶</button>

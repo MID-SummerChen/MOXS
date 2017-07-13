@@ -93,7 +93,7 @@
         var res = await this.getItemsCls(data)
         if(res.code === 10) {
           this.itemsCls = res.data.children
-          this.breadcrumb = res.data.parent
+          this.breadcrumb = _(this.breadcrumb).concat(res.data.parent).value()
         }
       },
       async _getItems() {

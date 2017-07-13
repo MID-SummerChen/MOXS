@@ -12,7 +12,7 @@
       </v-btn>
       <v-btn :ripple="false">
         <v-icon>account_circle</v-icon>
-        {{account.mb ? account.mb.lastName + account.mb.firstName : ''}}
+        {{account.mb ? account.mb.name : ''}}
         <div class="headerSubMenu">
           <p>aveeee</p>
           <p>aveeee</p>

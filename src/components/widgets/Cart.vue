@@ -7,30 +7,36 @@
         <span class="reset">重設</span>
       </div>
       <!--<div class="content">填寫預約資料...</div>-->
-      <div class="content" @click="controlModal({target: 'checkout', boo: true})">
-        <h5>內用點餐</h5>
+      <div v-if="currentResv.sn" class="content" @click="controlModal({target: 'checkout', boo: true})">
+        <h5>{{currentResv.typeName}}</h5>
         <p>
-          2017/03/20 星期三
-          <span>16:30(2人)</span>
-          <span>線上付款</span>
+          {{currentResv.date}}
+          <span>{{currentResv.startAt}}({{currentResv.adultNum + currentResv.kidNum}}人)</span>
+          <span>{{currentResv.payType}}</span>
         </p>
-        <p>林青揚先生 <span>0921-999888</span></p>
-        <p>台中烏日區健行南路233號10樓</p>
+        <p>{{currentResv.name}}{{currentResv.gender}} <span>{{currentResv.cell}}</span></p>
+        <p>{{currentResv.city + currentResv.area + currentResv.addr}}</p>
+      </div>
+      <div v-else class="content" @click="controlModal({target: 'checkout', boo: true})">
+        <h5>預約資訊</h5>
+        <p>請填寫預約資料</p>
       </div>
       <div ref="scrollBox" class="items">
-        <div v-for="n in 10" class="item">
+        <div v-for="item in orderItems" class="item">
           <div class="item-content">
-            <p class="title">餐點的名稱</p>
-            <p class="sub-title">大 <span>3份</span></p>
-            <p class="tags"><span>加雞蛋</span><span>加雞蛋</span><span>加雞蛋</span></p>
+            <p class="title">{{item.name}}</p>
+            <p v-for="prc in item.prcs" class="sub-title">{{prc.opt.name}} <span>{{item.count}}份</span></p>
+            <p v-for="chk in item.chks" class="tags">
+              <span v-for="opt in chk.opts">加{{opt.name}}</span>
+            </p>
           </div>
-          <div class="item-price">$180</div>
-          <div class="item-cancel"><i class="el-icon-close"></i></div>
+          <div class="item-price">${{item.unitPrice * item.count}}</div>
+          <div class="item-cancel" @click="REMOVE_ORDER_ITEM(item.sn)"><i class="el-icon-close"></i></div>
         </div>
       </div>
       <div class="total">
-        合計 NT$ 170
-        <button type="button" class="submit" @click="$router.push({name: 'Checkout'})">確認預約</button>
+        合計 NT$ {{orderItemsTotalPrice}}
+        <button type="button" class="submit" @click="controlModal({target: 'checkout', boo: true})">確認預約</button>
       </div>
 
     </div>
@@ -47,14 +53,18 @@ export default {
   },
   computed: {
     ...mapGetters([
-    ])
+      'orderItems',
+      'orderItemsTotalPrice',
+      'currentResv',
+    ]),
   },
   mounted() {
     Ps.initialize(this.$refs.scrollBox);
   },
   methods: {
     ...mapMutations([
-      'controlModal'
+      'controlModal',
+      'REMOVE_ORDER_ITEM',
     ]),
 
   }

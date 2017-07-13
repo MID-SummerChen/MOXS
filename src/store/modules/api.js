@@ -13,12 +13,13 @@ import Qs from 'query-string'
 export default {
   state: {
     isLoading: false,
-    loadingApis: []
+    loadingApis: [],
   },
   getters: {
     apiHost: state => apiHost,
     apiModule: state => apiModule,
-
+    orgSn: state => orgSn,
+    sevSn: state => sevSn,
   },
   mutations: {
     pushLoadingApi(state, apiUrl) {
@@ -50,11 +51,25 @@ export default {
     memImgUpload: async (store, data) => await apiInit(store, "POST", "multi", 'sys', `res/img/add`, data),
     getStoreList: async (store, data) => await apiInit(store, "GET", "form", 'sys', `cs/org/${orgSn}/sev/${sevSn}/sto`, data),
     getStore: async (store, stoSn) => await apiInit(store, "GET", "form", 'sys', `cs/org/${orgSn}/sev/${sevSn}/sto/${stoSn}`),
+
     
     // service
-    getItemsCls: async (store, data) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/item/cls`, data),
+    getItemsCls: async (store, data) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/item/cls`),
     getItems: async (store, data) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/item`, data),
     getItem: async (store, itemSn) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/item/${itemSn}`),
+
+    // 預約
+    getAllResv: async (store, data) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/resv`, data),
+    getResvOpt: async (store, stoSn) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/sto/${stoSn}/resv_opt`),
+    addResv: async (store, data) => await apiInit(store, "POST", "json", 'sev', `cs/org/${orgSn}/sev/${sevSn}/sto/${data.stoSn}/resv/add`, data),
+    sendResvVerify: async (store, resvSn) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/resv/${resvSn}/send/verify`),
+    verifyResv: async (store, data) => await apiInit(store, "POST", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/resv/${data.resvSn}/verify`, data),
+    getAllowResvDate: async (store, data) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/sto/${data.stoSn}/resv/date`, data),
+    getAllowResvTime: async (store, data) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/sto/${data.stoSn}/resv/time`, data),
+    getResvList: async (store, resvSn) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/resv/${resvSn}/chk`),
+    resvCheckout: async (store, data) => await apiInit(store, "POST", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/chk/${data.chkSn}/pay`, data),
+    getResvItems: async (store, resvSn) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/resv/${resvSn}/tm`),
+    
   }
 }
 

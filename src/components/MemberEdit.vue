@@ -19,7 +19,7 @@
                             <div v-else class="img-wrap" 
                                 style="background-image: url('/static/imgs/food01.jpg')"></div> <!-- 預設圖 -->
                             <p>{{form.email}}</p>
-                            <p v-if="account.mb">{{account.mb.lastName}} {{account.mb.firstName}} {{toGender(account.mb.gender)}}</p>
+                            <p v-if="account.mb">{{account.mb.name}} {{toGender(account.mb.gender)}}</p>
                             <div v-if="!editMode" class="btns">
                                 <button class="my-btn"
                                         @click="editMode = true">編輯帳戶</button>
@@ -38,17 +38,13 @@
                         <h5>帳戶資訊</h5>
                         <form>
                             <div v-if="editMode" class="form-group">
-                                <label>姓</label>
+                                <label>姓名</label>
                                 <div class="form-content">
                                     <div class="form-inline-content">
                                         <input type="text"
-                                            v-model="form.lastName">
+                                            v-model="form.name">
                                     </div>
-                                    <label>名</label>
-                                    <div class="form-inline-content">
-                                        <input type="text"
-                                            v-model="form.firstName">
-                                    </div>
+                                    
                                     <label>稱謂</label>
                                     <div class="form-inline-content">
                                         <el-select v-model="form.gender">
@@ -144,8 +140,7 @@ export default {
             editMode: false,
             picLoading: false,
             form: {
-                lastName: "",
-                firstName: "",
+                name: "",
                 gender: "FEMALE",
                 cell: "",
                 city: "",
@@ -153,9 +148,6 @@ export default {
                 birth: "",
                 addr: "",
                 email: "",
-                ac: {
-                    resId: ""
-                }
             },
             genderOpts: [
                 { label: "女士", value: "FEMALE" },
@@ -209,14 +201,12 @@ export default {
         setData() {
             if (this.account.mb) {
                 this.form.email = this.account.id
-                this.form.lastName = this.account.mb.lastName || ""
-                this.form.firstName = this.account.mb.firstName || ""
+                this.form.name = this.account.mb.name || ""
                 this.form.city = this.account.mb.city || ""
                 this.form.area = this.account.mb.area || ""
                 this.form.addr = this.account.mb.addr || ""
                 this.form.cell = this.account.mb.cell || ""
                 this.form.birth = this.account.mb.birth || ""
-                this.form.ac.resId = this.account.resId || ""
                 this.memPicSrc = this.account.resUrl ? `http://${this.apiHost}/${this.apiModule.sys}${this.account.resUrl}` : ""
             } else {
                 setTimeout(this.setData, 500)
@@ -239,7 +229,16 @@ export default {
                 });
                 this.picLoading = false
                 this.memPicSrc = `http://${this.apiHost}/${this.apiModule.sys}${res.data.url}`
-                this.form.ac.resId = res.data.id
+
+                var res = await this.updateMember({resId: res.data.id})
+                if (res.code === 10) {
+                    this.checkLoginStatus()
+                    this.$message({
+                        message: '更新成功',
+                        type: 'success'
+                    });
+                    this.editMode = false
+                }
 
                 this.onSubmit()
 

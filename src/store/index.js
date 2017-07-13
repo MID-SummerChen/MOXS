@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import api from './modules/api'
 import modal from './modules/modal'
+import order from './modules/order'
 import alertBox from './modules/modals/alertBox'
 import productModal from './modules/modals/productModal'
 import storeMapModal from './modules/modals/storeMapModal'
@@ -13,6 +14,7 @@ export default new Vuex.Store({
   modules: {
     api,
     modal,
+    order,
     alertBox,
     productModal,
     storeMapModal,
@@ -25,6 +27,7 @@ export default new Vuex.Store({
     sev: {},
     imgs: {},
     colors: {},
+    paySets: [],
     googleKey: 'AIzaSyCJwqPoYKWtOxe2xnb3tneHV1Vu9EdKZAQ'
   },
   getters: {
@@ -45,6 +48,7 @@ export default new Vuex.Store({
       state.sev = data.service
       state.imgs = data.sev_theme_res
       state.colors = data.sev_theme
+      state.paySets = data.org_pay_set
     },
   },
   actions: {

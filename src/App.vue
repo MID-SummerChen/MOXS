@@ -39,7 +39,7 @@
             </v-btn>
             <v-btn v-if="isLogin" :ripple="false">
               <v-icon>account_circle</v-icon>
-              <span class="toolbar-icon-title">{{account.mb ? account.mb.lastName + account.mb.firstName : '訪客'}}</span>
+              <span class="toolbar-icon-title">{{account.mb ? account.mb.name : '訪客'}}</span>
               <div class="headerSubMenu">
                 <router-link :to="{name: 'Member'}">會員中心</router-link>
                 <a href="" @click.prevent="_onLogout">登   出</a>

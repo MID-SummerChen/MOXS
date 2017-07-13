@@ -92,20 +92,6 @@ export default {
             var res = await this.getStoreList()
             if(res.code === 10) {
                 this.storeList = res.data.items
-                // this.$nextTick(() => {
-                //     _.each(this.storeList, (sto, i) => {
-                //         console.log(this.$refs.map[i])
-                //         var _opt = {
-                //             center: { lat: -34.397, lng: 150.644},
-                //             zoom: 8
-                //         };
-                //         var map = new google.maps.Map(
-                //             this.$refs.map[i],
-                //             _opt);
-                //     })
-                    
-                // })
-                
                 
             }
         },

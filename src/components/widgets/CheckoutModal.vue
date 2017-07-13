@@ -9,36 +9,55 @@
         <el-row :gutter="20">
           <el-col :sm="24">
             <div class="form-group">
-              <el-select class="main" style="width: 100%; height: 50px" v-model="currentTab">
-                <el-option v-for="tab in tabs" :label="tab.label" :value="tab.value"></el-option>
+              <label>分店</label>
+              <el-select class="main" style="width: 100%; height: 50px" v-model="form.store" @change="onStoreChanged">
+                <el-option label="請選擇分店" value=""></el-option>
+                <el-option v-for="s in storeList" :label="s.name" :value="s.sn"></el-option>
               </el-select>
-              <p class="tabMsg">{{tabs.find(t => t.value ===currentTab).msg}}</p>
             </div>
+            
           </el-col>
           <el-col :sm="24">
             <div class="form-group">
-              <label>分店</label>
-              <input type="text" disabled>
+              <el-select style="width: 100%" v-model="form.resvTypeId" @change="onResvTypeChanged">
+                <el-option label="用餐方式" value=""></el-option>
+                <el-option v-for="r in resvTypeList" :label="r.name" :value="r.id"></el-option>
+              </el-select>
+              <!--<p class="tabMsg">{{resvTypeList.find(t => t.value ===form.resvTypeId).msg}}</p>-->
             </div>
           </el-col>
           <template>
-            <el-col :sm="6">
+            <el-col :sm="12">
               <div class="form-group">
-                <label>人數</label>
-                <input type="text" :disabled="currentTab !== 'TABLE'">
+                <label>成人數</label>
+                <el-input-number style="width: 100%" v-model="form.adultNum" :min="0" :disabled="getResvCode(form.resvTypeId) !== 'STAYIN'"></el-input-number>
               </div>
             </el-col>
-            <el-col :sm="9">
+            <el-col :sm="12">
+              <div class="form-group">
+                <label>兒童數</label>
+                <el-input-number style="width: 100%" v-model="form.kidNum" :min="0" :disabled="getResvCode(form.resvTypeId) !== 'STAYIN'"></el-input-number>
+              </div>
+            </el-col>
+            <el-col :sm="12">
               <div class="form-group">
                 <label>日期</label>
-                <!--<input type="text" v-model="form.date" :disabled="currentTab !== 'TABLE'">-->
-                <el-date-picker type="date" placeholder="选择日期" v-model="form.date" style="width: 100%;"  :disabled="currentTab !== 'TABLE'"></el-date-picker>
+                <!--<input type="text" v-model="form.date" :disabled="form.resvTypeId !== 'STAYIN'">-->
+                <el-select v-model="form.date" style="width: 100%;" @change="onDateChanged">
+                  <!--<el-option label="請選擇日期" value=""></el-option>-->
+                  <el-option v-for="d in dateList" :value="d"></el-option>
+                </el-select>
+                <!--<el-date-picker type="date" placeholder="选择日期" v-model="form.date" style="width: 100%;"  :disabled="getResvCode(form.resvTypeId) !== 'STAYIN'"></el-date-picker>-->
               </div>
             </el-col>
-            <el-col :sm="9">
+            <el-col :sm="12">
               <div class="form-group">
                 <label>時間</label>
-                <el-time-picker type="fixed-time" placeholder="选择时间" v-model="form.time" style="width: 100%;" format="HH:mm"></el-time-picker>
+                <el-select v-model="form.time" style="width: 100%;" >
+                  <!--<el-option label="請選擇時間" value=""></el-option>-->
+                  <el-option v-for="t in timeList" :value="t"></el-option>
+                </el-select>
+                <!--<el-time-select type="fixed-time" placeholder="选择时间" v-model="form.time" style="width: 100%;" :picker-options="timeOpts" format="HH:mm"></el-time-select>-->
               </div>
             </el-col>
           </template>
@@ -47,31 +66,28 @@
             <hr class="divider">
           </el-col>
           
-          <el-col :sm="6">
+          <el-col :sm="16">
             <div class="form-group">
-              <label>姓</label>
-              <input type="text">
+              <label>姓名</label>
+              <input type="text" v-model="form.name">
             </div>
           </el-col>
-          <el-col :sm="12">
-            <div class="form-group">
-              <label>名字</label>
-              <input type="text">
-            </div>
-          </el-col>
-          <el-col :sm="6">
+          <el-col :sm="8">
             <div class="form-group">
               <label>稱謂</label>
-              <input type="text">
+              <el-select style="width: 100%" v-model="form.gender">
+                <el-option label="先生" value="MALE"></el-option>
+                <el-option label="小姐" value="FEMALE"></el-option>
+              </el-select>
             </div>
           </el-col>
           <el-col :sm="24">
             <div class="form-group">
               <label>手機</label>
-              <input type="text">
+              <input type="text" v-model="form.mobile">
             </div>
           </el-col>
-          <template v-if="currentTab === 'DELIVER'">
+          <template v-if="getResvCode(form.resvTypeId) === 'DELIVER'">
             <el-col :sm="6">
               <div class="form-group">
                 <label>縣市</label>
@@ -109,15 +125,18 @@
           <el-col :sm="24">
             <div class="sub-radio-check">
               是否使用線上付款？
-              <el-radio class="radio" v-model="isPayNow" :label="1">是</el-radio>
-              <el-radio class="radio" v-model="isPayNow" :label="2">否</el-radio>
+              <el-radio-group v-model="form.payType">
+                <el-radio class="radio" label="ONLINE">是</el-radio>
+                <el-radio class="radio" label="ONSIDE">否</el-radio>
+              </el-radio-group>
+              
             </div>
           </el-col>
 
         </el-row>
 
         
-        <div class="submit-button" @click="onCartSubmit">
+        <div class="submit-button" @click="onSubmit">
           確 認
         </div>
         
@@ -140,39 +159,177 @@
     mixins: [commonMixin],
     data() {
       return {
-        currentTab: "TABLE",
-        isPayNow: 1,
-        tabs: [
-          {label: "內用", value: "TABLE", msg: "內用的說明"},
-          {label: "外帶", value: "TOGO", msg: "外帶的說明"},
-          {label: "外送", value: "DELIVER", msg: "外送的說明"},
-        ],
+        dateList: [],
+        timeList: [],
+        resvTypeList: [],
         form: {
-          date: moment(),
-          time: moment(),
+          resvTypeId: "",
+          payType: "ONLINE",
+          date: "",
+          time: "",
           city: "",
           area: "",
           addr: "",
+          store: "",
+          name: "",
+          gender: "MALE",
+          mobile: "",
+          adultNum: 2,
+          kidNum: 0,
         },
         cityOpts: [],
         areaOpts: [],
+        storeList: [],
+        timeOpts: {
+          start: '10:30', 
+          step: '00:15',
+          end: '20:30'
+        }
       }
     },
     computed: {
       ...mapGetters([
-        'menu'
+        'menu',
+        'orderItems'
       ])
     },
     mounted() {
       this._getGeo()
+      this._getStoreList()
     },
     methods: {
       ...mapMutations([
-        'controlModal'
+        'controlModal',
+        'SAVE_CURRENT_RESV',
       ]),
       ...mapActions([
-        'getGeo'
+        'getGeo',
+        'getStoreList',
+        'getResvOpt',
+        'addResv',
+        'getAllowResvDate',
+        'getAllowResvTime',
+        'sendResvVerify',
+        'verifyResv',
+        'resvCheckout',
       ]),
+      onStoreChanged() {
+        if(this.form.store) {
+          this._getResvOpt()
+        }
+      },
+      onResvTypeChanged() {
+        if(this.form.resvTypeId) {
+          this._getAllowResvDate()
+        }
+      },
+      onDateChanged() {
+        if(this.form.date) {
+          this._getAllowResvTime()
+        }
+      },
+      async _getResvOpt() {
+        var res = await this.getResvOpt(this.form.store)
+        if(res.code === 10) {
+          this.resvTypeList = res.data.items
+          if(this.resvTypeList[0]) this.form.resvTypeId = this.resvTypeList[0].id
+        }
+      },
+      async _getAllowResvTime() {
+        var data = {
+          optId: this.form.resvTypeId,
+          stoSn: this.form.store,
+          date: this.form.date,
+          peopleNumber: this.form.adultNum + this.form.kidNum,
+        }
+        var res = await this.getAllowResvTime(data)
+        if(res.code === 10) {
+          this.timeList = res.data
+          if(this.timeList[0]) this.form.time = this.timeList[0]
+          
+        }
+      },
+      async _getAllowResvDate() {
+        var data = {
+          optId: this.form.resvTypeId,
+          stoSn: this.form.store
+        }
+        var res = await this.getAllowResvDate(data)
+        if(res.code === 10) {
+          this.dateList = res.data
+          if(this.dateList[0]) this.form.date = this.dateList[0]
+        }
+      },
+      async onSubmit() {
+        var f = this.form
+        var data = {
+          stoResvOptId: this.form.resvTypeId,
+          stoSn: f.store,
+          date: moment(f.date).format("YYYY-MM-DD"),
+          startAt: f.time,
+          adultNum: f.adultNum,
+          kidNum: f.adultNum,
+          gender: f.gender,
+          cell: f.mobile,
+          payType: f.payType,
+          city: f.city,
+          area: f.area,
+          addr: f.addr,
+          name: f.name,
+          items: _.map(this.orderItems, item => {
+            return {
+              itemSn: item.sn,
+              amount: item.count,
+              chks: _.map(item.chks, chk => {
+                return {
+                  chkId: chk.chkId,
+                  opts: _.map(chk.opts, opt => ({optId: opt.id}))
+                }
+              }),
+              prcs: _.map(item.prcs, prc => {
+                return {
+                  prcId: prc.prcId,
+                  opts: [{optId: prc.opt.id}]
+                }
+              }),
+            }
+          })
+        }
+        var res = await this.addResv(data)
+        if(res.code === 10) {
+          this.SAVE_CURRENT_RESV(res.data)
+          console.log(f.payType)
+          
+          if(f.payType === "ONLINE") {
+            var query = {resv: res.data.sn, chk: res.data.chk.chkSn}
+            console.log(query)
+            this.$router.push({name: "Checkout", query})
+            this.controlModal({target: 'checkout', boo: false})
+          }else {
+            var r = await this.sendResvVerify(res.data.sn)
+            if(r.code === 10) {
+              this.$message('已發送驗證碼');
+              this.controlModal({target: 'checkout', boo: false})
+              this.controlModal({target: 'phoneVerify', boo: true})
+            }
+          }
+          
+          
+
+        }
+      },
+      getResvCode(id) {
+        // resvTypeList.find(t => t.id === form.resvTypeId).sysResvOptId
+        var i = _.findIndex(this.resvTypeList, {id: this.form.resvTypeId})
+        return i > -1 ? this.resvTypeList[i].sysResvOptId : ""
+      },
+      async _getStoreList() {
+          var res = await this.getStoreList()
+          if(res.code === 10) {
+              this.storeList = res.data.items
+              
+          }
+      },
       async _getGeo(superCode) {
           console.log(superCode)
           var data ={
@@ -189,10 +346,9 @@
           this.form.area = ""
           this._getGeo(this.cityOpts.find(o => o.geoName === this.form.city).code)
       },
-      onCartSubmit() {
-        this.controlModal({target: 'checkout', boo: false})
-        this.controlModal({target: 'phoneVerify', boo: true})
-      }
+      // onCartSubmit() {
+        
+      // }
 
     }
   }
