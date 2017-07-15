@@ -149,10 +149,6 @@ export default {
                 addr: "",
                 email: "",
             },
-            genderOpts: [
-                { label: "女士", value: "FEMALE" },
-                { label: "先生", value: "MALE" },
-            ],
             cityOpts: [],
             areaOpts: [],
         }
@@ -178,10 +174,6 @@ export default {
             'checkLoginStatus',
             'getGeo',
         ]),
-        toGender(val) {
-          var i = this.genderOpts.findIndex(opt => opt.value === val)
-          return i > -1 ? this.genderOpts[i].label : ""
-        },
         async _getGeo(superCode) {
             console.log(superCode)
             var data ={

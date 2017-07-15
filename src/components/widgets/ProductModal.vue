@@ -54,7 +54,7 @@
             </div>
             <div class="ps">
               <p>備註</p>
-              <textarea></textarea>
+              <textarea v-model="form.note"></textarea>
             </div>
               
           </template>
@@ -82,6 +82,7 @@
           chkOpts: [],
           prcOpt: {},
           count: 1,
+          note: ""
         },
       }
     },
@@ -118,6 +119,7 @@
           name: p.name,
           count: this.form.count,
           unitPrice: this.getUnitPrice(),
+          rtmNote: this.form.note,
           prcs: [
             {
               prcId: p.prcs[0] ? p.prcs[0].id : "",

@@ -14,43 +14,35 @@
           </div>
           <div class="content-wrap">
             預約號碼
-            <div class="number-box">
-              123456
+            <div v-if="resvInfo.resvCode" class="number-box">
+              {{resvInfo.resvCode.slice(resvInfo.resvCode.length-4)}}
             </div>
             <el-row :gutter="40">
               <el-col :sm="12">
-                <p>紀錄編號：RES1238523523502134</p>
-                <p>預約分店：台中復興店</p>
-                <p>紀錄編號：RES1238523523502134</p>
-                <p>預約分店：台中復興店</p>
-                <p>紀錄編號：RES1238523523502134</p>
-                <p>預約分店：台中復興店</p>
-                <p>紀錄編號：RES1238523523502134</p>
-                <p>預約分店：台中復興店</p>
-                <p>紀錄編號：RES1238523523502134</p>
-                <p>預約分店：台中復興店</p>
-                <p>紀錄編號：RES1238523523502134</p>
-                <p>預約分店：台中復興店</p>
-                <p>紀錄編號：RES1238523523502134</p>
-                <p>預約分店：台中復興店</p>
+                <p>紀錄編號：{{resvInfo.sn}}</p>
+                <p>預約分店：{{resvInfo.stoSn}}</p>
+                <p>預約類型：{{toResvType(resvInfo.typeName)}}</p>
+                <p>預約時間：{{resvInfo.createAt}}</p>
+                <p>預約人數：{{resvInfo.adultNum + resvInfo.kidNum}}</p>
+                <p>預約人：{{resvInfo.name}} {{toGender(resvInfo.gender)}} {{resvInfo.cell}}</p>
+                <p>地址：{{resvInfo.city + resvInfo.area + resvInfo.addr}}</p>
+                <p>付款方式：{{toPayType(resvInfo.payType)}} <span style="color: red">[{{toChkStatus(resvInfo.status)}}]</span></p>
+                <p>建檔時間：{{resvInfo.createAt}}</p>
               </el-col>
               <el-col :sm="12">
-                <p>紀錄編號：RES1238523523502134</p>
-                <p>預約分店：台中復興店</p>
-                <p>紀錄編號：RES1238523523502134</p>
-                <p>預約分店：台中復興店</p>
-                <p>紀錄編號：RES1238523523502134</p>
-                <p>預約分店：台中復興店</p>
-                <p>紀錄編號：RES1238523523502134</p>
-                <p>預約分店：台中復興店</p>
-                <p>紀錄編號：RES1238523523502134</p>
-                <p>預約分店：台中復興店</p>
+                <p>帳單編號：{{chkInfo.chkSn}}</p>
+                <p>帳單金額：${{resvInfo.totalPrice}}</p>
+                <p>交易時間：???</p>
+                <p>支付類型：歐付寶 信用卡</p>
+                <p>發票類型：{{toInvoiceType(chkInfo.invoiceType)}}</p>
+                <p v-if="resvInfo.invoiceTitle">發票抬頭：{{chkInfo.invoiceTitle}}</p>
+                <p v-if="resvInfo.taxId">統一編號：{{chkInfo.taxId}}</p>
               </el-col>
             </el-row>
           </div>
          
           <div class="btn-wrap">
-            <a href="" class="text-blue">查訊預約記錄</a>
+            <router-link :to="{name: 'MemberRecord'}" class="text-blue">查訊預約記錄</router-link>
           </div>
         </div>
       </div>
@@ -67,15 +59,40 @@ import commonMixin from '@/utils/commonMixin'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 export default {
   name: 'Products',
+  mixins: [commonMixin],
   components: {
     HeaderCpt: Header,
     SideBar,
   },
   data() {
     return {
+      resvInfo: {},
+      chkInfo: {},
     }
   },
   mounted() {
+    this._getResv()
+    this._getResvChk()
+  },
+  methods: {
+    ...mapActions([
+      'getResvItems',
+      'getResvChk',
+      'getResv',
+    ]),
+    async _getResvChk() {
+      var res = await this.getResvChk(this.$route.query.resv)
+      if(res.code === 10) {
+        this.chkInfo = res.data
+      }
+    },
+    async _getResv() {
+      var res = await this.getResv(this.$route.query.resv)
+      if(res.code === 10) {
+        this.resvInfo = res.data
+      }
+    },
+
   }
 }
 

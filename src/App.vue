@@ -184,18 +184,17 @@
     },
     mounted() {
       this.checkLoginStatus()
-      this._getConfig()
+      this.getSiteConfig()
     },
     methods: {
       ...mapMutations([
         'controlModal',
         'setAlertMsg',
-        'gotConfig',
       ]),
       ...mapActions([
         'checkLoginStatus',
         'onLogout',
-        'getConfig',
+        'getSiteConfig',
       ]),
       getLogoImg() {
         return `http://${this.apiHost}/${this.apiModule.sys}/${this.imgs.logoLightWImg}`
@@ -208,12 +207,6 @@
           this.checkLoginStatus()
         }
       },
-      async _getConfig() {
-        var res = await this.getConfig()
-        if(res.code === 10) {
-          this.gotConfig(res.data)
-        }
-      }
     }
   }
 

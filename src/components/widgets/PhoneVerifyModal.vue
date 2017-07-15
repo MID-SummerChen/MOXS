@@ -3,7 +3,7 @@
     <div v-if="statusTab === 0" class="modal-box">
       <div class="modal-box-content">
         <h5>請輸入手機驗證碼</h5>
-        <p>系統已發送驗證碼簡訊至{{currentResv.cell}}</p>
+        <p>系統已發送驗證碼簡訊至{{checkedOutResv.cell}}</p>
         <form>
           <input type="text" placeholder="驗證碼..." v-model="verifyCode">
           <button class="submit-btn" @click.prevent="sendVerifyAgain">發送驗證碼</button>
@@ -19,7 +19,7 @@
         <h5 class="success-title"> <i class="fa fa-check-circle"></i> 預約成功</h5>
         <label>您的預約代碼</label>
         <div class="code-box">
-          123456
+          {{checkedOutResv.resvCode.slice(checkedOutResv.resvCode.length-4)}}
         </div>
         <p>其他資訊其他資訊其他資訊其他資訊其他資訊其他資訊其他資訊其他資訊</p>
       </div>
@@ -53,7 +53,7 @@
     },
     computed: {
       ...mapGetters([
-        'currentResv'
+        'checkedOutResv',
       ])
     },
     methods: {
@@ -65,19 +65,21 @@
         'verifyResv',
       ]),
       async sendVerifyAgain() {
-        var res = await this.sendResvVerify(this.currentResv.sn)
+        var res = await this.sendResvVerify(this.checkedOutResv.sn)
         if(res.code === 10) {
           this.$message('已重新發送驗證碼');
         }
       },
       async onVerifySubmit() {
         var data = {
-          resvSn: this.currentResv.sn,
+          resvSn: this.checkedOutResv.sn,
           verifyCode: this.verifyCode
         }
         var res = await this.verifyResv(data)
         if(res.code === 10) {
           this.statusTab = 3
+        }else {
+          this.statusTab = -2
         }
         
       }

@@ -127,7 +127,7 @@
               是否使用線上付款？
               <el-radio-group v-model="form.payType">
                 <el-radio class="radio" label="ONLINE">是</el-radio>
-                <el-radio class="radio" label="ONSIDE">否</el-radio>
+                <el-radio class="radio" label="ONSITE">否</el-radio>
               </el-radio-group>
               
             </div>
@@ -136,7 +136,7 @@
         </el-row>
 
         
-        <div class="submit-button" @click="onSubmit">
+        <div class="submit-button" @click="onSaveResvInfo">
           確 認
         </div>
         
@@ -179,7 +179,6 @@
         },
         cityOpts: [],
         areaOpts: [],
-        storeList: [],
         timeOpts: {
           start: '10:30', 
           step: '00:15',
@@ -189,13 +188,17 @@
     },
     computed: {
       ...mapGetters([
+        'account',
         'menu',
-        'orderItems'
+        'orderItems',
+        'storeList',
+        'currentResv',
       ])
     },
     mounted() {
       this._getGeo()
-      this._getStoreList()
+      this.setInitForm()
+      this.setForm()
     },
     methods: {
       ...mapMutations([
@@ -204,7 +207,6 @@
       ]),
       ...mapActions([
         'getGeo',
-        'getStoreList',
         'getResvOpt',
         'addResv',
         'getAllowResvDate',
@@ -213,6 +215,23 @@
         'verifyResv',
         'resvCheckout',
       ]),
+      setInitForm() {
+        var mb = this.account.mb
+        var f = this.form
+        if(mb) {
+          f.name = mb.name
+          f.city = mb.city
+          f.area = mb.area
+          f.addr = mb.addr
+          f.mobile = mb.cell
+          f.gender = mb.gender
+        }
+      },
+      setForm() {
+        if(this.currentResv.form) {
+          this.form = _.assign({}, this.currentResv.form)
+        }
+      },
       onStoreChanged() {
         if(this.form.store) {
           this._getResvOpt()
@@ -260,75 +279,31 @@
           if(this.dateList[0]) this.form.date = this.dateList[0]
         }
       },
-      async onSubmit() {
+      onSaveResvInfo() {
         var f = this.form
-        var data = {
-          stoResvOptId: this.form.resvTypeId,
-          stoSn: f.store,
-          date: moment(f.date).format("YYYY-MM-DD"),
-          startAt: f.time,
+        var d = {
           adultNum: f.adultNum,
-          kidNum: f.adultNum,
+          kidNum: f.kidNum,
           gender: f.gender,
-          cell: f.mobile,
+          mobile: f.mobile,
           payType: f.payType,
-          city: f.city,
-          area: f.area,
-          addr: f.addr,
+          address: f.city + f.area + f.addr,
           name: f.name,
-          items: _.map(this.orderItems, item => {
-            return {
-              itemSn: item.sn,
-              amount: item.count,
-              chks: _.map(item.chks, chk => {
-                return {
-                  chkId: chk.chkId,
-                  opts: _.map(chk.opts, opt => ({optId: opt.id}))
-                }
-              }),
-              prcs: _.map(item.prcs, prc => {
-                return {
-                  prcId: prc.prcId,
-                  opts: [{optId: prc.opt.id}]
-                }
-              }),
-            }
-          })
+          date: f.date,
+          time: f.time,
         }
-        var res = await this.addResv(data)
-        if(res.code === 10) {
-          this.SAVE_CURRENT_RESV(res.data)
-          console.log(f.payType)
-          
-          if(f.payType === "ONLINE") {
-            var query = {resv: res.data.sn, chk: res.data.chk.chkSn}
-            console.log(query)
-            this.$router.push({name: "Checkout", query})
-            this.controlModal({target: 'checkout', boo: false})
-          }else {
-            var r = await this.sendResvVerify(res.data.sn)
-            if(r.code === 10) {
-              this.$message('已發送驗證碼');
-              this.controlModal({target: 'checkout', boo: false})
-              this.controlModal({target: 'phoneVerify', boo: true})
-            }
-          }
-          
-          
+        var i = _.findIndex(this.storeList, {sn: f.store})
+        if(i > -1) d.storeName = this.storeList[i].name
+        var i = _.findIndex(this.resvTypeList, {id: f.resvTypeId})
+        if(i > -1) d.resvType = this.resvTypeList[i].name
 
-        }
+        this.SAVE_CURRENT_RESV({form: f, display: d})
+        this.controlModal({target: 'checkout', boo: false})
       },
       getResvCode(id) {
         // resvTypeList.find(t => t.id === form.resvTypeId).sysResvOptId
         var i = _.findIndex(this.resvTypeList, {id: this.form.resvTypeId})
         return i > -1 ? this.resvTypeList[i].sysResvOptId : ""
-      },
-      async _getStoreList() {
-          var res = await this.getStoreList()
-          if(res.code === 10) {
-              this.storeList = res.data.items
-              
-          }
       },
       async _getGeo(superCode) {
           console.log(superCode)

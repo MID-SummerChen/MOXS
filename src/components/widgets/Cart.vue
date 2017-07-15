@@ -7,15 +7,16 @@
         <span class="reset">重設</span>
       </div>
       <!--<div class="content">填寫預約資料...</div>-->
-      <div v-if="currentResv.sn" class="content" @click="controlModal({target: 'checkout', boo: true})">
-        <h5>{{currentResv.typeName}}</h5>
+      <div v-if="currentResv.display" class="content" @click="controlModal({target: 'checkout', boo: true})">
+        <!--{{currentResv.display}}-->
+        <h5>{{currentResv.display.resvType}}</h5>
         <p>
-          {{currentResv.date}}
-          <span>{{currentResv.startAt}}({{currentResv.adultNum + currentResv.kidNum}}人)</span>
-          <span>{{currentResv.payType}}</span>
+          {{currentResv.display.date}}
+          <span>{{currentResv.display.time}}({{currentResv.display.adultNum + currentResv.display.kidNum}}人)</span>
+          <span>{{toPayType(currentResv.display.payType)}}</span>
         </p>
-        <p>{{currentResv.name}}{{currentResv.gender}} <span>{{currentResv.cell}}</span></p>
-        <p>{{currentResv.city + currentResv.area + currentResv.addr}}</p>
+        <p>{{currentResv.display.name}}{{toGender(currentResv.display.gender)}} <span>{{currentResv.display.mobile}}</span></p>
+        <p>{{currentResv.display.address}}</p>
       </div>
       <div v-else class="content" @click="controlModal({target: 'checkout', boo: true})">
         <h5>預約資訊</h5>
@@ -36,7 +37,7 @@
       </div>
       <div class="total">
         合計 NT$ {{orderItemsTotalPrice}}
-        <button type="button" class="submit" @click="controlModal({target: 'checkout', boo: true})">確認預約</button>
+        <button type="button" class="submit" @click="onCheckSubmit">確認預約</button>
       </div>
 
     </div>
@@ -44,8 +45,10 @@
 
 <script>
   import {mapGetters, mapActions, mapMutations} from 'vuex'
+import commonMixin from '@/utils/commonMixin'
 export default {
-  name: 'LoginModal',
+  name: 'Cart',
+  mixins: [commonMixin],
   data() {
     return {
       signupMode: false
@@ -65,8 +68,78 @@ export default {
     ...mapMutations([
       'controlModal',
       'REMOVE_ORDER_ITEM',
+      'SAVE_CHECKED_OUT_RESV',
     ]),
+    ...mapActions([
+      'addResv',
+      'sendResvVerify',
+    ]),
+    onCheckSubmit() {
+      this.$confirm('是否送出預約？', '預約確認', {
+          confirmButtonText: '確定',
+          cancelButtonText: '繼續購物',
+          type: 'warning'
+        }).then(this.onSubmit).catch(() => false);
+    },
+    async onSubmit() {
+        console.log("hi")
+        var f = this.currentResv.form
+        var data = {
+          stoResvOptId: f.resvTypeId,
+          stoSn: f.store,
+          date: moment(f.date).format("YYYY-MM-DD"),
+          startAt: f.time,
+          adultNum: f.adultNum,
+          kidNum: f.adultNum,
+          gender: f.gender,
+          cell: f.mobile,
+          payType: f.payType,
+          city: f.city,
+          area: f.area,
+          addr: f.addr,
+          name: f.name,
+          items: _.map(this.orderItems, item => {
+            return {
+              itemSn: item.sn,
+              amount: item.count,
+              chks: _.map(item.chks, chk => {
+                return {
+                  chkId: chk.chkId,
+                  opts: _.map(chk.opts, opt => ({optId: opt.id}))
+                }
+              }),
+              prcs: _.map(item.prcs, prc => {
+                return {
+                  prcId: prc.prcId,
+                  opts: [{optId: prc.opt.id}]
+                }
+              }),
+            }
+          })
+        }
+        console.log(data)
+        var res = await this.addResv(data)
+        if(res.code === 10) {
+          this.SAVE_CHECKED_OUT_RESV(res.data)
+          console.log(f.payType)
+          
+          if(f.payType === "ONLINE") {
+            var query = {resv: res.data.sn, chk: res.data.chk.chkSn}
+            console.log(query)
+            this.$router.push({name: "Checkout", query})
+            this.controlModal({target: 'cart', boo: false})
+          }else {
+            var r = await this.sendResvVerify(res.data.sn)
+            if(r.code === 10) {
+              this.$message('已發送驗證碼');
+              this.controlModal({target: 'phoneVerify', boo: true})
+            }
+          }
+          
+          
 
+        }
+      },
   }
 }
 </script>

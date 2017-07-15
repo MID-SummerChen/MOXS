@@ -14,19 +14,15 @@
             <div class="dollar">價格</div>
           </div>
           <div class="items">
-            <div class="item"
-                 v-for="item in items">
+            <div class="item" v-for="item in items">
               <div class="title">
-                <p class="name">{{item.name}} {{item.priceSet[0].opts[0].name}}</p>
+                <p class="name">{{item.title}}</p>
                 
                 <!--<p class="tags">{{item.rtmSubtitle}}</p>-->
-                <p v-for="chk in item.checkSet" class="tags">
-                  {{chk.name}}: 
-                  <span v-for="opt in chk.opts">{{opt.name}}</span>
-                </p>
+                <p class="tags">{{item.subtitle}}</p>
               </div>
-              <div class="count">x{{item.amount}}</div>
-              <div class="dollar">${{item.totalPrice}}</div>
+              <div class="count">x{{item.num}}</div>
+              <div class="dollar">${{item.total_price}}</div>
             </div>
           </div>
           <div class="total">
@@ -36,33 +32,53 @@
             <el-row :gutter="40">
               <el-col :sm="12">
                 <div class="form-group">
-                  <label>付款方式</label>
-                  <!--<div class="selector">歐付寶 <span>信用卡付款</span></div>-->
-                  <el-select v-model="form.paySetId" style="width: 100%">
-                    <el-option v-for="p in paySets" :label="p.NAME" :value="p.ORG_PAY_SET_ID"></el-option>
+                  <label>付款金流</label>
+                  <el-select v-model="form.paySetId" style="width: 100%" @change="onPaySetChanged">
+                    <el-option v-for="p in paySets" :label="p.NAME + ' - 信用卡'" :value="p.ORG_PAY_SET_ID"></el-option>
                   </el-select>
                 </div>
               </el-col>
+              <!--<el-col :sm="12">
+                <div class="form-group">
+                  <label>付款方式</label>
+                  <el-select v-model="form.payMode" style="width: 100%">
+                    <el-option v-for="t in payModeOpts" :label="t.label" :value="t.value"></el-option>
+                  </el-select>
+                </div>
+              </el-col>-->
               <el-col :sm="12">
                 <div class="form-group">
                   <label>發票類型</label>
-                  <!--<div class="selector">電子發票</div>-->
                   <el-select v-model="form.invoiceType" style="width: 100%">
-                    <!--<el-option v-for="p in paySets" :label="p.NAME" :value="p.ORG_PAY_SET_ID"></el-option>-->
-                    <el-option label="電子發票" value="E"></el-option>
-                    <el-option label="紙本發票" value="P"></el-option>
-                    <el-option label="捐贈" value="D"></el-option>
+                    <el-option v-for="t in invoiceTypeOpts" :label="t.label" :value="t.value"></el-option>
                   </el-select>
                 </div>
               </el-col>
+              <template v-if="form.invoiceType === 'P'">
+                <el-col :sm="12">
+                  <div class="form-group">
+                    <label>發票收件人</label>
+                    <input type="text" v-model="form.invoiceReceiver"
+                          placeholder="請輸入收件人">
+                  </div>
+                </el-col>
+                <el-col :sm="12">
+                  <div class="form-group">
+                    <label>發票地址</label>
+                    <input type="text" v-model="form.invoiceAddress"
+                          placeholder="請輸入地址">
+                  </div>
+                </el-col>
+              </template>
+              
               <el-col :sm="24">
                 <div class="check-group">
                   <label>
-                    <input type="checkbox" v-model="form.needTax"> 需要統一編號？
+                    <input type="checkbox" v-model="form.invoiceFormatType" true-value="COMPANY" false-value="DEFAULT"> 需要統一編號？
                   </label>
                 </div>
               </el-col>
-              <template v-if="form.needTax">
+              <template v-if="form.invoiceFormatType === 'COMPANY'">
                 <el-col :sm="12">
                   <div class="form-group">
                     <label>公司抬頭</label>
@@ -85,7 +101,7 @@
             <a href="" @click.prevent="onCheckout">確認付款</a>
             <!--<router-link :to="{name: 'CheckoutResult'}">確認付款</router-link>-->
           </div>
-          <form v-show="false" ref="hiddingForm" :action="hiddingForm.link" method="post"></form>
+          <form v-show="true" ref="hiddingForm" :action="hiddingForm.link" method="post" enctype="multipart/form-data" accept-charset="UTF-8"></form>
   
         </div>
       </div>
@@ -109,9 +125,12 @@ export default {
   data() {
     return {
       items: [],
+      payModeOpts: [],
+      invoiceTypeOpts: [],
       form: {
         paySetId: "",
-        needTax: false,
+        payMode: "",
+        invoiceFormatType: "DEFAULT",
         invoiceTitle: "",
         invoiceType: "",
         taxId: "",
@@ -127,24 +146,55 @@ export default {
       'paySets'
     ]),
     ...mapGetters([
+      'account',
       'apiHost',
       'apiModule',
       'orgSn',
       'sevSn',
     ]),
     itemsTotalPrice() {
-      return _.sumBy(this.items, "totalPrice")
+      return _.sumBy(this.items, "total_price")
     }
   },
   mounted() {
     // this.getResvCheckoutInfo(this.$route.query.resv)
-    this._getResvItems()
+    this._getResvChk()
+    this.setForm()
+    
   },
   methods: {
     ...mapActions([
       'resvCheckout',
       'getResvItems',
+      'getResvChk',
     ]),
+    async _getResvChk() {
+      var res = await this.getResvChk(this.$route.query.resv)
+      if(res.code === 10) {
+        this.items = res.data.chkDetail
+      }
+    },
+    onPaySetChanged() {
+      var i = _.findIndex(this.paySets, {ORG_PAY_SET_ID: this.form.paySetId})
+      if(i > -1) {
+        this.invoiceTypeOpts = _.map(this.paySets[i].INVOICE_TYPE, t => ({label: t.NAME, value: t.VALUE}))
+        this.form.invoiceType = this.invoiceTypeOpts[0] ? this.invoiceTypeOpts[0].value : ""
+        this.payModeOpts = _.map(this.paySets[i].PAY_MODE, t => ({label: t.NAME, value: t.VALUE}))
+        this.form.payMode = this.payModeOpts[0] ? this.payModeOpts[0].value : ""
+      }
+    },
+    setForm() {
+      if(this.paySets.length > 0 && this.account.mb) {
+        this.form.paySetId = this.paySets[0].ORG_PAY_SET_ID
+
+        var mb = this.account.mb
+        this.form.invoiceReceiver = mb.name
+        this.form.invoiceAddress = mb.city + mb.area + mb.addr
+      }else {
+        setTimeout(this.setForm, 500)
+      }
+      
+    },
     async _getResvItems() {
       var res = await this.getResvItems(this.$route.query.resv)
       if(res.code === 10) {
@@ -152,11 +202,19 @@ export default {
       }
     },
     async onCheckout() {
+      var f = this.form
       var data = {
         chkSn: this.$route.query.chk,
-        orgPaySetId: "ab87a641-993b-41a6-a667-3d16566064ff",
-        payMode: "CREDIT",
-        InvoiceType: "E",
+        orgPaySetId: f.paySetId,
+        chkType: "DEFAULT",
+        payMode: f.payMode,
+        InvoiceType: f.invoiceType,
+        invoiceReceiver: f.invoiceReceiver,
+        invoiceAddress: f.invoiceAddress,
+
+        invoiceFormatType: f.invoiceFormatType,
+        invoiceTitle: f.invoiceTitle,
+        taxId: f.taxId,
       }
       this.hiddingForm.link = `http://${this.apiHost}/${this.apiModule.sev}/api/cs/org/${this.orgSn}/sev/${this.sevSn}/chk/${this.$route.query.chk}/pay`
       this.hiddingForm.data = data
