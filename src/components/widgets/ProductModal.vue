@@ -39,11 +39,11 @@
               <div>單價
                 <p>{{getUnitPrice()}}元</p>
               </div>
-              <div class="sign" @click="form.count > 0 ? form.count-=1 : null"><span>-</span></div>
+              <div class="sign"><span @click="form.count > 0 ? form.count-=1 : null">-</span></div>
               <div>數量
                 <p>{{form.count}}個</p>
               </div>
-              <div class="sign"@click="form.count+=1"><span>+</span></div>
+              <div class="sign"><span @click="form.count+=1">+</span></div>
               <div>小計
                 <p>{{getUnitPrice() * form.count}}元</p>
               </div>

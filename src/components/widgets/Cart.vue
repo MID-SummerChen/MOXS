@@ -75,71 +75,78 @@ export default {
       'sendResvVerify',
     ]),
     onCheckSubmit() {
-      this.$confirm('是否送出預約？', '預約確認', {
+      if(this.currentResv.display) {
+        this.$confirm('是否送出預約？', '預約確認', {
           confirmButtonText: '確定',
           cancelButtonText: '繼續購物',
           type: 'warning'
         }).then(this.onSubmit).catch(() => false);
+      }else {
+        this.$message("請先填寫預約資訊")
+        this.controlModal({target: 'checkout', boo: true})
+      }
+      
     },
     async onSubmit() {
-        console.log("hi")
-        var f = this.currentResv.form
-        var data = {
-          stoResvOptId: f.resvTypeId,
-          stoSn: f.store,
-          date: moment(f.date).format("YYYY-MM-DD"),
-          startAt: f.time,
-          adultNum: f.adultNum,
-          kidNum: f.adultNum,
-          gender: f.gender,
-          cell: f.mobile,
-          payType: f.payType,
-          city: f.city,
-          area: f.area,
-          addr: f.addr,
-          name: f.name,
-          items: _.map(this.orderItems, item => {
-            return {
-              itemSn: item.sn,
-              amount: item.count,
-              chks: _.map(item.chks, chk => {
-                return {
-                  chkId: chk.chkId,
-                  opts: _.map(chk.opts, opt => ({optId: opt.id}))
-                }
-              }),
-              prcs: _.map(item.prcs, prc => {
-                return {
-                  prcId: prc.prcId,
-                  opts: [{optId: prc.opt.id}]
-                }
-              }),
-            }
-          })
-        }
-        console.log(data)
-        var res = await this.addResv(data)
-        if(res.code === 10) {
-          this.SAVE_CHECKED_OUT_RESV(res.data)
-          console.log(f.payType)
-          
-          if(f.payType === "ONLINE") {
-            var query = {resv: res.data.sn, chk: res.data.chk.chkSn}
-            console.log(query)
-            this.$router.push({name: "Checkout", query})
-            this.controlModal({target: 'cart', boo: false})
-          }else {
-            var r = await this.sendResvVerify(res.data.sn)
-            if(r.code === 10) {
-              this.$message('已發送驗證碼');
-              this.controlModal({target: 'phoneVerify', boo: true})
-            }
+      var f = this.currentResv.form
+      var data = {
+        stoResvOptId: f.resvTypeId,
+        stoSn: f.store,
+        date: moment(f.date).format("YYYY-MM-DD"),
+        startAt: f.time,
+        adultNum: f.adultNum,
+        kidNum: f.adultNum,
+        gender: f.gender,
+        cell: f.mobile,
+        payType: f.payType,
+        city: f.city,
+        area: f.area,
+        addr: f.addr,
+        name: f.name,
+        items: _.map(this.orderItems, item => {
+          return {
+            itemSn: item.sn,
+            amount: item.count,
+            chks: _.map(item.chks, chk => {
+              return {
+                chkId: chk.chkId,
+                opts: _.map(chk.opts, opt => ({optId: opt.id}))
+              }
+            }),
+            prcs: _.map(item.prcs, prc => {
+              return {
+                prcId: prc.prcId,
+                opts: [{optId: prc.opt.id}]
+              }
+            }),
           }
-          
-          
-
+        })
+      }
+      data.items = _.map(data.items, item => {
+        item.chks = _.filter(item.chks, chk => chk.opts.length > 0)
+        return item
+      })
+      console.log(data)
+      var res = await this.addResv(data)
+      if(res.code === 10) {
+        this.SAVE_CHECKED_OUT_RESV(res.data)
+        console.log(f.payType)
+        
+        if(f.payType === "ONLINE") {
+          var query = {resv: res.data.sn, chk: res.data.chk.chkSn}
+          console.log(query)
+          this.$router.push({name: "Checkout", query})
+          this.controlModal({target: 'cart', boo: false})
+        }else {
+          var r = await this.sendResvVerify(res.data.sn)
+          if(r.code === 10) {
+            this.$message('已發送驗證碼');
+            this.controlModal({target: 'phoneVerify', boo: true})
+          }
         }
-      },
+
+      }
+    },
   }
 }
 </script>

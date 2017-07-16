@@ -89,8 +89,7 @@
                 <el-col :sm="12">
                   <div class="form-group">
                     <label>統一編號</label>
-                    <input type="text" v-model="form.taxId"
-                          placeholder="請輸入統一編號">
+                    <input type="text" v-model="form.taxId" placeholder="請輸入統一編號">
                   </div>
                 </el-col>
               </template>
@@ -101,7 +100,7 @@
             <a href="" @click.prevent="onCheckout">確認付款</a>
             <!--<router-link :to="{name: 'CheckoutResult'}">確認付款</router-link>-->
           </div>
-          <form v-show="true" ref="hiddingForm" :action="hiddingForm.link" method="post" enctype="multipart/form-data" accept-charset="UTF-8"></form>
+          <form v-show="false" ref="hiddingForm" :action="hiddingForm.link" method="post" enctype="multipart/form-data" accept-charset="UTF-8"></form>
   
         </div>
       </div>

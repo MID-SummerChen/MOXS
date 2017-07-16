@@ -22,7 +22,7 @@
                 <p>紀錄編號：{{resvInfo.sn}}</p>
                 <p>預約分店：{{resvInfo.stoSn}}</p>
                 <p>預約類型：{{toResvType(resvInfo.typeName)}}</p>
-                <p>預約時間：{{resvInfo.createAt}}</p>
+                <p>預約時間：{{resvInfo.date}} {{resvInfo.startAt}}</p>
                 <p>預約人數：{{resvInfo.adultNum + resvInfo.kidNum}}</p>
                 <p>預約人：{{resvInfo.name}} {{toGender(resvInfo.gender)}} {{resvInfo.cell}}</p>
                 <p>地址：{{resvInfo.city + resvInfo.area + resvInfo.addr}}</p>
