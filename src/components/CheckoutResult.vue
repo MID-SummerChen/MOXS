@@ -9,9 +9,11 @@
       <div class="main-content">
         <div class="paper">
           <div class="status is-success">
-            <i class="fa fa-check-circle"></i>
-            預約成功
+            <i class="fa fa-check-circle"></i>預約成功
           </div>
+          <!--<div class="status is-error">
+            <i class="fa fa-times-circle"></i> 預約失敗
+          </div>-->
           <div class="content-wrap">
             預約號碼
             <div v-if="resvInfo.resvCode" class="number-box">
@@ -26,10 +28,10 @@
                 <p>預約人數：{{resvInfo.adultNum + resvInfo.kidNum}}</p>
                 <p>預約人：{{resvInfo.name}} {{toGender(resvInfo.gender)}} {{resvInfo.cell}}</p>
                 <p>地址：{{resvInfo.city + resvInfo.area + resvInfo.addr}}</p>
-                <p>付款方式：{{toPayType(resvInfo.payType)}} <span style="color: red">[{{toChkStatus(resvInfo.status)}}]</span></p>
+                <p>付款方式：{{toPayType(resvInfo.payType)}} <span style="color: #f53b11">[{{toChkStatus(resvInfo.status)}}]</span></p>
                 <p>建檔時間：{{resvInfo.createAt}}</p>
               </el-col>
-              <el-col :sm="12">
+              <el-col v-if="chkInfo.chkSn" :sm="12">
                 <p>帳單編號：{{chkInfo.chkSn}}</p>
                 <p>帳單金額：${{resvInfo.totalPrice}}</p>
                 <p>交易時間：???</p>
@@ -58,7 +60,7 @@ import eventHub from '@/utils/eventHub'
 import commonMixin from '@/utils/commonMixin'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 export default {
-  name: 'Products',
+  name: 'CheckoutResult',
   mixins: [commonMixin],
   components: {
     HeaderCpt: Header,
@@ -72,7 +74,9 @@ export default {
   },
   mounted() {
     this._getResv()
-    this._getResvChk()
+    if(this.$route.query.chk) {
+      this._getResvChk()
+    }
   },
   methods: {
     ...mapActions([

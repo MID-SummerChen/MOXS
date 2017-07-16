@@ -131,19 +131,21 @@ export default {
       if(res.code === 10) {
         this.SAVE_CHECKED_OUT_RESV(res.data)
         console.log(f.payType)
+        this.controlModal({target: 'cart', boo: false})
+        this.controlModal({target: 'phoneVerify', boo: true})
         
-        if(f.payType === "ONLINE") {
-          var query = {resv: res.data.sn, chk: res.data.chk.chkSn}
-          console.log(query)
-          this.$router.push({name: "Checkout", query})
-          this.controlModal({target: 'cart', boo: false})
-        }else {
-          var r = await this.sendResvVerify(res.data.sn)
-          if(r.code === 10) {
-            this.$message('已發送驗證碼');
-            this.controlModal({target: 'phoneVerify', boo: true})
-          }
-        }
+        // if(f.payType === "ONLINE") {
+        //   // var query = {resv: res.data.sn, chk: res.data.chk.chkSn}
+        //   // console.log(query)
+        //   // this.$router.push({name: "Checkout", query})
+        //   // this.controlModal({target: 'cart', boo: false})
+        // }else {
+        //   var r = await this.sendResvVerify(res.data.sn)
+        //   if(r.code === 10) {
+        //     // this.$message('已發送驗證碼');
+        //     this.controlModal({target: 'phoneVerify', boo: true})
+        //   }
+        // }
 
       }
     },
