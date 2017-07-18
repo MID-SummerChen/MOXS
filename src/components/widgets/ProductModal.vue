@@ -1,10 +1,10 @@
 <template>
-  <div id="product-modal" class="my-modal-wrap" @click.self="controlModal({target: 'product', boo: false})">
+  <div id="product-modal" class="my-modal-wrap" @click.self="onClose">
     <div class="modal-box">
-      <div class="close-btn" @click="controlModal({target: 'product', boo: false})">
+      <div class="close-btn" @click="onClose">
         <v-icon>clear</v-icon>
       </div>
-      <div class="modal-box-content">
+      <div v-if="product.sn" class="modal-box-content">
         <div class="img-wrap">
           <img src="/static/imgs/food03.jpg" alt="">
         </div>
@@ -63,7 +63,7 @@
         </div>
         <div class="sub-btn-wrap">
           <div v-show="currentTab === 2" class="button" @click="onAddedToCart">加入預約清單</div>
-          <!--<div class="button" @click="controlModal({target: 'product', boo: false})">關閉</div>-->
+          <!--<div class="button" @click="CONTROL_MODAL({target: 'product', boo: false})">關閉</div>-->
         </div>
         
       </div>
@@ -78,6 +78,7 @@
     data() {
       return {
         currentTab: 2,
+        product: {},
         form: {
           chkOpts: [],
           prcOpt: {},
@@ -88,15 +89,18 @@
     },
     computed: {
       ...mapGetters([
+        'orderItems'
       ]),
       ...mapState({
-        product: state => state.productModal.product
+        itemSn: state => state.productModal.itemSn,
+        orderIndex: state => state.productModal.orderIndex,
       })
     },
-    mounted() {
-      Ps.initialize(this.$refs.scrollBox);
-      if(this.product.prcs.length > 0) {
-        this.form.prcOpt = this.product.prcs[0].opts[0]
+  async mounted() {
+      
+      await this._getItem()
+      if(this.orderIndex !== null) {
+        this.setOrderedData()
       }
       
     },
@@ -109,9 +113,37 @@
     },
     methods: {
       ...mapMutations([
-        'controlModal',
+        'CONTROL_MODAL',
         'ADD_ORDER_ITEM',
+        'CLEAR_CURRENT_PRODUCT',
+        'UPDATE_ORDER_ITEM',
       ]),
+      ...mapActions([
+        'getItem',
+      ]),
+      async _getItem() {
+        var sn = this.orderIndex !== null ? this.orderItems[this.orderIndex].sn : this.itemSn
+        var res = await this.getItem(sn)
+        if(res.code === 10) {
+          this.product = res.data
+          if(this.product.prcs.length > 0) {
+            this.form.prcOpt = this.product.prcs[0].opts[0]
+          }
+          setTimeout(() => {
+            Ps.update(this.$refs.scrollBox)
+          })
+        }
+        return
+      },
+      setOrderedData() {
+        var f = this.form 
+        var o = this.orderItems[this.orderIndex]
+        console.log(o)
+        f.count = o.count
+        f.note = o.rtmNote
+        f.prcOpt = _.find(this.product.prcs[0].opts, {id: o.prcs[0].opt.id})
+        f.chkOpts = _.map(o.chks[0].opts, "id")
+      },
       onAddedToCart() {
         var p = this.product
         var item = {
@@ -133,9 +165,14 @@
             }
           ]
         }
-        this.ADD_ORDER_ITEM(item)
-        this.controlModal({target: 'cart', boo: true})
-        this.controlModal({target: 'product', boo: false})
+        if(this.orderIndex !== null) {
+          this.UPDATE_ORDER_ITEM({index: this.orderIndex, item})
+        }else {
+          this.ADD_ORDER_ITEM(item)
+        }
+        
+        this.CONTROL_MODAL({target: 'cart', boo: true})
+        this.CONTROL_MODAL({target: 'product', boo: false})
       },
       onSelectChk(chk, optId) {
         var i = _.indexOf(this.form.chkOpts, optId)
@@ -153,6 +190,10 @@
 
         return this.form.prcOpt.value + _.sumBy(selectedChks, 'value') 
       },
+      onClose() {
+        this.CLEAR_CURRENT_PRODUCT()
+        this.CONTROL_MODAL({target: 'product', boo: false})
+      }
     }
   }
 

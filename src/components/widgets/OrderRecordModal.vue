@@ -1,5 +1,5 @@
 <template>
-  <div id="order-record-modal" class="my-modal-wrap" @click.self="controlModal({target: 'orderRecord', boo: false})">
+  <div id="order-record-modal" class="my-modal-wrap" @click.self="CONTROL_MODAL({target: 'orderRecord', boo: false})">
     <div class="modal-box">
       <div class="modal-box-content">
         <h5>交易紀錄</h5>
@@ -12,7 +12,7 @@
         
       </div>
       <div class="modal-box-footer">
-        <button @click="controlModal({target: 'orderRecord', boo: false})" class="blue-text">確認</button>
+        <button @click="CONTROL_MODAL({target: 'orderRecord', boo: false})" class="blue-text">確認</button>
       </div>
     </div>
   </div>
@@ -32,7 +32,7 @@
     },
     methods: {
       ...mapMutations([
-        'controlModal'
+        'CONTROL_MODAL'
       ]),
 
     }

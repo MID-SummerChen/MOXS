@@ -33,7 +33,7 @@
               <!--<img v-if="imgs.logoDarkWImg" :src="getLogoImg()" alt="">-->
             </v-toolbar-logo>
             <v-spacer />
-            <v-btn v-if="menu.RESV" :ripple="false" @click.native="controlModal({target: 'cart', boo: true})">
+            <v-btn v-if="menu.RESV" :ripple="false" @click.native="CONTROL_MODAL({target: 'cart', boo: true})">
               <v-icon>today</v-icon>
               <span class="toolbar-icon-title">預約點餐</span>
             </v-btn>
@@ -45,7 +45,7 @@
                 <a href="" @click.prevent="_onLogout">登   出</a>
               </div>
             </v-btn>
-            <v-btn v-else :ripple="false" @click.native="controlModal({target: 'login', boo: true})">
+            <v-btn v-else :ripple="false" @click.native="CONTROL_MODAL({target: 'login', boo: true})">
               <v-icon>account_circle</v-icon>
               <span class="toolbar-icon-title">會員登入</span>
             </v-btn>
@@ -84,7 +84,7 @@
               </v-list-item>
               <v-list-item>
                 <v-list-tile ripple>
-                  <a @click="controlModal({target: 'qrcode', boo: true})">APP下載</a>
+                  <a @click="CONTROL_MODAL({target: 'qrcode', boo: true})">APP下載</a>
                 </v-list-tile>
               </v-list-item>
               <!--<v-list-item>
@@ -92,7 +92,7 @@
               </v-list-item>
               <v-list-item v-if="!isLogin">
                 <v-list-tile ripple>
-                  <a @click="controlModal({target: 'login', boo: true})">會員登入</a>
+                  <a @click="CONTROL_MODAL({target: 'login', boo: true})">會員登入</a>
                 </v-list-tile>
               </v-list-item>-->
 
@@ -188,7 +188,7 @@
     },
     methods: {
       ...mapMutations([
-        'controlModal',
+        'CONTROL_MODAL',
         'setAlertMsg',
       ]),
       ...mapActions([

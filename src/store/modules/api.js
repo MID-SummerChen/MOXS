@@ -23,7 +23,6 @@ export default {
   },
   mutations: {
     pushLoadingApi(state, apiUrl) {
-      console.log(Pace)
       state.isLoading = true
       state.loadingApis = state.loadingApis.concat([apiUrl])
       
@@ -60,6 +59,7 @@ export default {
 
     // 預約
     getAllResv: async (store, data) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/resv`, data),
+    // getAllStoreResv: async (store, data) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/sto/${data.stoSn}/resv`, data),
     getResvOpt: async (store, stoSn) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/sto/${stoSn}/resv_opt`),
     addResv: async (store, data) => await apiInit(store, "POST", "json", 'sev', `cs/org/${orgSn}/sev/${sevSn}/sto/${data.stoSn}/resv/add`, data),
     sendResvVerify: async (store, resvSn) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/resv/${resvSn}/send/verify`),
@@ -71,6 +71,9 @@ export default {
     getResvItems: async (store, resvSn) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/resv/${resvSn}/tm`),
     getResvChkCb: async (store, chkSn) => await apiInit(store, "POST", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/chk/${chkSn}/callback`),
     getResv: async (store, resvSn) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/resv/${resvSn}`),
+
+    getNewsList: async (store) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/news`),
+    getNews: async (store, newsSn) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/news/${newsSn}`),
     
   }
 }

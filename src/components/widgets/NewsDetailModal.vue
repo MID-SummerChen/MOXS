@@ -1,21 +1,19 @@
 <template>
-  <div id="news-detail-modal" class="my-modal-wrap" @click.self="controlModal({target: 'newsDetail', boo: false})">
+  <div id="news-detail-modal" class="my-modal-wrap" @click.self="onClose">
     <div class="modal-box">
-      <div class="close-btn" @click="controlModal({target: 'newsDetail', boo: false})">
+      <div class="close-btn" @click="onClose">
         <v-icon>clear</v-icon>
       </div>
       <div class="modal-box-header">
-        <p class="title-top">動態消息類別</p>
-        <h5>新品上市 嚐鮮折扣</h5>
-        <p class="date">2017/03/22</p>
+        <p class="title-top">{{newsData.newsSubtitle}}</p>
+        <h5>{{newsData.newsTitle}}</h5>
+        <p class="date">{{newsData.updateAt}}</p>
       </div>
       <div class="modal-box-content">
         <div class="img-wrap">
           <img src="/static/imgs/food01.jpg" alt="">
         </div>
-        <p v-for="n in 10">消息內容消息內容消息內容消息內容，消息內容消息內容消息內容消息內容消息內容消息內容，消息內容消息內容消息內容消息內容消息內容消息內容消息內容消息內容消息內容，
-          消息內容消息內容消息內容消息內容消息內容消息內容。
-        </p>
+        <p>{{newsData.newsContent}}</p>
         
         
       </div>
@@ -30,18 +28,33 @@
     name: 'CheckoutModal',
     data() {
       return {
-        currentTab: 1,
-        isPayNow: 1
+        newsData: {}
       }
     },
     computed: {
       ...mapGetters([
       ])
     },
+    mounted() {
+      this._getNews()
+    },
     methods: {
       ...mapMutations([
-        'controlModal'
+        'CONTROL_MODAL'
       ]),
+      ...mapActions([
+        'getNews'
+      ]),
+      async _getNews() {
+        var res = await this.getNews(this.$route.query.sn)
+        if(res.code === 10) {
+          this.newsData = res.data
+        }
+      },
+      onClose() {
+        this.$router.push({name: 'News'})
+        this.CONTROL_MODAL({target: 'newsDetail', boo: false})
+      }
 
     }
   }

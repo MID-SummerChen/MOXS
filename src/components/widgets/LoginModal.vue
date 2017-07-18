@@ -1,7 +1,7 @@
 <template>
-  <div id="login-modal" class="my-modal-wrap" @click.self="controlModal({target: 'login', boo: false})">
+  <div id="login-modal" class="my-modal-wrap" @click.self="CONTROL_MODAL({target: 'login', boo: false})">
     <div class="modal-box">
-      <div class="close-btn"  @click="controlModal({target: 'login', boo: false})">
+      <div class="close-btn"  @click="CONTROL_MODAL({target: 'login', boo: false})">
         <v-icon>clear</v-icon>
       </div>
       <!-- 登入 -->
@@ -152,7 +152,7 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'controlModal',
+      'CONTROL_MODAL',
       'setAlertBox',
       'displayAlertBox',
     ]),
@@ -217,7 +217,7 @@ export default {
           if(res.code === 10) {
             var res2 = await this.login(data.ac)
             if(res2.code === 10) {
-              this.controlModal({target: 'login', boo: false})
+              this.CONTROL_MODAL({target: 'login', boo: false})
               this.$message({
                 message: '註冊成功！',
                 type: 'success'

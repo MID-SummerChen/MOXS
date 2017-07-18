@@ -22,11 +22,11 @@
               <div class="record-header">
                   最新預約記錄
               </div>
-              <div class="item" v-for="n in 4" @click="$router.push({name: 'MemberRecordDetail', params: {sn: n}})">
+              <div class="item" v-for="resv in resvList" @click="$router.push({name: 'MemberRecordDetail', params: {sn: resv.sn}})">
                   <p>
-                      <span>內用點餐  2017/3/22(三) 18:30 </span>
+                      <span>{{resv.stoResvOptName}}  {{resv.date}} {{resv.startAt}} </span>
                   </p>
-                  <p>台中復興店 4人 $2400</p>
+                  <p>{{resv.stoName}} {{resv.adultNum + resv.kidNum}}人 ${{resv.totalPrice}}</p>
               </div>
               <div class="record-footer">
                   <button class="btn-t1" @click="$router.push({name: 'MemberRecord'})">查看全部預約記錄</button>
@@ -56,10 +56,12 @@ export default {
   },
   data() {
     return {
-      memPicSrc: ""
+      memPicSrc: "",
+      resvList: []
     }
   },
   mounted() {
+    this._getAllResv()
     this.limitedPageCheck()
     this.memPicSrc = this.account.resUrl ? `http://${this.apiHost}/${this.apiModule.sys}${this.account.resUrl}` : ""
   },
@@ -71,7 +73,15 @@ export default {
     ])
   },
   methods: {
-  
+    ...mapActions([
+      'getAllResv'
+    ]),
+    async _getAllResv() {
+      var res = await this.getAllResv()
+      if(res.code === 10) {
+        this.resvList = res.data.items
+      }
+    }
   }
 }
 </script>

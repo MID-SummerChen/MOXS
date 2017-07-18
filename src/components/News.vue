@@ -10,15 +10,12 @@
                 <div class="paper">
                     <div class="paper-content">
                         <div class="items">
-                            <div class="item" v-for="n in 4" @click="controlModal({target: 'newsDetail', boo: true})">
+                            <div class="item" v-for="n in newsList" @click="$router.push({name: 'News', query: {sn: n.newsSn}})">
                                 <div class="item-img" :style="{'background-image': 'url(/static/imgs/food03.jpg)'}"></div>
                                 <div class="item-content">
-                                    <p>消息類別消息類別標題</p>
-                                    <h5>新品上市 嚐鮮折扣</h5>
-                                    <div class="text">
-                                        項目內容項目內容項目內容，項目內容項目內容項目內容項目內容項目內容項目內容項目內容，項目內容項目內容，
-                                        項目內容項目內容項目內容項目內容項目內容項目內容...
-                                    </div>
+                                    <p>{{n.newsSubtitle}}</p>
+                                    <h5>{{n.newsTitle}}</h5>
+                                    <div class="text">{{n.newsContent}}</div>
 
                                 </div>
                             </div>
@@ -49,14 +46,35 @@ export default {
     },
     data() {
         return {
+            newsList: []
         }
     },
     mounted() {
+        this._getNewsList()
+        if(this.$route.query.sn) {
+            this.CONTROL_MODAL({target: 'newsDetail', boo: true})
+        }
+    },
+    watch: {
+        $route() {
+            if(this.$route.query.sn) {
+                this.CONTROL_MODAL({target: 'newsDetail', boo: true})
+            }
+        }
     },
     methods: {
       ...mapMutations([
-        'controlModal'
-      ])
+        'CONTROL_MODAL',
+      ]),
+      ...mapActions([
+          'getNewsList'
+      ]),
+      async _getNewsList() {
+          var res = await this.getNewsList()
+          if(res.code === 10) {
+              this.newsList = res.data.items
+          }
+      }
     }
 }
 

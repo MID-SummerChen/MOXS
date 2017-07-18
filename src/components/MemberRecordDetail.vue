@@ -11,37 +11,40 @@
             <div class="main-content">
                 <div class="paper">
                     <div class="top-title">
-                        <h4>內用點餐 <span>台中復興店</span></h4>
-                        <p>2017/03/22(三) 18:30 (4人) </p>
+                        <h4>{{resvData.stoResvOptName}} <span>{{resvData.stoName}}</span></h4>
+                        <p>{{resvData.date}} {{resvData.startAt}} ({{resvData.adultNum + resvData.kidNum}}人) </p>
                     </div>
                     <el-row :gutter="20" class="record-content">
                         <el-col :xs="12" :sm="8">
                             <label>預約號碼</label>
-                            <div class="number-box">123456</div>
+                            <div v-if="resvData.resvCode" class="number-box">{{resvData.resvCode.slice(-4)}}</div>
                         </el-col>
                         <el-col :xs="12" :sm="8">
                             <label>預約狀態</label>
-                            <div class="number-box status">等待中</div>
+                            <div class="number-box status">{{toChkStatus(resvData.status)}}</div>
                         </el-col>
                         <el-col :sm="24">
-                            <p>紀錄編號：RES1238523523502134</p>
-                            <p>預約分店：台中復興店</p>
-                            <p>紀錄編號：RES1238523523502134</p>
-                            <p>預約分店：台中復興店</p>
-                            <p>紀錄編號：RES1238523523502134</p>
+                            <p>紀錄編號：{{resvData.sn}}</p>
+                            <p>預約分店：{{resvData.stoSn}}</p>
+                            <p>預約類型：{{toResvType(resvData.typeName)}}</p>
+                            <p>預約時間：{{resvData.date}} {{resvData.startAt}}</p>
+                            <p>預約人數：{{resvData.adultNum + resvData.kidNum}}</p>
+                            <p>預約人：{{resvData.name}} {{toGender(resvData.gender)}} {{resvData.cell}}</p>
+                            <p v-if="resvData.addr">地址：{{resvData.city + resvData.area + resvData.addr}}</p>
+                            <p>付款方式：{{toPayType(resvData.payType)}} <span style="color: #f53b11">[{{toChkStatus(resvData.status)}}]</span></p>
+                            <p>建檔時間：{{resvData.createAt}}</p>
                         </el-col>
 
                     </el-row>
                     <h5>預約餐點</h5>
                     <div class="items">
-                        <div class="item"
-                            v-for="n in 6">
-                        <div class="title">
-                            <p class="name">產品名稱在這</p>
-                            <p class="tags"><span>加辣</span><span>加起司</span></p>
-                        </div>
-                        <div class="count">x3</div>
-                        <div class="dollar">$170</div>
+                        <div class="item" v-for="item in resvItems">
+                            <div class="title">
+                                <p class="name">{{item.title}}</p>
+                                <p class="tags">{{item.subtitle}}</p>
+                            </div>
+                            <div class="count">x{{item.num}}</div>
+                            <div class="dollar">${{item.total_price}}</div>
                         </div>
                     </div>
                     <div class="total">
@@ -49,7 +52,7 @@
                     </div>
                     <div class="btn-wrap">
                         <a href="" class="text-rose">取消預約</a>
-                        <a href="" @click.prevent="controlModal({target: 'orderRecord', boo: true})" class="text-blue">交易紀錄</a>
+                        <a href="" @click.prevent="CONTROL_MODAL({target: 'orderRecord', boo: true})" class="text-blue">交易紀錄</a>
                     </div>
                 </div>
             </div>
@@ -66,21 +69,43 @@ import commonMixin from '@/utils/commonMixin'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 export default {
     name: 'memberRecordDetail',
+    mixins: [commonMixin],
     components: {
         HeaderCpt: Header,
         SideBar,
     },
     data() {
         return {
+            resvData: {},
+            resvItems: []
         }
     },
     mounted() {
-        
+        this._getResv()
+        this._getResvItems()
     },
     methods: {
         ...mapMutations([
-        'controlModal'
-      ]),
+            'CONTROL_MODAL'
+        ]),
+        ...mapActions([
+            'getResv',
+            'getResvItems',
+        ]),
+        async _getResv() {
+            var res = await this.getResv(this.$route.params.sn)
+            if(res.code === 10) {
+                this.resvData = res.data
+            }
+        },
+        async _getResvItems() {
+            var res = await this.getResvItems(this.$route.params.sn)
+            console.log(res)
+            if(res.code === 10) {
+                this.resvItems = res.data.items
+            }
+        },
+
     }
 }
 

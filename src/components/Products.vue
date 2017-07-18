@@ -68,8 +68,8 @@
     },
     methods: {
       ...mapMutations([
-        'controlModal',
-        'gotProductData',
+        'CONTROL_MODAL',
+        'SAVE_CURRENT_PRODUCT',
       ]),
       ...mapActions([
         'getItems',
@@ -106,11 +106,8 @@
         }
       },
       async onClickItem(itemSn) {
-        var res = await this.getItem(itemSn)
-        if(res.code === 10) {
-          this.gotProductData(res.data)
-          this.controlModal({target: 'product', boo: true})
-        }
+        this.SAVE_CURRENT_PRODUCT(itemSn)
+        this.CONTROL_MODAL({target: 'product', boo: true})
       },
       toNextCls(clsId, clsLevel) {
         this.$router.push({name: 'Products', query: {

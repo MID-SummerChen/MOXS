@@ -1,9 +1,9 @@
 <template>
-  <div id="qrcode-modal" class="my-modal-wrap" @click.self="controlModal({target: 'qrcode', boo: false})">
+  <div id="qrcode-modal" class="my-modal-wrap" @click.self="CONTROL_MODAL({target: 'qrcode', boo: false})">
     <div class="modal-box">
       <div class="modal-box-title">
         下載官方APP
-        <div class="close-btn"  @click="controlModal({target: 'qrcode', boo: false})">
+        <div class="close-btn"  @click="CONTROL_MODAL({target: 'qrcode', boo: false})">
           <v-icon>clear</v-icon>
         </div>
       </div>
@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'controlModal'
+      'CONTROL_MODAL'
     ]),
 
   }

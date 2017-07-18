@@ -85,7 +85,7 @@ export default new Vuex.Store({
     async onLogin({ state, commit, dispatch, rootState }, data) {
       var res = await dispatch('login', data)
       if(res.code === 10) {
-        commit('controlModal', {target: 'login', boo: false})
+        commit('CONTROL_MODAL', {target: 'login', boo: false})
         commit('setAlertBox', {msg: "登入成功"})
         commit('displayAlertBox', true)
         commit('switchLoginStatus', true)

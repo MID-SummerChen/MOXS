@@ -26,7 +26,7 @@
                                 <button class="my-btn"
                                         @click="triggerFileSelector">更新相片</button>
                                 <button class="my-btn"
-                                        @click="controlModal({target: 'memberPw', boo: true})">變更密碼</button>
+                                        @click="CONTROL_MODAL({target: 'memberPw', boo: true})">變更密碼</button>
                             </div>
                             <input ref="fileSelector"
                                 v-show="false"
@@ -60,8 +60,7 @@
                             <div class="form-group">
                                 <label>生日</label>
                                 <div v-if="editMode" class="form-content">
-                                    <input type="text"
-                                           v-model="form.birth">
+                                    <el-date-picker v-model="form.birth" type="date" @change="function(val) {form.birth = val}"></el-date-picker>
                                 </div>
                                 <div v-else class="form-content-static">{{form.birth}}</div>
     
@@ -192,13 +191,14 @@ export default {
         },
         setData() {
             if (this.account.mb) {
-                this.form.email = this.account.id
-                this.form.name = this.account.mb.name || ""
-                this.form.city = this.account.mb.city || ""
-                this.form.area = this.account.mb.area || ""
-                this.form.addr = this.account.mb.addr || ""
-                this.form.cell = this.account.mb.cell || ""
-                this.form.birth = this.account.mb.birth || ""
+                var f = this.form
+                f.email = this.account.id
+                f.name = this.account.mb.name || ""
+                f.city = this.account.mb.city || ""
+                f.area = this.account.mb.area || ""
+                f.addr = this.account.mb.addr || ""
+                f.cell = this.account.mb.cell || ""
+                f.birth = this.account.mb.birth || ""
                 this.memPicSrc = this.account.resUrl ? `http://${this.apiHost}/${this.apiModule.sys}${this.account.resUrl}` : ""
             } else {
                 setTimeout(this.setData, 500)
@@ -220,19 +220,17 @@ export default {
                     type: 'success'
                 });
                 this.picLoading = false
-                this.memPicSrc = `http://${this.apiHost}/${this.apiModule.sys}${res.data.url}`
 
                 var res = await this.updateMember({resId: res.data.id})
                 if (res.code === 10) {
-                    this.checkLoginStatus()
+                    await this.checkLoginStatus()
+                    this.memPicSrc = `http://${this.apiHost}/${this.apiModule.sys}${this.account.resUrl}`
                     this.$message({
                         message: '更新成功',
                         type: 'success'
                     });
                     this.editMode = false
                 }
-
-                this.onSubmit()
 
             }
 

@@ -31,7 +31,7 @@
       </v-list-item>
       <v-list-item>
         <v-list-tile ripple>
-          <a @click="controlModal({target: 'qrcode', boo: true})">APP下載</a>
+          <a @click="CONTROL_MODAL({target: 'qrcode', boo: true})">APP下載</a>
         </v-list-tile>
       </v-list-item>
       <v-list-item>
@@ -39,7 +39,7 @@
       </v-list-item>
       <v-list-item v-if="!isLogin">
         <v-list-tile ripple>
-          <a @click="controlModal({target: 'login', boo: true})">會員登入</a>
+          <a @click="CONTROL_MODAL({target: 'login', boo: true})">會員登入</a>
         </v-list-tile>
       </v-list-item>
 
@@ -77,7 +77,7 @@
     },
     methods: {
       ...mapMutations([
-        'controlModal',
+        'CONTROL_MODAL',
         'setAlertMsg',
         'gotConfig',
       ]),

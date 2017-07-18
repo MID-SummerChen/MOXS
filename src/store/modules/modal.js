@@ -18,7 +18,7 @@ export default {
   getters: {
   },
   mutations: {
-    controlModal(state, {target, boo, timeout = false}) {
+    CONTROL_MODAL(state, {target, boo, timeout = false}) {
       state[target] = boo
       if(noScrollModals.indexOf(target) > -1) {
         state.noScroll = boo

@@ -1,13 +1,13 @@
 <template>
   <div class="cart">
       <div class="top">
-        <span class="close" @click="controlModal({target: 'cart', boo: false})"><v-icon>clear</v-icon></span>
+        <span class="close" @click="CONTROL_MODAL({target: 'cart', boo: false})"><v-icon>clear</v-icon></span>
         
         <span class="title">訂位點餐</span>
-        <span class="reset">重設</span>
+        <span class="reset" @click="onReset">重設</span>
       </div>
       <!--<div class="content">填寫預約資料...</div>-->
-      <div v-if="currentResv.display" class="content" @click="controlModal({target: 'checkout', boo: true})">
+      <div v-if="currentResv.display" class="content" @click="CONTROL_MODAL({target: 'checkout', boo: true})">
         <!--{{currentResv.display}}-->
         <h5>{{currentResv.display.resvType}}</h5>
         <p>
@@ -18,13 +18,13 @@
         <p>{{currentResv.display.name}}{{toGender(currentResv.display.gender)}} <span>{{currentResv.display.mobile}}</span></p>
         <p>{{currentResv.display.address}}</p>
       </div>
-      <div v-else class="content" @click="controlModal({target: 'checkout', boo: true})">
+      <div v-else class="content" @click="CONTROL_MODAL({target: 'checkout', boo: true})">
         <h5>預約資訊</h5>
         <p>請填寫預約資料</p>
       </div>
       <div ref="scrollBox" class="items">
-        <div v-for="item in orderItems" class="item">
-          <div class="item-content">
+        <div v-for="(item, i) in orderItems" class="item">
+          <div class="item-content" @click="showOrderItem(i)">
             <p class="title">{{item.name}}</p>
             <p v-for="prc in item.prcs" class="sub-title">{{prc.opt.name}} <span>{{item.count}}份</span></p>
             <p v-for="chk in item.chks" class="tags">
@@ -32,7 +32,7 @@
             </p>
           </div>
           <div class="item-price">${{item.unitPrice * item.count}}</div>
-          <div class="item-cancel" @click="REMOVE_ORDER_ITEM(item.sn)"><i class="el-icon-close"></i></div>
+          <div class="item-cancel" @click.stop="REMOVE_ORDER_ITEM(i)"><i class="el-icon-close"></i></div>
         </div>
       </div>
       <div class="total">
@@ -66,9 +66,12 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'controlModal',
+      'CONTROL_MODAL',
       'REMOVE_ORDER_ITEM',
       'SAVE_CHECKED_OUT_RESV',
+      'CLEAR_CURRENT_RESV',
+      'CLEAR_ORDER_ITEM',
+      'SET_CURRENT_PRODUCT',
     ]),
     ...mapActions([
       'addResv',
@@ -83,9 +86,17 @@ export default {
         }).then(this.onSubmit).catch(() => false);
       }else {
         this.$message("請先填寫預約資訊")
-        this.controlModal({target: 'checkout', boo: true})
+        this.CONTROL_MODAL({target: 'checkout', boo: true})
       }
       
+    },
+    showOrderItem(targetIndex) {
+      this.SET_CURRENT_PRODUCT(targetIndex)
+      this.CONTROL_MODAL({target: 'product', boo: true})
+    },
+    onReset() {
+      this.CLEAR_CURRENT_RESV()
+      this.CLEAR_ORDER_ITEM()
     },
     async onSubmit() {
       var f = this.currentResv.form
@@ -129,21 +140,23 @@ export default {
       console.log(data)
       var res = await this.addResv(data)
       if(res.code === 10) {
+        this.CLEAR_CURRENT_RESV()
+        this.CLEAR_ORDER_ITEM()
         this.SAVE_CHECKED_OUT_RESV(res.data)
         console.log(f.payType)
-        this.controlModal({target: 'cart', boo: false})
-        this.controlModal({target: 'phoneVerify', boo: true})
+        this.CONTROL_MODAL({target: 'cart', boo: false})
+        this.CONTROL_MODAL({target: 'phoneVerify', boo: true})
         
         // if(f.payType === "ONLINE") {
         //   // var query = {resv: res.data.sn, chk: res.data.chk.chkSn}
         //   // console.log(query)
         //   // this.$router.push({name: "Checkout", query})
-        //   // this.controlModal({target: 'cart', boo: false})
+        //   // this.CONTROL_MODAL({target: 'cart', boo: false})
         // }else {
         //   var r = await this.sendResvVerify(res.data.sn)
         //   if(r.code === 10) {
         //     // this.$message('已發送驗證碼');
-        //     this.controlModal({target: 'phoneVerify', boo: true})
+        //     this.CONTROL_MODAL({target: 'phoneVerify', boo: true})
         //   }
         // }
 

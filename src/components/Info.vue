@@ -73,7 +73,7 @@ export default {
     },
     methods: {
         ...mapMutations([
-            'controlModal',
+            'CONTROL_MODAL',
             'setAlertMsg',
             'gotMapInfo',
         ]),
@@ -99,7 +99,7 @@ export default {
             var res = await this.getStore(store.sn)
             if(res.code === 10) {
                 this.gotMapInfo(res.data)
-                this.controlModal({target: 'storeMap', boo: true})
+                this.CONTROL_MODAL({target: 'storeMap', boo: true})
             }
             
         }

@@ -1,7 +1,7 @@
 <template>
-  <div id="store-map-modal" class="my-modal-wrap" @click.self="controlModal({target: 'storeMap', boo: false})">
+  <div id="store-map-modal" class="my-modal-wrap" @click.self="CONTROL_MODAL({target: 'storeMap', boo: false})">
     <div class="modal-box">
-      <div class="close-btn" @click="controlModal({target: 'storeMap', boo: false})">
+      <div class="close-btn" @click="CONTROL_MODAL({target: 'storeMap', boo: false})">
         <v-icon>clear</v-icon>
       </div>
       
@@ -37,7 +37,7 @@
     },
     methods: {
       ...mapMutations([
-        'controlModal'
+        'CONTROL_MODAL'
       ]),
       async onGotMapInfo() {
         var address = this.mapInfo.city && this.mapInfo.area && this.mapInfo.addr 

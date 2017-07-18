@@ -1,5 +1,5 @@
 <template>
-  <div id="member-pw-modal" class="my-modal-wrap" @click.self="controlModal({target: 'memberPw', boo: false})">
+  <div id="member-pw-modal" class="my-modal-wrap" @click.self="CONTROL_MODAL({target: 'memberPw', boo: false})">
     <div class="modal-box">
       <div class="modal-box-content">
         <h5>修改帳戶密碼</h5>
@@ -23,7 +23,7 @@
         </form>
       </div>
       <div class="modal-box-footer">
-        <button @click="controlModal({target: 'memberPw', boo: false})">取消</button>
+        <button @click="CONTROL_MODAL({target: 'memberPw', boo: false})">取消</button>
         <button class="blue-text" @click="handleUpdatePw">送出</button>
       </div>
     </div>
@@ -77,7 +77,7 @@
           }
           var res = await this.updatePw(data)
           if(res.code === 10) {
-            this.controlModal({target: "memberPw", boo: false})
+            this.CONTROL_MODAL({target: "memberPw", boo: false})
             this.$message({
                 message: '密碼更新成功',
                 type: 'success'

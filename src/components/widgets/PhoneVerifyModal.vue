@@ -1,5 +1,5 @@
 <template>
-  <div id="phone-verify-modal" class="my-modal-wrap" @click.self="controlModal({target: 'phoneVerify', boo: false})">
+  <div id="phone-verify-modal" class="my-modal-wrap" @click.self="CONTROL_MODAL({target: 'phoneVerify', boo: false})">
     <div v-if="statusTab === 'verify'" class="modal-box">
       <div class="modal-box-content">
         <h5>請輸入手機驗證碼</h5>
@@ -10,7 +10,7 @@
         </form>
       </div>
       <div class="modal-box-footer">
-        <button @click="controlModal({target: 'phoneVerify', boo: false})">取消</button>
+        <button @click="CONTROL_MODAL({target: 'phoneVerify', boo: false})">取消</button>
         <button class="blue-text" @click="onVerifySubmit">確認</button>
       </div>
     </div>
@@ -36,7 +36,7 @@
         
       </div>
       <div class="modal-box-footer">
-        <button class="blue-text" @click="controlModal({target: 'phoneVerify', boo: false})">確認</button>
+        <button class="blue-text" @click="CONTROL_MODAL({target: 'phoneVerify', boo: false})">確認</button>
       </div>
     </div>
     
@@ -60,7 +60,7 @@
     },
     methods: {
       ...mapMutations([
-        'controlModal'
+        'CONTROL_MODAL'
       ]),
       ...mapActions([
         'sendResvVerify',
@@ -79,13 +79,13 @@
         }
         var res = await this.verifyResv(data)
         if(res.code === 10) {
-          this.controlModal({target: 'phoneVerify', boo: false})
+          this.CONTROL_MODAL({target: 'phoneVerify', boo: false})
           this.$router.push({name: 'CheckoutResult', query: {resv: this.checkedOutResv.sn}})
         }
         
       },
       goToPay() {
-        this.controlModal({target: 'phoneVerify', boo: false})
+        this.CONTROL_MODAL({target: 'phoneVerify', boo: false})
         this.$router.push({name: "Checkout", query: {chk: this.checkedOutResv.chk.chkSn, resv: this.checkedOutResv.sn}})
       }
 

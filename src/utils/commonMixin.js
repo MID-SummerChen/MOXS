@@ -40,7 +40,7 @@ export default {
     },
   methods: {
     ...mapMutations([
-      'controlModal',
+      'CONTROL_MODAL',
     ]),
     ...mapActions([
       'checkLoginStatus'

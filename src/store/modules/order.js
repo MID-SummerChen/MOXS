@@ -16,6 +16,9 @@ export default {
     SAVE_CURRENT_RESV(state, resvForm) {
       state.currentResv = _.assign({}, state.currentResv, resvForm)
     },
+    CLEAR_CURRENT_RESV(state) {
+      state.currentResv = {}
+    },
     SAVE_CHECKED_OUT_RESV(state, data) {
       state.checkedOutResv = _.assign({}, data)
     },
@@ -25,9 +28,19 @@ export default {
       // }
       state.orderItems = _.concat(state.orderItems, [item])
     },
-    REMOVE_ORDER_ITEM(state, itemSn) {
-      state.orderItems = _.filter(state.orderItems, item => item.sn !== itemSn)
-    }
+    UPDATE_ORDER_ITEM(state, {index, item}) {
+      state.orderItems = _.map(state.orderItems, (t, i) => {
+        if(i === index) t = item
+        return t
+      })
+    },
+    REMOVE_ORDER_ITEM(state, targetIndex) {
+      console.log(targetIndex)
+      state.orderItems = _.filter(state.orderItems, (item, i) => i !== targetIndex)
+    },
+    CLEAR_ORDER_ITEM(state) {
+      state.orderItems = []
+    },
   },
   actions: {
     
