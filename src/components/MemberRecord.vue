@@ -41,7 +41,8 @@ import eventHub from '@/utils/eventHub'
 import commonMixin from '@/utils/commonMixin'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 export default {
-    name: 'Products',
+    name: 'MemberRecord',
+    mixins: [commonMixin],
     components: {
         HeaderCpt: Header,
         SideBar,
@@ -72,6 +73,7 @@ export default {
                 page: this.page,
                 orderBy: "date:desc"
             }
+            this.isLoading = true
             var res = await this.getAllResv(data)
             if(res.code === 10) {
                 this.totalPages = res.data.totalPages
@@ -82,7 +84,11 @@ export default {
                         console.log(res.data.items[i])
                         this.resvList = this.resvList.concat(res.data.items[i])
                         i++ 
-                        if(i < res.data.pageRecords) fadeLoop.call(this)
+                        if(i < res.data.pageRecords) {
+                            fadeLoop.call(this)
+                        }else {
+                            this.isLoading = false
+                        }
                     }, 100)
                 }
             }
@@ -90,9 +96,8 @@ export default {
         },
         async onLoadMore() {
             this.page = this.page+1
-            this.isLoading = true
             await this._getAllResv()
-            this.isLoading = false
+            
         }
     }
 }

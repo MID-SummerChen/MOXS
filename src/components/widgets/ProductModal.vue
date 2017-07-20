@@ -5,8 +5,8 @@
         <v-icon>clear</v-icon>
       </div>
       <div v-if="product.sn" class="modal-box-content">
-        <div class="img-wrap">
-          <img src="/static/imgs/food03.jpg" alt="">
+        <div v-if="product.imgUrl" class="img-wrap">
+          <img :src="toImgSrc('sev', product.imgUrl)" alt="">
         </div>
         <h5>{{product.name}}</h5>
         <!--{{product}}-->
@@ -73,8 +73,10 @@
 
 <script>
   import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
+  import commonMixin from '@/utils/commonMixin'
   export default {
     name: 'ProductModal',
+    mixins: [commonMixin],
     data() {
       return {
         currentTab: 2,

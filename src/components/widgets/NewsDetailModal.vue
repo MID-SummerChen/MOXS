@@ -10,8 +10,8 @@
         <p class="date">{{newsData.updateAt}}</p>
       </div>
       <div class="modal-box-content">
-        <div class="img-wrap">
-          <img src="/static/imgs/food01.jpg" alt="">
+        <div v-if="newsData.newsImageUrl" class="img-wrap">
+          <img :src="toImgSrc('sev', newsData.newsImageUrl)" alt="">
         </div>
         <p>{{newsData.newsContent}}</p>
         
@@ -24,8 +24,10 @@
 
 <script>
   import { mapGetters, mapActions, mapMutations } from 'vuex'
+  import commonMixin from '@/utils/commonMixin'
   export default {
     name: 'CheckoutModal',
+    mixins: [commonMixin],
     data() {
       return {
         newsData: {}

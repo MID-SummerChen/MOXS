@@ -11,7 +11,7 @@
                     <div class="paper-content">
                         <div class="items">
                             <div class="item" v-for="n in newsList" @click="$router.push({name: 'News', query: {sn: n.newsSn}})">
-                                <div class="item-img" :style="{'background-image': 'url(/static/imgs/food03.jpg)'}"></div>
+                                <div v-if="n.newsImageUrl" class="item-img" :style="{'background-image': 'url(' + toImgSrc('sev', n.newsImageUrl) + ')'}"></div>
                                 <div class="item-content">
                                     <p>{{n.newsSubtitle}}</p>
                                     <h5>{{n.newsTitle}}</h5>
@@ -40,6 +40,7 @@ import commonMixin from '@/utils/commonMixin'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 export default {
     name: 'Products',
+    mixins: [commonMixin],
     components: {
         HeaderCpt: Header,
         SideBar,
@@ -63,18 +64,18 @@ export default {
         }
     },
     methods: {
-      ...mapMutations([
-        'CONTROL_MODAL',
-      ]),
-      ...mapActions([
-          'getNewsList'
-      ]),
-      async _getNewsList() {
-          var res = await this.getNewsList()
-          if(res.code === 10) {
-              this.newsList = res.data.items
-          }
-      }
+        ...mapMutations([
+            'CONTROL_MODAL',
+        ]),
+        ...mapActions([
+            'getNewsList'
+        ]),
+        async _getNewsList() {
+            var res = await this.getNewsList()
+            if(res.code === 10) {
+                this.newsList = res.data.items
+            }
+        }
     }
 }
 

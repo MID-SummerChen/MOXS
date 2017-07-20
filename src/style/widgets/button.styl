@@ -1,6 +1,9 @@
 // button
 .my-btn
     outline: none
+    &.block 
+        display: block
+        width: 100%
 .t1
     border: 1px solid #999
     padding: 6px 15px
@@ -22,6 +25,10 @@
     border: 1px solid main-color
     padding: 6px 15px
     color: main-color
+    &.active
+        border: 1px solid main-color
+        color: #fff
+        background-color: main-color
 .btn-t2
     border: 1px solid main-blue
     padding: 6px 15px
