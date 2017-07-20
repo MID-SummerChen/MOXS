@@ -77,7 +77,11 @@ export default {
       'getAllResv'
     ]),
     async _getAllResv() {
-      var res = await this.getAllResv()
+      var data = {
+        maxRecords: 5,
+        orderBy: "date:desc"
+      }
+      var res = await this.getAllResv(data)
       if(res.code === 10) {
         this.resvList = res.data.items
       }

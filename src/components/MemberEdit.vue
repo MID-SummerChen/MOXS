@@ -221,7 +221,7 @@ export default {
                 });
                 this.picLoading = false
 
-                var res = await this.updateMember({resId: res.data.id})
+                var res = await this.updateMember({ac: {resId: res.data.id}})
                 if (res.code === 10) {
                     await this.checkLoginStatus()
                     this.memPicSrc = `http://${this.apiHost}/${this.apiModule.sys}${this.account.resUrl}`

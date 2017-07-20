@@ -40,11 +40,11 @@
                     <div class="items">
                         <div class="item" v-for="item in resvItems">
                             <div class="title">
-                                <p class="name">{{item.title}}</p>
+                                <p class="name">{{item.name}}</p>
                                 <p class="tags">{{item.subtitle}}</p>
                             </div>
-                            <div class="count">x{{item.num}}</div>
-                            <div class="dollar">${{item.total_price}}</div>
+                            <div class="count">x{{item.amount}}</div>
+                            <div class="dollar">${{item.totalPrice}}</div>
                         </div>
                     </div>
                     <div class="total">
