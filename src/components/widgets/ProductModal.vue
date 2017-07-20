@@ -144,7 +144,7 @@
         f.count = o.count
         f.note = o.rtmNote
         f.prcOpt = _.find(this.product.prcs[0].opts, {id: o.prcs[0].opt.id})
-        f.chkOpts = _.map(o.chks[0].opts, "id")
+        if(o.chks) f.chkOpts = _.map(o.chks[0].opts, "id")
       },
       onAddedToCart() {
         var p = this.product
@@ -159,13 +159,13 @@
               prcId: p.prcs[0] ? p.prcs[0].id : "",
               opt: this.form.prcOpt,
             }
-          ],
-          chks: [
-            {
-              chkId: p.chks[0].id,
-              opts: _(p.chks[0].opts).filter(opt => this.form.chkOpts.indexOf(opt.id) > -1).value()
-            }
           ]
+        }
+        if(p.chks[0] > 0) {
+          item.chks = [{
+            chkId: p.chks[0].id,
+            opts: _(p.chks[0].opts).filter(opt => this.form.chkOpts.indexOf(opt.id) > -1).value()
+          }]
         }
         if(this.orderIndex !== null) {
           this.UPDATE_ORDER_ITEM({index: this.orderIndex, item})

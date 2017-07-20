@@ -13,7 +13,7 @@
                         <div class="date-items" v-for="(resvs, month) in resvListByMonth">
                             <div class="date">{{month}}</div>
                             <div class="items">
-                                <div class="item animated fadeInUp" v-for="resv in resvs" @click="$router.push({name: 'MemberRecordDetail', params: {sn: resv.sn}})">
+                                <div class="item animated fadeInUp" v-for="resv in resvs" @click="$router.push({name: 'MemberRecordDetail', params: {resv_sn: resv.sn}})">
                                     <p>
                                         <span>{{resv.stoResvOptName}}  {{resv.date}} {{resv.startAt}} </span>
                                     </p>

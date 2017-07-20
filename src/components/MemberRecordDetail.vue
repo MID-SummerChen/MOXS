@@ -31,7 +31,9 @@
                             <p>預約人數：{{resvData.adultNum + resvData.kidNum}}</p>
                             <p>預約人：{{resvData.name}} {{toGender(resvData.gender)}} {{resvData.cell}}</p>
                             <p v-if="resvData.addr">地址：{{resvData.city + resvData.area + resvData.addr}}</p>
-                            <p>付款方式：{{toPayType(resvData.payType)}} <span style="color: #f53b11">[{{toChkStatus(resvData.status)}}]</span></p>
+                            <p>付款方式：{{toPayType(resvData.payType)}} 
+                                <span style="color: #f53b11">[{{toChkStatus(resvData.status)}}]</span>
+                            </p>
                             <p>建檔時間：{{resvData.createAt}}</p>
                         </el-col>
 
@@ -41,7 +43,8 @@
                         <div class="item" v-for="item in resvItems">
                             <div class="title">
                                 <p class="name">{{item.name}}</p>
-                                <p class="tags">{{item.subtitle}}</p>
+                                <!--<p class="tags">{{item.subtitle}}</p>-->
+                                <p class="tags">{{item.rtmSubtitle}} {{item.rtmDesc}}</p>
                             </div>
                             <div class="count">x{{item.amount}}</div>
                             <div class="dollar">${{item.totalPrice}}</div>
@@ -52,7 +55,8 @@
                     </div>
                     <div class="btn-wrap">
                         <a href="" class="text-rose">取消預約</a>
-                        <a href="" @click.prevent="CONTROL_MODAL({target: 'orderRecord', boo: true})" class="text-blue">交易紀錄</a>
+                        <a v-if="resvData.status === 'WAIT_VERIFY'" href=""  class="text-blue" @click.prevent="CONTROL_MODAL({target: 'phoneVerify', boo: true})">立即驗證</a>
+                        <a v-else href="" @click.prevent="CONTROL_MODAL({target: 'orderRecord', boo: true})" class="text-blue">交易紀錄</a>
                     </div>
                 </div>
             </div>
@@ -86,20 +90,21 @@ export default {
     },
     methods: {
         ...mapMutations([
-            'CONTROL_MODAL'
+            'SAVE_CHECKED_OUT_RESV'
         ]),
         ...mapActions([
             'getResv',
             'getResvItems',
         ]),
         async _getResv() {
-            var res = await this.getResv(this.$route.params.sn)
+            var res = await this.getResv(this.$route.params.resv_sn)
             if(res.code === 10) {
                 this.resvData = res.data
+                this.SAVE_CHECKED_OUT_RESV(res.data)
             }
         },
         async _getResvItems() {
-            var res = await this.getResvItems(this.$route.params.sn)
+            var res = await this.getResvItems(this.$route.params.resv_sn)
             console.log(res)
             if(res.code === 10) {
                 this.resvItems = res.data.items

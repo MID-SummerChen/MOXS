@@ -77,7 +77,6 @@
     },
     methods: {
       ...mapMutations([
-        'CONTROL_MODAL',
         'setAlertMsg',
         'gotConfig',
       ]),

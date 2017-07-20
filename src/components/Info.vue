@@ -43,6 +43,7 @@ import commonMixin from '@/utils/commonMixin'
 import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 export default {
     name: 'Products',
+    mixins: [commonMixin],
     components: {
         HeaderCpt: Header,
         SideBar,
@@ -73,7 +74,6 @@ export default {
     },
     methods: {
         ...mapMutations([
-            'CONTROL_MODAL',
             'setAlertMsg',
             'gotMapInfo',
         ]),

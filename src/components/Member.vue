@@ -22,7 +22,7 @@
               <div class="record-header">
                   最新預約記錄
               </div>
-              <div class="item" v-for="resv in resvList" @click="$router.push({name: 'MemberRecordDetail', params: {sn: resv.sn}})">
+              <div class="item" v-for="resv in resvList" @click="$router.push({name: 'MemberRecordDetail', params: {resv_sn: resv.sn}})">
                   <p>
                       <span>{{resv.stoResvOptName}}  {{resv.date}} {{resv.startAt}} </span>
                   </p>

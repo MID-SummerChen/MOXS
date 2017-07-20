@@ -146,19 +146,6 @@ export default {
         console.log(f.payType)
         this.CONTROL_MODAL({target: 'cart', boo: false})
         this.CONTROL_MODAL({target: 'phoneVerify', boo: true})
-        
-        // if(f.payType === "ONLINE") {
-        //   // var query = {resv: res.data.sn, chk: res.data.chk.chkSn}
-        //   // console.log(query)
-        //   // this.$router.push({name: "Checkout", query})
-        //   // this.CONTROL_MODAL({target: 'cart', boo: false})
-        // }else {
-        //   var r = await this.sendResvVerify(res.data.sn)
-        //   if(r.code === 10) {
-        //     // this.$message('已發送驗證碼');
-        //     this.CONTROL_MODAL({target: 'phoneVerify', boo: true})
-        //   }
-        // }
 
       }
     },

@@ -4,14 +4,14 @@
       <div class="modal-box-content">
         <h5>請輸入手機驗證碼</h5>
         <p>系統已發送驗證碼簡訊至{{checkedOutResv.cell}}</p>
-        <form>
-          <input type="text" placeholder="驗證碼..." v-model="verifyCode">
+        <div class="verifySection">
+          <input type="text" placeholder="驗證碼..." v-model="verifyCode" @keyup.enter="onVerifySubmit">
           <button class="submit-btn" @click.prevent="sendVerifyAgain">發送驗證碼</button>
-        </form>
+        </div>
       </div>
       <div class="modal-box-footer">
         <button @click="CONTROL_MODAL({target: 'phoneVerify', boo: false})">取消</button>
-        <button class="blue-text" @click="onVerifySubmit">確認</button>
+        <button type="submit" class="blue-text" @click.prevent="onVerifySubmit">確認</button>
       </div>
     </div>
     <div v-if="statusTab === 'code'" class="modal-box">
@@ -45,8 +45,10 @@
 
 <script>
   import { mapGetters, mapActions, mapMutations } from 'vuex'
+  import commonMixin from '@/utils/commonMixin'
   export default {
     name: 'PhoneVerifyModal',
+    mixins: [commonMixin],
     data() {
       return {
         statusTab: 'code',
@@ -60,7 +62,6 @@
     },
     methods: {
       ...mapMutations([
-        'CONTROL_MODAL'
       ]),
       ...mapActions([
         'sendResvVerify',
@@ -81,6 +82,7 @@
         if(res.code === 10) {
           this.CONTROL_MODAL({target: 'phoneVerify', boo: false})
           this.$router.push({name: 'CheckoutResult', query: {resv: this.checkedOutResv.sn}})
+          this.$message('驗證成功');
         }
         
       },

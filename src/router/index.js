@@ -62,7 +62,7 @@ export default new Router({
       component: MemberRecord
     },
     {
-      path: '/member/record/:sn',
+      path: '/member/record/:resv_sn',
       name: 'MemberRecordDetail',
       component: MemberRecordDetail
     },

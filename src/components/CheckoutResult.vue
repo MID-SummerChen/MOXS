@@ -44,7 +44,7 @@
           </div>
          
           <div class="btn-wrap">
-            <router-link :to="{name: 'MemberRecord'}" class="text-blue">查訊預約記錄</router-link>
+            <router-link :to="{name: 'MemberRecordDetail', params: {resv_sn: $route.query.resv}}" class="text-blue">查訊預約記錄</router-link>
           </div>
         </div>
       </div>
