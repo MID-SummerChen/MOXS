@@ -94,7 +94,7 @@
           this.itemsCls = res.data.children
           this.breadcrumb = this.breadcrumb.concat(res.data.parent)
           if(res.data.current) {
-            this.breadcrumb = [res.data.current].concat(this.breadcrumb)
+            this.breadcrumb = this.breadcrumb.concat([res.data.current])
           }
         }
       },
