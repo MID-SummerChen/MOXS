@@ -43,7 +43,7 @@
 <script>
   import eventHub from '@/utils/eventHub'
   import commonMixin from '@/utils/commonMixin'
-  import { mapGetters, mapActions, mapMutations } from 'vuex'
+  import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
   export default {
     name: 'Products',
     mixins: [commonMixin],
@@ -68,8 +68,11 @@
       }
     },
     computed: {
+      ...mapState({
+        imgs: state => state.imgs,
+      }),
       ...mapGetters([
-      ])
+      ]),
     },
     methods: {
       ...mapMutations([

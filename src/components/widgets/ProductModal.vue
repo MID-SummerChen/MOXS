@@ -161,10 +161,13 @@
             }
           ]
         }
-        item.chks = [{
+        if(p.chks[0]) {
+          item.chks = [{
           chkId: p.chks[0].id,
           opts: _(p.chks[0].opts).filter(opt => this.form.chkOpts.indexOf(opt.id) > -1).value()
         }]
+        }
+        
         if(this.orderIndex !== null) {
           this.UPDATE_ORDER_ITEM({index: this.orderIndex, item})
         }else {
