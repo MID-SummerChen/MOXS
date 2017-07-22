@@ -69,7 +69,7 @@ export default {
             'apiModule',
         ]),
         bgImgSrc() {
-            return this.imgs.bgPrimaryWImg ? `http://${this.apiHost}/${this.apiModule.sys}/${this.imgs.bgPrimaryWImg}` : ''
+            return this.imgs.bgPrimaryWImg ? `http://${this.apiHost}/${this.apiModule.sys}/${this.imgs.bgInfoWImg}` : ''
         }
     },
     methods: {

@@ -62,7 +62,7 @@
           
         </div>
         <div class="sub-btn-wrap">
-          <div v-show="currentTab === 2" class="button" @click="onAddedToCart">加入預約清單</div>
+          <div v-show="currentTab === 2" class="button" @click="onAddedToCart">{{orderIndex !== null ? '確定更新' : '加入預約清單'}}</div>
           <!--<div class="button" @click="CONTROL_MODAL({target: 'product', boo: false})">關閉</div>-->
         </div>
         
@@ -139,12 +139,12 @@
       },
       setOrderedData() {
         var f = this.form 
-        var o = this.orderItems[this.orderIndex]
-        console.log(o)
-        f.count = o.count
-        f.note = o.rtmNote
-        f.prcOpt = _.find(this.product.prcs[0].opts, {id: o.prcs[0].opt.id})
-        if(o.chks) f.chkOpts = _.map(o.chks[0].opts, "id")
+        var item = this.orderItems[this.orderIndex]
+        console.log(item)
+        f.count = item.count
+        f.note = item.rtmNote
+        f.prcOpt = _.find(this.product.prcs[0].opts, {id: item.prcs[0].opt.id})
+        if(item.chks) f.chkOpts = _.map(item.chks[0].opts, "id")
       },
       onAddedToCart() {
         var p = this.product
@@ -161,12 +161,10 @@
             }
           ]
         }
-        if(p.chks[0] > 0) {
-          item.chks = [{
-            chkId: p.chks[0].id,
-            opts: _(p.chks[0].opts).filter(opt => this.form.chkOpts.indexOf(opt.id) > -1).value()
-          }]
-        }
+        item.chks = [{
+          chkId: p.chks[0].id,
+          opts: _(p.chks[0].opts).filter(opt => this.form.chkOpts.indexOf(opt.id) > -1).value()
+        }]
         if(this.orderIndex !== null) {
           this.UPDATE_ORDER_ITEM({index: this.orderIndex, item})
         }else {
@@ -175,6 +173,7 @@
         
         this.CONTROL_MODAL({target: 'cart', boo: true})
         this.CONTROL_MODAL({target: 'product', boo: false})
+        this.CLEAR_CURRENT_PRODUCT()
       },
       onSelectChk(chk, optId) {
         var i = _.indexOf(this.form.chkOpts, optId)
