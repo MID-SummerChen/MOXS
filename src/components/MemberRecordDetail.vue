@@ -5,7 +5,7 @@
                 <ul>
                     <li @click="$router.push({name: 'Member'})">會員中心</li>
                     <li @click="$router.push({name: 'MemberRecord'})">預約記錄</li>
-                    <li>RES91239124912</li>
+                    <li>{{resvData.sn}}</li>
                 </ul>
             </div>
             <div class="main-content">
@@ -51,7 +51,7 @@
                         </div>
                     </div>
                     <div class="total">
-                        合計： <b>$340</b>
+                        合計： <b>${{resvData.totalPrice}}</b>
                     </div>
                     <div class="btn-wrap">
                         <a href="" class="text-rose">取消預約</a>
