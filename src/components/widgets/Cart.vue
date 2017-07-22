@@ -106,7 +106,7 @@ export default {
         date: moment(f.date).format("YYYY-MM-DD"),
         startAt: f.time,
         adultNum: f.adultNum,
-        kidNum: f.adultNum,
+        kidNum: f.kidNum,
         gender: f.gender,
         cell: f.mobile,
         payType: f.payType,
