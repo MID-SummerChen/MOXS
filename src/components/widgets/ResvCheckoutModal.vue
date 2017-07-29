@@ -46,40 +46,21 @@
             <mu-text-field v-model="form.mobile" label="手機" hintText="" style="width: 100%"/><br/>
           </el-col>
           <template v-if="getResvCode(form.resvTypeId) === 'DELIVER'">
-            <el-col :sm="6">
-              <div class="form-group">
-                <label>縣市</label>
-                <el-select v-model="form.city"
-                            @change="onCityOptsChanged"
-                            style="width: 100%">
-                    <el-option v-for="o in cityOpts"
-                                :label="o.geoName"
-                                :value="o.geoName"
-                                >
-                    </el-option>
-                </el-select>
-                
-              </div>
-            </el-col>
-            <el-col :sm="6">
-              <div class="form-group">
-                <label>地區</label>
-                <el-select v-model="form.area"
-                            style="width: 100%">
-                    <el-option v-for="o in areaOpts"
-                                :label="o.geoName"
-                                :value="o.geoName">
-                    </el-option>
-                </el-select>
-              </div>
+            <el-col :sm="12">
+              <mu-select-field v-model="form.city" :labelFocusClass="['label-foucs']" label="縣市" style="width: 100%">
+                <mu-menu-item v-for="(city, i) in cityList" :value="city.geoName" :title="city.geoName" />
+              </mu-select-field>
             </el-col>
             <el-col :sm="12">
-              <div class="form-group">
-                <label>地址</label>
-                <input type="text" v-model="form.addr">
-              </div>
+              <mu-select-field v-model="form.area" :labelFocusClass="['label-foucs']" label="地區" style="width: 100%">
+                <mu-menu-item v-for="(area, i) in areaList" :value="area.geoName" :title="area.geoName" />
+              </mu-select-field>
+            </el-col>
+            <el-col :sm="24">
+              <mu-text-field v-model="form.addr" label="地址" hintText="" style="width: 100%"/><br/>
             </el-col>
           </template>
+          
           <el-col :sm="24">
             <div class="sub-radio-check">
               是否使用線上付款？
@@ -131,8 +112,8 @@
           adultNum: 2,
           kidNum: 0,
         },
-        cityOpts: [],
-        areaOpts: [],
+        cityList: [],
+        areaList: [],
         timeOpts: {
           start: '10:30', 
           step: '00:15',
@@ -310,13 +291,13 @@
           var res = await this.getGeo(data)
           if(res.code === 10) {
               superCode
-              ? this.areaOpts = res.data
-              : this.cityOpts = res.data
+              ? this.areaList = res.data
+              : this.cityList = res.data
           }
       },
       onCityOptsChanged() {
           this.form.area = ""
-          this._getGeo(this.cityOpts.find(o => o.geoName === this.form.city).code)
+          this._getGeo(this.cityList.find(o => o.geoName === this.form.city).code)
       },
       // onCartSubmit() {
         

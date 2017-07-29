@@ -4,7 +4,8 @@ export default {
   state: {
     alertBox: false,
     qrcode: false,
-    checkout: false,
+    resvCheckout: false,
+    ordCheckout: false,
     product: false,
     login: false,
     cart: false,

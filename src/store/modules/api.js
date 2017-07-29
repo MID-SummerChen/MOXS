@@ -1,9 +1,7 @@
 // var apiHost = "106.1.80.127:33266" 
-var apiHost = "114.33.8.32:8890" 
-var apiModule = {
-  sys: "moxs_sys",
-  sev: "moxs_sev"
-}
+import {apiHost, apiModule, apiPath} from '../../cfg/apiBasic'
+
+
 var orgSn = "ORG17041916230000"
 var sevSn = "SEV17041917210000"
 import axios from 'axios'
@@ -38,6 +36,7 @@ export default {
     handleError,
     // system
     getGeo: async (store, data) => await apiInit(store, "GET", "form", 'sys', `xs/sys/geo`, data),
+    getDomainConfig: async (store, data) => await apiInit(store, "GET", "form", 'sys', `cs/sev/conf`, data),
     getConfig: async (store) => await apiInit(store, "GET", "form", 'sys', `cs/org/${orgSn}/sev/${sevSn}/conf`),
     getService: async (store) => await apiInit(store, "GET", "form", 'sys', `cs/org/${orgSn}/sev/${sevSn}`),
     login: async (store, data) => await apiInit(store, "POST", "form", 'sys', `cs/org/${orgSn}/sev/${sevSn}/ac/signin`, data),
@@ -67,10 +66,20 @@ export default {
     getAllowResvDate: async (store, data) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/sto/${data.stoSn}/resv/date`, data),
     getAllowResvTime: async (store, data) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/sto/${data.stoSn}/resv/time`, data),
     getResvChk: async (store, resvSn) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/resv/${resvSn}/chk`),
-    resvCheckout: async (store, data) => await apiInit(store, "POST", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/chk/${data.chkSn}/pay`, data),
-    getResvItems: async (store, resvSn) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/resv/${resvSn}/tm`),
-    getResvChkCb: async (store, chkSn) => await apiInit(store, "POST", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/chk/${chkSn}/callback`),
+    getAllResvItems: async (store, resvSn) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/resv/${resvSn}/tm`),
     getResv: async (store, resvSn) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/resv/${resvSn}`),
+
+    // 訂單
+    getAllOrd: async (store, data) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/ord`, data),
+    getOrd: async (store, ordSn) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/ord/${ordSn}`),
+    addOrd: async (store, data) => await apiInit(store, "POST", "json", 'sev', `cs/org/${orgSn}/sev/${sevSn}/sto/${data.stoSn}/ord/add`, data),
+    getAllOrdItems: async (store, ordSn) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/ord/${ordSn}/item`),
+    getOrdItem: async (store, data) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/ord/${data.ordSn}/item/${data.otmId}`),
+    
+
+    // 結帳
+    resvCheckout: async (store, data) => await apiInit(store, "POST", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/chk/${data.chkSn}/pay`, data),
+    getResvChkCb: async (store, chkSn) => await apiInit(store, "POST", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/chk/${chkSn}/callback`),
 
     getNewsList: async (store) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/news`),
     getNews: async (store, newsSn) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/news/${newsSn}`),
@@ -82,7 +91,7 @@ export default {
 async function apiInit(store, method, contentType = 'form', moduleType = 'sys', route, data, showErrMsg = true) {
   var headers = {}
 
-  var url = `http://${apiHost}/${apiModule[moduleType]}/api/${route}`
+  var url = `http://${apiHost}/${apiModule[moduleType]}/${apiPath}/${route}`
   if(contentType === "json") {
     headers["Content-Type"] = "application/json"
   }else if(contentType === "multi") {

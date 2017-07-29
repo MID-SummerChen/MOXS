@@ -164,7 +164,7 @@ export default {
   methods: {
     ...mapActions([
       'resvCheckout',
-      'getResvItems',
+      'getAllResvItems',
       'getResvChk',
     ]),
     async _getResvChk() {
@@ -194,8 +194,8 @@ export default {
       }
       
     },
-    async _getResvItems() {
-      var res = await this.getResvItems(this.$route.query.resv)
+    async _getAllResvItems() {
+      var res = await this.getAllResvItems(this.$route.query.resv)
       if(res.code === 10) {
         this.items = res.data.items
       }

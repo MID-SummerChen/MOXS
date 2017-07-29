@@ -86,7 +86,7 @@ export default {
     },
     mounted() {
         this._getResv()
-        this._getResvItems()
+        this._getAllResvItems()
     },
     methods: {
         ...mapMutations([
@@ -94,7 +94,7 @@ export default {
         ]),
         ...mapActions([
             'getResv',
-            'getResvItems',
+            'getAllResvItems',
         ]),
         async _getResv() {
             var res = await this.getResv(this.$route.params.resv_sn)
@@ -103,8 +103,8 @@ export default {
                 this.SAVE_CHECKED_OUT_RESV(res.data)
             }
         },
-        async _getResvItems() {
-            var res = await this.getResvItems(this.$route.params.resv_sn)
+        async _getAllResvItems() {
+            var res = await this.getAllResvItems(this.$route.params.resv_sn)
             console.log(res)
             if(res.code === 10) {
                 this.resvItems = res.data.items

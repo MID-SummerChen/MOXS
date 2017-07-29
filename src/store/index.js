@@ -6,6 +6,7 @@ import order from './modules/order'
 import alertBox from './modules/modals/alertBox'
 import productModal from './modules/modals/productModal'
 import storeMapModal from './modules/modals/storeMapModal'
+import {fakeHost, devMode } from '../cfg/apiBasic'
 
 
 Vue.use(Vuex)
@@ -29,13 +30,15 @@ export default new Vuex.Store({
     colors: {},
     paySets: [],
     storeList: [],
-    googleKey: 'AIzaSyCJwqPoYKWtOxe2xnb3tneHV1Vu9EdKZAQ'
+    googleKey: 'AIzaSyCJwqPoYKWtOxe2xnb3tneHV1Vu9EdKZAQ',
+    checkoutType: "",
   },
   getters: {
     isLogin: state => state.isLogin,
     account: state => state.account,
     menu: state => state.menu,
     storeList: state => state.storeList,
+    checkoutType: state => state.checkoutType,
   },
   mutations: {
     switchLoginStatus(state, status) {
@@ -46,6 +49,11 @@ export default new Vuex.Store({
     },
     GOT_CONFIG(state, data) {
       state.menu = data.modules_config
+      if(state.menu.ORD) {
+        state.checkoutType = 'ord'
+      }else {
+        state.checkoutType = "resv"
+      }
       state.org = data.organization
       state.sev = data.service
       state.imgs = data.sev_theme_res
@@ -58,7 +66,7 @@ export default new Vuex.Store({
   },
   actions: {
     async getSiteConfig({ state, commit, dispatch, rootState }) {
-      var res = await dispatch("getConfig")
+      var res = await dispatch("getDomainConfig", {domain: devMode ? fakeHost : location.hostname})
       if(res.code === 10) commit("GOT_CONFIG", res.data)
       var res = await dispatch("getStoreList")
       if(res.code === 10) commit("GOT_STORE_LIST", res.data.items)

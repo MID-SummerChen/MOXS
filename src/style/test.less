@@ -1,0 +1,33 @@
+@import "../../node_modules/muse-ui/less/vars.less"; // 默認基礎的變量
+
+// 修改基礎變量
+
+@primaryColor: @amber900;
+@darkerPrimaryColor: @amber900;
+@lighterPrimaryColor: @grey600;
+@accentColor: @amber900;
+@darkerAccentColor: @amber900;
+@lighterAccentColor: @amber900;
+
+@textColor: @grey800;
+@secondaryTextColor: fade(@grey800, 70%);
+@alternateTextColor: #303030;
+@borderColor: fade(@grey800, 30%);
+@disabledColor: fade(@grey800, 30%);
+
+
+@import "../../node_modules/muse-ui/less/theme-vars.less";  // 默認組件變量
+
+// 修改組件變量
+@avatarBackgroundColor: lighten(@alternateTextColor, 26%);
+@datePickerHeaderColor: fade(@grey800, 12%);
+@timePickerHeaderColor: fade(@grey800, 12%);
+@timePickerClockCircleColor: fade(@grey800, 12%);
+@avatarBackgroundColor: lighten(@alternateTextColor, 26%);
+@chipColor: lighten(@alternateTextColor, 12%);
+@floatButtonDisabledColor: lighten(@alternateTextColor, 12%);
+
+@tableRowHoverBackgroundColor: fade(@textColor, 10%);
+@tableRowSelectedBackgroundColor: fade(@textColor, 5%);
+
+@import "../../node_modules/muse-ui/less/theme.less"; // 主題相關的樣式

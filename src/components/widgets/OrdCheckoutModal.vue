@@ -1,40 +1,15 @@
 <template>
-  <div id="checkout-modal" class="my-modal-wrap" @click.self="CONTROL_MODAL({target: 'checkout', boo: false})">
+  <div id="checkout-modal" class="my-modal-wrap" @click.self="CONTROL_MODAL({target: 'ordCheckout', boo: false})">
     <div class="modal-box">
-      <div class="close-btn" @click="CONTROL_MODAL({target: 'checkout', boo: false})">
+      <div class="close-btn" @click="CONTROL_MODAL({target: 'ordCheckout', boo: false})">
         <v-icon>clear</v-icon>
       </div>
       
       <div class="modal-box-content">
         <el-row :gutter="20">
-          <el-col :sm="24">
-            <mu-select-field v-model="form.store" :labelFocusClass="['label-foucs']" label="分店" style="width: 100%" @change="onStoreChanged">
-              <mu-menu-item v-for="(s, i) in storeList" :key="s.sn" :value="s.sn" :title="s.name" />
-            </mu-select-field>
-          </el-col>
-          <el-col :sm="12">
-            <mu-select-field v-model="form.resvTypeId" :labelFocusClass="['label-foucs']" label="預約類型" style="width: 100%" @change="onResvTypeChanged">
-              <mu-menu-item v-for="(r, i) in resvTypeList" :key="r.id" :value="r.id" :title="r.name" />
-            </mu-select-field>
-          </el-col>
-          <el-col :sm="12">
-            <mu-text-field v-model="form.adultNum" label="人數" hintText="" style="width: 100%"/><br/>
-          </el-col>
-          <template>
-            <el-col :sm="12">
-              <mu-select-field v-model="form.date" :labelFocusClass="['label-foucs']" label="日期" style="width: 100%" @change="onDateChanged">
-                <mu-menu-item v-for="(d, i) in dateList" :key="d" :value="d" :title="d" />
-              </mu-select-field>
-            </el-col>
-            <el-col :sm="12">
-              <mu-select-field v-model="form.time" :labelFocusClass="['label-foucs']" label="時間" style="width: 100%">
-                <mu-menu-item v-for="(t, i) in timeList" :key="t" :value="t" :title="t" />
-              </mu-select-field>
-            </el-col>
-          </template>
           <el-col :sm="12">
             <div class="form-group">
-              <mu-text-field v-model="form.name" label="姓名" hintText="" style="width: 100%"/><br/>
+              <mu-text-field v-model="form.name" label="姓名" :errorText="$v.form.$dirty && $v.form.name ? '不可為空' : ''" style="width: 100%"/><br/>
             </div>
           </el-col>
           <el-col :sm="12">
@@ -45,50 +20,31 @@
           <el-col :sm="24">
             <mu-text-field v-model="form.mobile" label="手機" hintText="" style="width: 100%"/><br/>
           </el-col>
-          <template v-if="getResvCode(form.resvTypeId) === 'DELIVER'">
-            <el-col :sm="6">
-              <div class="form-group">
-                <label>縣市</label>
-                <el-select v-model="form.city"
-                            @change="onCityOptsChanged"
-                            style="width: 100%">
-                    <el-option v-for="o in cityOpts"
-                                :label="o.geoName"
-                                :value="o.geoName"
-                                >
-                    </el-option>
-                </el-select>
-                
-              </div>
-            </el-col>
-            <el-col :sm="6">
-              <div class="form-group">
-                <label>地區</label>
-                <el-select v-model="form.area"
-                            style="width: 100%">
-                    <el-option v-for="o in areaOpts"
-                                :label="o.geoName"
-                                :value="o.geoName">
-                    </el-option>
-                </el-select>
-              </div>
-            </el-col>
-            <el-col :sm="12">
-              <div class="form-group">
-                <label>地址</label>
-                <input type="text" v-model="form.addr">
-              </div>
-            </el-col>
-          </template>
           <el-col :sm="24">
-            <div class="sub-radio-check">
-              是否使用線上付款？
-              <el-radio-group v-model="form.payType">
-                <el-radio class="radio" label="ONLINE">是</el-radio>
-                <el-radio class="radio" label="ONSITE">否</el-radio>
-              </el-radio-group>
-              
-            </div>
+            <mu-select-field v-model="form.payType" :labelFocusClass="['label-foucs']" label="付款方式" style="width: 100%">
+              <mu-menu-item v-for="(opt, i) in payTypeOpts" :value="opt.value" :title="opt.label" />
+            </mu-select-field>
+          </el-col>
+          <el-col :sm="24" v-if="form.payType === 'ONLINE'">
+            <mu-select-field v-model="form.paySetId" :labelFocusClass="['label-foucs']" label="線上付款方式" style="width: 100%">
+              <mu-menu-item v-for="(p, i) in paySets" :value="p.ORG_PAY_SET_ID" :title="p.NAME + ' - 信用卡'" />
+            </mu-select-field>
+          </el-col>
+          <el-col :sm="12">
+            <mu-select-field v-model="form.city" :labelFocusClass="['label-foucs']" label="縣市" style="width: 100%">
+              <mu-menu-item v-for="(city, i) in cityList" :value="city.geoName" :title="city.geoName" />
+            </mu-select-field>
+          </el-col>
+          <el-col :sm="12">
+            <mu-select-field v-model="form.area" :labelFocusClass="['label-foucs']" label="地區" style="width: 100%">
+              <mu-menu-item v-for="(area, i) in areaList" :value="area.geoName" :title="area.geoName" />
+            </mu-select-field>
+          </el-col>
+          <el-col :sm="24">
+            <mu-text-field v-model="form.addr" label="地址" hintText="" style="width: 100%"/><br/>
+          </el-col>
+          <el-col :sm="24">
+            <mu-text-field v-model="form.note" label="備註" multiLine :rows="3" :rowsMax="6" style="width: 100%"/><br/>
           </el-col>
 
         </el-row>
@@ -97,7 +53,7 @@
       </div>
 
       <div class="modal-box-footer">
-        <button @click="CONTROL_MODAL({target: 'checkout', boo: false})">關閉</button>
+        <button @click="CONTROL_MODAL({target: 'ordCheckout', boo: false})">關閉</button>
         <button class="blue-text" @click="onSaveResvInfo">確認</button>
       </div>
       
@@ -106,7 +62,8 @@
 </template>
 
 <script>
-  import { mapGetters, mapActions, mapMutations } from 'vuex'
+  import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
+  import { required, maxLength, between, sameAs } from 'vuelidate/lib/validators'
   import commonMixin from '@/utils/commonMixin'
   export default {
     name: 'CheckoutModal',
@@ -119,6 +76,7 @@
         form: {
           resvTypeId: "",
           payType: "ONLINE",
+          paySetId: "",
           date: "",
           time: "",
           city: "",
@@ -126,21 +84,29 @@
           addr: "",
           store: "",
           name: "",
+          note: "",
           gender: "MALE",
           mobile: "",
-          adultNum: 2,
+          adultNum: 0,
           kidNum: 0,
         },
-        cityOpts: [],
-        areaOpts: [],
-        timeOpts: {
-          start: '10:30', 
-          step: '00:15',
-          end: '20:30'
-        }
+        cityList: [],
+        areaList: [],
+        payTypeOpts: [
+          {label: "線上付款", value: "ONLINE"},
+          {label: "現場付款", value: "ONSITE"},
+        ],
+      }
+    },
+    validations: {
+      form: {
+        name: {required},
       }
     },
     computed: {
+      ...mapState([
+        'paySets'
+      ]),
       ...mapGetters([
         'account',
         'menu',
@@ -149,8 +115,8 @@
         'currentResv',
       ])
     },
-    mounted() {
-      this._getGeo()
+    async mounted() {
+      await this._getGeo()
       this.setInitForm()
       this.setForm()
     },
@@ -158,6 +124,7 @@
       'form.store': 'onStoreChanged',
       'form.resvTypeId': 'onResvTypeChanged',
       'form.date': 'onDateChanged',
+      'form.city': 'onCityChanged',
     },
     methods: {
       ...mapMutations([
@@ -167,7 +134,7 @@
       ...mapActions([
         'getGeo',
         'getResvOpt',
-        'addResv',
+        'addOrd',
         'getAllowResvDate',
         'getAllowResvTime',
         'sendResvVerify',
@@ -192,12 +159,14 @@
         if(this.currentResv.form) {
           f.name = c.name
           f.city = c.city
-          f.area = c.area
+          // f.area = c.area
           f.addr = c.addr
           f.mobile = c.mobile
           f.gender = c.gender
+          f.note = c.note
 
           f.payType = c.payType
+          f.paySetId = c.paySetId
           f.adultNum = c.adultNum
           f.kidNum = c.kidNum
 
@@ -209,6 +178,14 @@
           // await this._getAllowResvTime()
           // f.time = c.time
         }
+      },
+      onCityChanged() {
+        if(this.form.city) {
+          this.form.area = ""
+          var i = _.findIndex(this.cityList, {geoName: this.form.city})
+          if(i > -1) this._getGeo(this.cityList[i].code)
+        }
+          
       },
       onStoreChanged(store) {
         if(store) {
@@ -277,25 +254,34 @@
         return
       },
       onSaveResvInfo() {
-        var f = this.form
-        var d = {
-          adultNum: f.adultNum,
-          kidNum: f.kidNum,
-          gender: f.gender,
-          mobile: f.mobile,
-          payType: f.payType,
-          address: f.city + f.area + f.addr,
-          name: f.name,
-          date: f.date,
-          time: f.time,
-        }
-        var i = _.findIndex(this.storeList, {sn: f.store})
-        if(i > -1) d.storeName = this.storeList[i].name
-        var i = _.findIndex(this.resvTypeList, {id: f.resvTypeId})
-        if(i > -1) d.resvType = this.resvTypeList[i].name
+        this.$v.form.$touch()
+        if(!this.$v.form.$invalid) {
+          var f = this.form
+          var d = {
+            adultNum: f.adultNum,
+            kidNum: f.kidNum,
+            gender: f.gender,
+            mobile: f.mobile,
+            payType: f.payType,
+            note: f.note,
+            address: f.city + f.area + f.addr,
+            name: f.name,
+            date: f.date,
+            time: f.time,
+          }
+          var i = _.findIndex(this.paySets, {ORG_PAY_SET_ID: f.paySetId})
+          if(i > -1) d.paySet = this.paySets[i].NAME
+          var i = _.findIndex(this.storeList, {sn: f.store})
+          if(i > -1) d.storeName = this.storeList[i].name
+          var i = _.findIndex(this.resvTypeList, {id: f.resvTypeId})
+          if(i > -1) d.resvType = this.resvTypeList[i].name
 
-        this.SAVE_CURRENT_RESV({form: f, display: d})
-        this.CONTROL_MODAL({target: 'checkout', boo: false})
+          this.SAVE_CURRENT_RESV({form: f, display: d})
+          this.CONTROL_MODAL({target: 'ordCheckout', boo: false})
+        }else {
+          this.$message.error("表單填寫未完整")
+        }
+        
       },
       getResvCode(id) {
         // resvTypeList.find(t => t.id === form.resvTypeId).sysResvOptId
@@ -309,14 +295,21 @@
           }
           var res = await this.getGeo(data)
           if(res.code === 10) {
-              superCode
-              ? this.areaOpts = res.data
-              : this.cityOpts = res.data
+            if(superCode) {
+              this.areaList = res.data
+              if(this.currentResv.form) {
+                this.form.area = this.currentResv.form.area
+              }
+              
+            }else {
+              this.cityList = res.data
+              if(this.currentResv.form) {
+                this.form.city = this.currentResv.form.city
+              }
+              
+            }
           }
-      },
-      onCityOptsChanged() {
-          this.form.area = ""
-          this._getGeo(this.cityOpts.find(o => o.geoName === this.form.city).code)
+          return
       },
       // onCartSubmit() {
         

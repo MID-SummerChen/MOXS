@@ -7,18 +7,18 @@
         <span class="reset" @click="onReset">重設</span>
       </div>
       <!--<div class="content">填寫預約資料...</div>-->
-      <div v-if="currentResv.display" class="content" @click="CONTROL_MODAL({target: 'checkout', boo: true})">
+      <div v-if="currentResv.display" class="content" @click="CONTROL_MODAL({target: checkoutType === 'resv' ? 'resvCheckout' : 'ordCheckout', boo: true})">
         <!--{{currentResv.display}}-->
         <h5>{{currentResv.display.resvType}}</h5>
         <p>
           {{currentResv.display.date}}
-          <span>{{currentResv.display.time}}({{currentResv.display.adultNum + currentResv.display.kidNum}}人)</span>
+          <span v-if="checkoutType === 'resv'">{{currentResv.display.time}}({{currentResv.display.adultNum + currentResv.display.kidNum}}人)</span>
           <span>{{toPayType(currentResv.display.payType)}}</span>
         </p>
         <p>{{currentResv.display.name}}{{toGender(currentResv.display.gender)}} <span>{{currentResv.display.mobile}}</span></p>
         <p>{{currentResv.display.address}}</p>
       </div>
-      <div v-else class="content" @click="CONTROL_MODAL({target: 'checkout', boo: true})">
+      <div v-else class="content" @click="CONTROL_MODAL({target: checkoutType === 'resv' ? 'resvCheckout' : 'ordCheckout', boo: true})">
         <h5>預約資訊</h5>
         <p>請填寫預約資料</p>
       </div>
@@ -51,14 +51,16 @@ export default {
   mixins: [commonMixin],
   data() {
     return {
-      signupMode: false
+      signupMode: false,
     }
   },
   computed: {
     ...mapGetters([
+      'storeList',
       'orderItems',
       'orderItemsTotalPrice',
       'currentResv',
+      'checkoutType',
     ]),
   },
   mounted() {
@@ -75,6 +77,7 @@ export default {
     ]),
     ...mapActions([
       'addResv',
+      'addOrd',
       'sendResvVerify',
     ]),
     onCheckSubmit() {
@@ -86,7 +89,7 @@ export default {
         }).then(this.onSubmit).catch(() => false);
       }else {
         this.$message("請先填寫預約資訊")
-        this.CONTROL_MODAL({target: 'checkout', boo: true})
+        this.CONTROL_MODAL({target: this.checkoutType === 'resv' ? 'resvCheckout' : 'ordCheckout', boo: true})
       }
       
     },
@@ -102,7 +105,7 @@ export default {
       var f = this.currentResv.form
       var data = {
         stoResvOptId: f.resvTypeId,
-        stoSn: f.store,
+        stoSn: f.store || this.storeList.sn,
         date: moment(f.date).format("YYYY-MM-DD"),
         startAt: f.time,
         adultNum: f.adultNum,
@@ -114,7 +117,9 @@ export default {
         area: f.area,
         addr: f.addr,
         name: f.name,
-        items: _.map(this.orderItems, item => {
+      }
+      if(this.checkoutType === 'resv') {
+        data.items = _.map(this.orderItems, item => {
           return {
             itemSn: item.sn,
             amount: item.count,
@@ -132,13 +137,37 @@ export default {
             }),
           }
         })
+        data.items = _.map(data.items, item => {
+          item.chks = _.filter(item.chks, chk => chk.opts.length > 0)
+          return item
+        })
+      }else {
+        data.ordItem = _.map(this.orderItems, item => {
+          return {
+            itemSn: item.sn,
+            amount: item.count,
+            chks: _.map(item.chks, chk => {
+              return {
+                chkId: chk.chkId,
+                opts: _.map(chk.opts, opt => ({optId: opt.id}))
+              }
+            }),
+            prcs: _.map(item.prcs, prc => {
+              return {
+                prcId: prc.prcId,
+                opts: [{optId: prc.opt.id}]
+              }
+            }),
+          }
+        })
+        data.ordItem = _.map(data.ordItem, item => {
+          item.chks = _.filter(item.chks, chk => chk.opts.length > 0)
+          return item
+        })
       }
-      data.items = _.map(data.items, item => {
-        item.chks = _.filter(item.chks, chk => chk.opts.length > 0)
-        return item
-      })
+      
       console.log(data)
-      var res = await this.addResv(data)
+      var res = await this[this.checkoutType === 'resv' ? 'addResv' : 'addOrd'](data)
       if(res.code === 10) {
         this.CLEAR_CURRENT_RESV()
         this.CLEAR_ORDER_ITEM()

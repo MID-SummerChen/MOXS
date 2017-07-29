@@ -9,7 +9,8 @@
     <transition name="fade">
       <login-modal v-if="loginModal"></login-modal>
       <qrcode-modal v-if="qrcodeModal"></qrcode-modal>
-      <checkout-modal v-if="checkoutModal"></checkout-modal>
+      <resv-checkout-modal v-if="resvCheckoutModal"></resv-checkout-modal>
+      <ord-checkout-modal v-if="ordCheckoutModal"></ord-checkout-modal>
       <product-modal v-if="productModal"></product-modal>
       <order-record-modal v-if="orderRecord"></order-record-modal>
       <member-pw-modal v-if="memberPw"></member-pw-modal>
@@ -67,6 +68,11 @@
                   <router-link :to="{name: 'Products'}">{{menu.RESV.TITLE}}</router-link>
                 </v-list-tile>
               </v-list-item>-->
+              <v-list-item v-if="menu.ORD">
+                <v-list-tile ripple>
+                  <router-link :to="{name: 'Products'}">{{menu.ORD.TITLE}}</router-link>
+                </v-list-tile>
+              </v-list-item>
               <v-list-item>
                 <v-list-tile v-if="menu.NEWS" ripple>
                   <router-link :to="{name: 'News'}">{{menu.NEWS.TITLE}}</router-link>
@@ -87,14 +93,6 @@
                   <a @click="CONTROL_MODAL({target: 'qrcode', boo: true})">APP下載</a>
                 </v-list-tile>
               </v-list-item>
-              <!--<v-list-item>
-                <v-divider light />
-              </v-list-item>
-              <v-list-item v-if="!isLogin">
-                <v-list-tile ripple>
-                  <a @click="CONTROL_MODAL({target: 'login', boo: true})">會員登入</a>
-                </v-list-tile>
-              </v-list-item>-->
 
 
             </v-list>
@@ -111,7 +109,8 @@
   import Header from '@/components/layout/Header.vue'
   import SideBar from '@/components/layout/SideBar.vue'
   import QRCodeModal from '@/components/widgets/QRCodeModal.vue'
-  import CheckoutModal from '@/components/widgets/CheckoutModal.vue'
+  import ResvCheckoutModal from '@/components/widgets/ResvCheckoutModal.vue'
+  import OrdCheckoutModal from '@/components/widgets/OrdCheckoutModal.vue'
   import ProductModal from '@/components/widgets/ProductModal.vue'
   import LoginModal from '@/components/widgets/LoginModal.vue'
   import OrderRecordModal from '@/components/widgets/OrderRecordModal.vue'
@@ -131,7 +130,8 @@
       HeaderCpt: Header,
       SideBar,
       QrcodeModal: QRCodeModal,
-      CheckoutModal,
+      ResvCheckoutModal,
+      OrdCheckoutModal,
       ProductModal,
       LoginModal,
       OrderRecordModal,
@@ -161,7 +161,8 @@
     computed: {
       ...mapState({
         productModal: state => state.modal.product,
-        checkoutModal: state => state.modal.checkout,
+        resvCheckoutModal: state => state.modal.resvCheckout,
+        ordCheckoutModal: state => state.modal.ordCheckout,
         qrcodeModal: state => state.modal.qrcode,
         loginModal: state => state.modal.login,
         orderRecord: state => state.modal.orderRecord,

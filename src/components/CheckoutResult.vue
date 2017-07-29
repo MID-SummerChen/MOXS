@@ -80,7 +80,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'getResvItems',
+      'getAllResvItems',
       'getResvChk',
       'getResv',
     ]),

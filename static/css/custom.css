@@ -1,6 +1,6 @@
-.page#Info .main-content .page-content h4 {
+/* .page#Info .main-content .page-content h4 {
   color: ${COLOR_PRIMARY}
-  background-color: ${COLOR_PRIMARY_DARK}
+  background-color: ${COLOR_PRIMARY}
 }
 
 .page#Info .main-content .page-content .box {
@@ -11,5 +11,31 @@
   color: ${COLOR_PRIMARY}
 }
 .page#Info .main-content .page-content .box p.content {
-  color: ${COLOR_SECONDARY_DARK}
+  color: ${COLOR_SECONDARY}
+} */
+
+/*
+側邊選單
+*/
+.sidebar {
+  background-color: ${COLOR_SECONDARY}
+}
+
+/*
+  產品頁
+*/
+.page#Products .category-btn-group .el-button:hover,
+.my-modal-wrap#product-modal .modal-box .modal-box-content .sub-btn-wrap .button,
+.my-modal-wrap#product-modal .modal-box .modal-box-content .content .total div.sign span
+{
+  background-color: ${COLOR_PRIMARY}
+}
+
+/*
+  購物車
+*/
+.cart > .content,
+.cart > .total > button.submit
+{
+  color: ${COLOR_PRIMARY}
 }
