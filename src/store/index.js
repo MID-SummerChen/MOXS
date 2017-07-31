@@ -62,12 +62,12 @@ export default new Vuex.Store({
 
       state.menu = data.modules_menu_web
       state.modules = data.modules_config
-      state.checkoutType = "resv"
-      // if(state.modules.ORD) {
-      //   state.checkoutType = 'ord'
-      // }else {
-      //   state.checkoutType = "resv"
-      // }
+      // state.checkoutType = "resv"
+      if(state.modules.ORD) {
+        state.checkoutType = 'ord'
+      }else {
+        state.checkoutType = "resv"
+      }
       state.org = data.organization
       state.sev = data.service
       state.imgs = data.sev_theme_res
