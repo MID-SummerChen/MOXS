@@ -150,6 +150,7 @@ export default {
       'apiModule',
       'orgSn',
       'sevSn',
+      'checkoutType',
     ]),
     itemsTotalPrice() {
       return _.sumBy(this.items, "total_price")
@@ -157,7 +158,12 @@ export default {
   },
   mounted() {
     // this.getResvCheckoutInfo(this.$route.query.resv)
-    this._getResvChk()
+    if(this.checkoutType === 'resv') {
+      this._getResvChk()
+    }else if(this.checkoutType === 'ord'){
+      this._getOrdChk()
+    }
+    
     this.setForm()
     
   },
@@ -166,7 +172,14 @@ export default {
       'resvCheckout',
       'getAllResvItems',
       'getResvChk',
+      'getOrdChk',
     ]),
+    async _getOrdChk() {
+      var res = await this.getOrdChk(this.$route.query.ord)
+      if(res.code === 10) {
+        this.items = res.data.chkDetail
+      }
+    },
     async _getResvChk() {
       var res = await this.getResvChk(this.$route.query.resv)
       if(res.code === 10) {
@@ -194,12 +207,12 @@ export default {
       }
       
     },
-    async _getAllResvItems() {
-      var res = await this.getAllResvItems(this.$route.query.resv)
-      if(res.code === 10) {
-        this.items = res.data.items
-      }
-    },
+    // async _getAllResvItems() {
+    //   var res = await this.getAllResvItems(this.$route.query.resv)
+    //   if(res.code === 10) {
+    //     this.items = res.data.items
+    //   }
+    // },
     async onCheckout() {
       var f = this.form
       var data = {

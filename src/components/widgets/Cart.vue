@@ -61,6 +61,7 @@ export default {
       'orderItemsTotalPrice',
       'currentResv',
       'checkoutType',
+      'checkedOutResv',
     ]),
   },
   mounted() {
@@ -105,7 +106,7 @@ export default {
       var f = this.currentResv.form
       var data = {
         stoResvOptId: f.resvTypeId,
-        stoSn: f.store || this.storeList.sn,
+        stoSn: f.store || this.storeList[0].sn,
         date: moment(f.date).format("YYYY-MM-DD"),
         startAt: f.time,
         adultNum: f.adultNum,
@@ -141,11 +142,23 @@ export default {
           item.chks = _.filter(item.chks, chk => chk.opts.length > 0)
           return item
         })
+        console.log(data)
+        var res = await this.addResv(data)
+        if(res.code === 10) {
+          this.CLEAR_CURRENT_RESV()
+          this.CLEAR_ORDER_ITEM()
+          this.SAVE_CHECKED_OUT_RESV(res.data)
+          console.log(f.payType)
+          this.CONTROL_MODAL({target: 'cart', boo: false})
+          this.CONTROL_MODAL({target: 'resvSuccess', boo: true})
+
+        }
       }else {
+
         data.ordItem = _.map(this.orderItems, item => {
           return {
             itemSn: item.sn,
-            amount: item.count,
+            otmAmount: item.count,
             chks: _.map(item.chks, chk => {
               return {
                 chkId: chk.chkId,
@@ -164,19 +177,25 @@ export default {
           item.chks = _.filter(item.chks, chk => chk.opts.length > 0)
           return item
         })
+        console.log(data)
+        var res = await this.addOrd(data)
+        if(res.code === 10) {
+          this.CLEAR_CURRENT_RESV()
+          this.CLEAR_ORDER_ITEM()
+          this.SAVE_CHECKED_OUT_RESV(res.data)
+          console.log(f.payType)
+          this.CONTROL_MODAL({target: 'cart', boo: false})
+          if(f.payType === 'ONLINE') {
+            this.$router.push({name: "Checkout", query: {chk: this.checkedOutResv.chk.chkSn, ord: this.checkedOutResv.ordSn}})
+          }else {
+            this.CONTROL_MODAL({target: 'phoneVerify', boo: true})
+          }
+          
+
+        }
       }
       
-      console.log(data)
-      var res = await this[this.checkoutType === 'resv' ? 'addResv' : 'addOrd'](data)
-      if(res.code === 10) {
-        this.CLEAR_CURRENT_RESV()
-        this.CLEAR_ORDER_ITEM()
-        this.SAVE_CHECKED_OUT_RESV(res.data)
-        console.log(f.payType)
-        this.CONTROL_MODAL({target: 'cart', boo: false})
-        this.CONTROL_MODAL({target: 'phoneVerify', boo: true})
-
-      }
+      
     },
   }
 }

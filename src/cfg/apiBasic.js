@@ -1,5 +1,5 @@
 
-const devMode = true
+const devMode = false
 const apiHost = "114.33.8.32:8890"
 const apiModule = {
   sys: "moxs_sys",

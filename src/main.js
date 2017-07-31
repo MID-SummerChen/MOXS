@@ -10,19 +10,11 @@ import locale from 'element-ui/lib/locale/lang/zh-TW'
 import Vuelidate from 'vuelidate'
 import moment from 'moment'
 import MuseUI from 'muse-ui'
-import {apiHost, apiModule} from './cfg/apiBasic'
 import 'muse-ui/dist/muse-ui.css'
 // require('vuetify/dist/vuetify.min.css')
 require(`../theme/index.css`)
 
-/*
-  動態主題顏色
-*/
-var link = document.createElement('link');
-    // link.id = 'customLink';
-    link.rel = 'stylesheet';
-    link.href = `http://${apiHost}/${apiModule.sys}/theme/THEME_SEV17041917210000.css`;
-    document.head.appendChild(link);
+
 
     
 
@@ -58,10 +50,9 @@ entry()
 async function entry() {
 
   var res = await $.get("/static/theme.json");
-
   
-  require(`./style/${res.current_theme}.styl`)
-  require(`./style/test.less`)
+  require(`./style/tme01.styl`)
+  require(`./style/muse-custom.less`)
   
 
   /* eslint-disable no-new */

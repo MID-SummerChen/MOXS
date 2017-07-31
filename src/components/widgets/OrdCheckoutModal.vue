@@ -134,7 +134,6 @@
       ...mapActions([
         'getGeo',
         'getResvOpt',
-        'addOrd',
         'getAllowResvDate',
         'getAllowResvTime',
         'sendResvVerify',
@@ -147,7 +146,7 @@
         if(mb) {
           f.name = mb.name
           f.city = mb.city
-          f.area = mb.area
+          // f.area = mb.area
           f.addr = mb.addr
           f.mobile = mb.cell
           f.gender = mb.gender
@@ -187,8 +186,9 @@
         }
           
       },
-      onStoreChanged(store) {
-        if(store) {
+      onStoreChanged() {
+        console.log("onStoreChanged")
+        if(this.form.store) {
           this._getResvOpt()
         }
       },
@@ -283,11 +283,6 @@
         }
         
       },
-      getResvCode(id) {
-        // resvTypeList.find(t => t.id === form.resvTypeId).sysResvOptId
-        var i = _.findIndex(this.resvTypeList, {id: this.form.resvTypeId})
-        return i > -1 ? this.resvTypeList[i].sysResvOptId : ""
-      },
       async _getGeo(superCode) {
           console.log(superCode)
           var data ={
@@ -299,6 +294,9 @@
               this.areaList = res.data
               if(this.currentResv.form) {
                 this.form.area = this.currentResv.form.area
+              }else {
+                var i = _.findIndex(this.areaList, {geoName: this.account.mb.area})
+                if(i > -1) this.form.area = this.account.mb.area
               }
               
             }else {

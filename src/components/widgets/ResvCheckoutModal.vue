@@ -1,19 +1,19 @@
 <template>
-  <div id="checkout-modal" class="my-modal-wrap" @click.self="CONTROL_MODAL({target: 'checkout', boo: false})">
+  <div id="checkout-modal" class="my-modal-wrap" @click.self="CONTROL_MODAL({target: 'resvCheckout', boo: false})">
     <div class="modal-box">
-      <div class="close-btn" @click="CONTROL_MODAL({target: 'checkout', boo: false})">
+      <div class="close-btn" @click="CONTROL_MODAL({target: 'resvCheckout', boo: false})">
         <v-icon>clear</v-icon>
       </div>
       
       <div class="modal-box-content">
         <el-row :gutter="20">
           <el-col :sm="24">
-            <mu-select-field v-model="form.store" :labelFocusClass="['label-foucs']" label="分店" style="width: 100%" @change="onStoreChanged">
+            <mu-select-field v-model="form.store" :labelFocusClass="['label-foucs']" label="分店" style="width: 100%">
               <mu-menu-item v-for="(s, i) in storeList" :key="s.sn" :value="s.sn" :title="s.name" />
             </mu-select-field>
           </el-col>
           <el-col :sm="12">
-            <mu-select-field v-model="form.resvTypeId" :labelFocusClass="['label-foucs']" label="預約類型" style="width: 100%" @change="onResvTypeChanged">
+            <mu-select-field v-model="form.resvTypeId" :labelFocusClass="['label-foucs']" label="預約類型" style="width: 100%">
               <mu-menu-item v-for="(r, i) in resvTypeList" :key="r.id" :value="r.id" :title="r.name" />
             </mu-select-field>
           </el-col>
@@ -22,7 +22,7 @@
           </el-col>
           <template>
             <el-col :sm="12">
-              <mu-select-field v-model="form.date" :labelFocusClass="['label-foucs']" label="日期" style="width: 100%" @change="onDateChanged">
+              <mu-select-field v-model="form.date" :labelFocusClass="['label-foucs']" label="日期" style="width: 100%">
                 <mu-menu-item v-for="(d, i) in dateList" :key="d" :value="d" :title="d" />
               </mu-select-field>
             </el-col>
@@ -78,7 +78,7 @@
       </div>
 
       <div class="modal-box-footer">
-        <button @click="CONTROL_MODAL({target: 'checkout', boo: false})">關閉</button>
+        <button @click="CONTROL_MODAL({target: 'resvCheckout', boo: false})">關閉</button>
         <button class="blue-text" @click="onSaveResvInfo">確認</button>
       </div>
       
@@ -276,7 +276,7 @@
         if(i > -1) d.resvType = this.resvTypeList[i].name
 
         this.SAVE_CURRENT_RESV({form: f, display: d})
-        this.CONTROL_MODAL({target: 'checkout', boo: false})
+        this.CONTROL_MODAL({target: 'resvCheckout', boo: false})
       },
       getResvCode(id) {
         // resvTypeList.find(t => t.id === form.resvTypeId).sysResvOptId

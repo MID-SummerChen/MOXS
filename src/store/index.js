@@ -6,7 +6,7 @@ import order from './modules/order'
 import alertBox from './modules/modals/alertBox'
 import productModal from './modules/modals/productModal'
 import storeMapModal from './modules/modals/storeMapModal'
-import {fakeHost, devMode } from '../cfg/apiBasic'
+import {fakeHost, devMode, apiHost, apiModule } from '../cfg/apiBasic'
 
 
 Vue.use(Vuex)
@@ -23,7 +23,8 @@ export default new Vuex.Store({
   state: {
     isLogin: null,
     account: {},
-    menu: {},
+    menu: [],
+    modules: {},
     org: {},
     sev: {},
     imgs: {},
@@ -37,6 +38,7 @@ export default new Vuex.Store({
     isLogin: state => state.isLogin,
     account: state => state.account,
     menu: state => state.menu,
+    modules: state => state.modules,
     storeList: state => state.storeList,
     checkoutType: state => state.checkoutType,
   },
@@ -48,12 +50,24 @@ export default new Vuex.Store({
       state.account = account
     },
     GOT_CONFIG(state, data) {
-      state.menu = data.modules_config
-      if(state.menu.ORD) {
-        state.checkoutType = 'ord'
-      }else {
-        state.checkoutType = "resv"
-      }
+
+      /*
+        動態主題顏色
+      */
+      var link = document.createElement('link');
+      // link.id = 'customLink';
+      link.rel = 'stylesheet';
+      link.href = `http://${apiHost}/${apiModule.sys}/${data.sev_theme.CSS_URL}`;
+      document.head.appendChild(link);
+
+      state.menu = data.modules_menu_web
+      state.modules = data.modules_config
+      state.checkoutType = "resv"
+      // if(state.modules.ORD) {
+      //   state.checkoutType = 'ord'
+      // }else {
+      //   state.checkoutType = "resv"
+      // }
       state.org = data.organization
       state.sev = data.service
       state.imgs = data.sev_theme_res

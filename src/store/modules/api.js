@@ -73,13 +73,15 @@ export default {
     getAllOrd: async (store, data) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/ord`, data),
     getOrd: async (store, ordSn) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/ord/${ordSn}`),
     addOrd: async (store, data) => await apiInit(store, "POST", "json", 'sev', `cs/org/${orgSn}/sev/${sevSn}/sto/${data.stoSn}/ord/add`, data),
+    sendOrdVerify: async (store, ordSn) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/ord/${ordSn}/send/verify`),
+    verifyOrd: async (store, data) => await apiInit(store, "POST", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/ord/${data.ordSn}/verify`, data),
     getAllOrdItems: async (store, ordSn) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/ord/${ordSn}/item`),
     getOrdItem: async (store, data) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/ord/${data.ordSn}/item/${data.otmId}`),
-    
+    getOrdChk: async (store, ordSn) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/ord/${ordSn}/chk`),
 
     // 結帳
-    resvCheckout: async (store, data) => await apiInit(store, "POST", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/chk/${data.chkSn}/pay`, data),
-    getResvChkCb: async (store, chkSn) => await apiInit(store, "POST", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/chk/${chkSn}/callback`),
+    // resvCheckout: async (store, data) => await apiInit(store, "POST", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/chk/${data.chkSn}/pay`, data),
+    // getResvChkCb: async (store, chkSn) => await apiInit(store, "POST", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/chk/${chkSn}/callback`),
 
     getNewsList: async (store) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/news`),
     getNews: async (store, newsSn) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/news/${newsSn}`),

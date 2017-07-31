@@ -5,6 +5,7 @@
     </transition>
     <transition name="fade">
       <phone-verify-modal v-if="phoneVerify"></phone-verify-modal>
+      <resv-success-modal v-if="resvSuccess"></resv-success-modal>
     </transition>
     <transition name="fade">
       <login-modal v-if="loginModal"></login-modal>
@@ -34,7 +35,7 @@
               <!--<img v-if="imgs.logoDarkWImg" :src="getLogoImg()" alt="">-->
             </v-toolbar-logo>
             <v-spacer />
-            <v-btn v-if="menu.RESV" :ripple="false" @click.native="CONTROL_MODAL({target: 'cart', boo: true})">
+            <v-btn v-if="modules.RESV" :ripple="false" @click.native="CONTROL_MODAL({target: 'cart', boo: true})">
               <v-icon>today</v-icon>
               <span class="toolbar-icon-title">預約點餐</span>
             </v-btn>
@@ -58,34 +59,29 @@
               <img v-if="imgs.logoDarkWImg" :src="getLogoImg()" alt="">
             </router-link>
             <v-list>
-              <v-list-item v-if="menu.ITEM">
+              <v-list-item v-if="menu.indexOf('ITEM') > -1">
                 <v-list-tile ripple>
-                  <router-link :to="{name: 'Products'}">{{menu.ITEM.TITLE}}</router-link>
+                  <router-link :to="{name: 'Products'}">{{modules.ITEM.TITLE}}</router-link>
                 </v-list-tile>
               </v-list-item>
-              <!--<v-list-item v-if="menu.RESV">
+              <!--<v-list-item v-if="modules.RESV">
                 <v-list-tile ripple>
-                  <router-link :to="{name: 'Products'}">{{menu.RESV.TITLE}}</router-link>
+                  <router-link :to="{name: 'Products'}">{{modules.RESV.TITLE}}</router-link>
                 </v-list-tile>
               </v-list-item>-->
-              <v-list-item v-if="menu.ORD">
+              <v-list-item v-if="menu.indexOf('ORD') > -1">
                 <v-list-tile ripple>
-                  <router-link :to="{name: 'Products'}">{{menu.ORD.TITLE}}</router-link>
+                  <router-link :to="{name: 'Products'}">{{modules.ORD.TITLE}}</router-link>
                 </v-list-tile>
               </v-list-item>
               <v-list-item>
-                <v-list-tile v-if="menu.NEWS" ripple>
-                  <router-link :to="{name: 'News'}">{{menu.NEWS.TITLE}}</router-link>
+                <v-list-tile v-if="menu.indexOf('NEWS') > -1" ripple>
+                  <router-link :to="{name: 'News'}">{{modules.NEWS.TITLE}}</router-link>
                 </v-list-tile>
               </v-list-item>
               <v-list-item>
-                <v-list-tile v-if="menu.INFO" ripple>
-                  <router-link :to="{name: 'Info'}">{{menu.INFO.TITLE}}</router-link>
-                </v-list-tile>
-              </v-list-item>
-              <v-list-item v-if="isLogin && menu.ACCOUNT">
-                <v-list-tile ripple>
-                  <router-link :to="{name: 'Member'}">{{menu.ACCOUNT.TITLE}}</router-link>
+                <v-list-tile v-if="menu.indexOf('INFO') > -1" ripple>
+                  <router-link :to="{name: 'Info'}">{{modules.INFO.TITLE}}</router-link>
                 </v-list-tile>
               </v-list-item>
               <v-list-item>
@@ -114,6 +110,7 @@
   import ProductModal from '@/components/widgets/ProductModal.vue'
   import LoginModal from '@/components/widgets/LoginModal.vue'
   import OrderRecordModal from '@/components/widgets/OrderRecordModal.vue'
+  import ResvSuccessModal from '@/components/widgets/ResvSuccessModal.vue'
   import PhoneVerifyModal from '@/components/widgets/PhoneVerifyModal.vue'
   import MemberPwModal from '@/components/widgets/MemberPwModal.vue'
   import NewsDetailModal from '@/components/widgets/NewsDetailModal.vue'
@@ -139,6 +136,7 @@
       NewsDetailModal,
       MemberPwModal,
       PhoneVerifyModal,
+      ResvSuccessModal,
       AlertBox,
       Cart,
     },
@@ -146,7 +144,7 @@
       return {
         showSidebar: true,
         eventHub,
-        // menu: [
+        // modules: [
         //   {title: "餐點瀏覽", route: {name: 'Products'}},
         //   {title: "訂位點餐", route: {name: 'Products'}},
         //   {title: "動態消息", route: {name: 'News'}},
@@ -166,6 +164,7 @@
         qrcodeModal: state => state.modal.qrcode,
         loginModal: state => state.modal.login,
         orderRecord: state => state.modal.orderRecord,
+        resvSuccess: state => state.modal.resvSuccess,
         phoneVerify: state => state.modal.phoneVerify,
         memberPw: state => state.modal.memberPw,
         newsDetail: state => state.modal.newsDetail,
@@ -174,6 +173,7 @@
         noScroll: state => state.modal.noScroll,
         alertBox: state => state.alertBox.display,
         isLogin: state => state.isLogin,
+        modules: state => state.modules,
         menu: state => state.menu,
         imgs: state => state.imgs,
       }),

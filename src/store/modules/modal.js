@@ -13,6 +13,7 @@ export default {
     memberPw: false,
     storeMap: false,
     phoneVerify: false,
+    resvSuccess: false,
     newsDetail: false,
     noScroll: false,
   },
