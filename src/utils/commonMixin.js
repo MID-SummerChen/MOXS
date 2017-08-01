@@ -10,6 +10,14 @@ export default {
         { label: "線上付款", value: "ONLINE" },
         { label: "現場付款", value: "ONSITE" },
       ],
+      payModeOpts: [
+        { label: "信用卡", value: "CREDIT" },
+        { label: "ATM轉帳", value: "ATM" },
+        { label: "WebATM", value: "WEBATM" },
+        { label: "超商付款", value: "CVS" },
+        { label: "支票", value: "CHECK" },
+        { label: "匯款", value: "TRANSFER" },
+      ],
       invoiceTypeOpts: [
         { label: "紙本發票", value: "P" },
         { label: "電子發票", value: "E" },
@@ -65,6 +73,10 @@ export default {
     toPayType(value) {
       var i = _.findIndex(this.payTypeOpts, { value })
       return i > -1 ? this.payTypeOpts[i].label : ""
+    },
+    toPayMode(value) {
+      var i = _.findIndex(this.payModeOpts, { value })
+      return i > -1 ? this.payModeOpts[i].label : ""
     },
     toGender(value) {
       var i = _.findIndex(this.genderOpts, { value })

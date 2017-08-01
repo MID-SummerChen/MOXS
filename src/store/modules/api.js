@@ -65,8 +65,8 @@ export default {
     verifyResv: async (store, data) => await apiInit(store, "POST", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/resv/${data.resvSn}/verify`, data),
     getAllowResvDate: async (store, data) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/sto/${data.stoSn}/resv/date`, data),
     getAllowResvTime: async (store, data) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/sto/${data.stoSn}/resv/time`, data),
-    getResvChk: async (store, resvSn) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/resv/${resvSn}/chk`),
     getAllResvItems: async (store, resvSn) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/resv/${resvSn}/tm`),
+    getResvChk: async (store, resvSn) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/resv/${resvSn}/chk`),
     getResv: async (store, resvSn) => await apiInit(store, "GET", "form", 'sev', `cs/org/${orgSn}/sev/${sevSn}/resv/${resvSn}`),
 
     // 訂單

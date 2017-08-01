@@ -19,7 +19,7 @@
             <div v-if="resvInfo.resvCode" class="number-box">
               {{resvInfo.resvCode.slice(resvInfo.resvCode.length-4)}}
             </div>
-            <el-row :gutter="40">
+            <el-row :gutter="40" v-if="checkoutType === 'resv'">
               <el-col :sm="12">
                 <p>紀錄編號：{{resvInfo.sn}}</p>
                 <p>預約分店：{{resvInfo.stoSn}}</p>
@@ -34,11 +34,30 @@
               <el-col v-if="chkInfo.chkSn" :sm="12">
                 <p>帳單編號：{{chkInfo.chkSn}}</p>
                 <p>帳單金額：${{resvInfo.totalPrice}}</p>
-                <p>交易時間：???</p>
-                <p>支付類型：歐付寶 信用卡</p>
+                <p>交易時間：{{chkInfo.updateAt}}</p>
+                <p>支付類型：{{toPayMode(chkInfo.payMode)}}</p>
                 <p>發票類型：{{toInvoiceType(chkInfo.invoiceType)}}</p>
-                <p v-if="resvInfo.invoiceTitle">發票抬頭：{{chkInfo.invoiceTitle}}</p>
-                <p v-if="resvInfo.taxId">統一編號：{{chkInfo.taxId}}</p>
+                <p v-if="chkInfo.invoiceTitle">發票抬頭：{{chkInfo.invoiceTitle}}</p>
+                <p v-if="chkInfo.taxId">統一編號：{{chkInfo.taxId}}</p>
+              </el-col>
+            </el-row>
+            <el-row :gutter="40" v-if="checkoutType === 'ord'">
+              <el-col :sm="12">
+                <p>紀錄編號：{{ordInfo.sn}}</p>
+                <p>預約分店：{{ordInfo.stoSn}}</p>
+                <p>預約人：{{ordInfo.userName}} {{toGender(ordInfo.gender)}} {{ordInfo.userCell}}</p>
+                <p>地址：{{ordInfo.userCity + ordInfo.userArea + ordInfo.userAddr}}</p>
+                <p>付款方式：{{toPayType(ordInfo.payType)}} <span style="color: #f53b11">[{{toChkStatus(ordInfo.ordStatus)}}]</span></p>
+                <p>建檔時間：{{ordInfo.createAt}}</p>
+              </el-col>
+              <el-col v-if="chkInfo.chkSn" :sm="12">
+                <p>帳單編號：{{chkInfo.chkSn}}</p>
+                <p>帳單金額：${{ordInfo.ordTotalPrice}}</p>
+                <p>交易時間：{{chkInfo.updateAt}}</p>
+                <p>支付類型：{{toPayMode(chkInfo.payMode)}}</p>
+                <p>發票類型：{{toInvoiceType(chkInfo.invoiceType)}}</p>
+                <p v-if="chkInfo.invoiceTitle">發票抬頭：{{chkInfo.invoiceTitle}}</p>
+                <p v-if="chkInfo.taxId">統一編號：{{chkInfo.taxId}}</p>
               </el-col>
             </el-row>
           </div>
@@ -69,20 +88,32 @@ export default {
   data() {
     return {
       resvInfo: {},
+      ordInfo: {},
       chkInfo: {},
     }
   },
   mounted() {
-    this._getResv()
-    if(this.$route.query.chk) {
+    
+    if(this.$route.query.resv) {
+      this._getResv()
       this._getResvChk()
+    }else if(this.$route.query.ordSn) {
+      this._getOrd()
+      this._getOrdChk()
     }
+  },
+  computed: {
+    ...mapGetters([
+      'checkoutType'
+    ])
   },
   methods: {
     ...mapActions([
       'getAllResvItems',
       'getResvChk',
       'getResv',
+      'getOrdChk',
+      'getOrd',
     ]),
     async _getResvChk() {
       var res = await this.getResvChk(this.$route.query.resv)
@@ -94,6 +125,18 @@ export default {
       var res = await this.getResv(this.$route.query.resv)
       if(res.code === 10) {
         this.resvInfo = res.data
+      }
+    },
+    async _getOrdChk() {
+      var res = await this.getOrdChk(this.$route.query.ordSn)
+      if(res.code === 10) {
+        this.chkInfo = res.data
+      }
+    },
+    async _getOrd() {
+      var res = await this.getOrd(this.$route.query.ordSn)
+      if(res.code === 10) {
+        this.ordInfo = res.data
       }
     },
 

@@ -37,7 +37,8 @@
       </div>
       <div class="total">
         合計 NT$ {{orderItemsTotalPrice}}
-        <button type="button" class="submit" @click="onCheckSubmit">確認預約</button>
+        <button v-if="checkoutType === 'resv'" type="button" class="submit" @click="onResvCheckSubmit">確認預約</button>
+        <button v-if="checkoutType === 'ord'" type="button" class="submit" @click="onOrdCheckSubmit">確認預約</button>
       </div>
 
     </div>
@@ -81,18 +82,29 @@ export default {
       'addOrd',
       'sendResvVerify',
     ]),
-    onCheckSubmit() {
+    onResvCheckSubmit() {
       if(this.currentResv.display) {
         this.$confirm('是否送出預約？', '預約確認', {
           confirmButtonText: '確定',
           cancelButtonText: '繼續購物',
           type: 'warning'
-        }).then(this.onSubmit).catch(() => false);
+        }).then(this.onResvSubmit).catch(() => false);
       }else {
         this.$message("請先填寫預約資訊")
-        this.CONTROL_MODAL({target: this.checkoutType === 'resv' ? 'resvCheckout' : 'ordCheckout', boo: true})
+        this.CONTROL_MODAL({target: 'resvCheckout', boo: true})
       }
-      
+    },
+    onOrdCheckSubmit() {
+      if(this.currentResv.display) {
+        this.$confirm('是否送出訂單？', '訂單確認', {
+          confirmButtonText: '確定',
+          cancelButtonText: '繼續購物',
+          type: 'warning'
+        }).then(this.onOrdSubmit).catch(() => false);
+      }else {
+        this.$message("請先填寫預約資訊")
+        this.CONTROL_MODAL({target: 'ordCheckout', boo: true})
+      }
     },
     showOrderItem(targetIndex) {
       this.SET_CURRENT_PRODUCT(targetIndex)
@@ -102,7 +114,7 @@ export default {
       this.CLEAR_CURRENT_RESV()
       this.CLEAR_ORDER_ITEM()
     },
-    async onSubmit() {
+    async onResvSubmit() {
       var f = this.currentResv.form
       var data = {
         stoResvOptId: f.resvTypeId,
@@ -119,82 +131,94 @@ export default {
         addr: f.addr,
         name: f.name,
       }
-      if(this.checkoutType === 'resv') {
-        data.items = _.map(this.orderItems, item => {
-          return {
-            itemSn: item.sn,
-            amount: item.count,
-            chks: _.map(item.chks, chk => {
-              return {
-                chkId: chk.chkId,
-                opts: _.map(chk.opts, opt => ({optId: opt.id}))
-              }
-            }),
-            prcs: _.map(item.prcs, prc => {
-              return {
-                prcId: prc.prcId,
-                opts: [{optId: prc.opt.id}]
-              }
-            }),
-          }
-        })
-        data.items = _.map(data.items, item => {
-          item.chks = _.filter(item.chks, chk => chk.opts.length > 0)
-          return item
-        })
-        console.log(data)
-        var res = await this.addResv(data)
-        if(res.code === 10) {
-          this.CLEAR_CURRENT_RESV()
-          this.CLEAR_ORDER_ITEM()
-          this.SAVE_CHECKED_OUT_RESV(res.data)
-          console.log(f.payType)
-          this.CONTROL_MODAL({target: 'cart', boo: false})
-          this.CONTROL_MODAL({target: 'resvSuccess', boo: true})
-
+      data.items = _.map(this.orderItems, item => {
+        return {
+          itemSn: item.sn,
+          amount: item.count,
+          chks: _.map(item.chks, chk => {
+            return {
+              chkId: chk.chkId,
+              opts: _.map(chk.opts, opt => ({optId: opt.id}))
+            }
+          }),
+          prcs: _.map(item.prcs, prc => {
+            return {
+              prcId: prc.prcId,
+              opts: [{optId: prc.opt.id}]
+            }
+          }),
         }
-      }else {
+      })
+      data.items = _.map(data.items, item => {
+        item.chks = _.filter(item.chks, chk => chk.opts.length > 0)
+        return item
+      })
+      console.log(data)
+      var res = await this.addResv(data)
+      if(res.code === 10) {
+        this.CLEAR_CURRENT_RESV()
+        this.CLEAR_ORDER_ITEM()
+        this.SAVE_CHECKED_OUT_RESV(res.data)
+        console.log(f.payType)
+        this.CONTROL_MODAL({target: 'cart', boo: false})
+        this.CONTROL_MODAL({target: 'resvSuccess', boo: true})
 
-        data.ordItem = _.map(this.orderItems, item => {
-          return {
-            itemSn: item.sn,
-            otmAmount: item.count,
-            chks: _.map(item.chks, chk => {
-              return {
-                chkId: chk.chkId,
-                opts: _.map(chk.opts, opt => ({optId: opt.id}))
-              }
-            }),
-            prcs: _.map(item.prcs, prc => {
-              return {
-                prcId: prc.prcId,
-                opts: [{optId: prc.opt.id}]
-              }
-            }),
-          }
-        })
-        data.ordItem = _.map(data.ordItem, item => {
-          item.chks = _.filter(item.chks, chk => chk.opts.length > 0)
-          return item
-        })
-        console.log(data)
-        var res = await this.addOrd(data)
-        if(res.code === 10) {
-          this.CLEAR_CURRENT_RESV()
-          this.CLEAR_ORDER_ITEM()
-          this.SAVE_CHECKED_OUT_RESV(res.data)
-          console.log(f.payType)
-          this.CONTROL_MODAL({target: 'cart', boo: false})
-          if(f.payType === 'ONLINE') {
-            this.$router.push({name: "Checkout", query: {chk: this.checkedOutResv.chk.chkSn, ord: this.checkedOutResv.ordSn}})
-          }else {
-            this.CONTROL_MODAL({target: 'phoneVerify', boo: true})
-          }
-          
-
-        }
       }
       
+      
+    },
+    async onOrdSubmit() {
+      var f = this.currentResv.form
+      var data = {
+        stoResvOptId: f.resvTypeId,
+        stoSn: f.store || this.storeList[0].sn,
+        startAt: f.time,
+        gender: f.gender,
+        userCell: f.mobile,
+        payType: f.payType,
+        userCity: f.city,
+        userArea: f.area,
+        userAddr: f.addr,
+        userName: f.name,
+      }
+      data.ordItem = _.map(this.orderItems, item => {
+        return {
+          itemSn: item.sn,
+          otmAmount: item.count,
+          chks: _.map(item.chks, chk => {
+            return {
+              chkId: chk.chkId,
+              opts: _.map(chk.opts, opt => ({optId: opt.id}))
+            }
+          }),
+          prcs: _.map(item.prcs, prc => {
+            return {
+              prcId: prc.prcId,
+              opts: [{optId: prc.opt.id}]
+            }
+          }),
+        }
+      })
+      data.ordItem = _.map(data.ordItem, item => {
+        item.chks = _.filter(item.chks, chk => chk.opts.length > 0)
+        return item
+      })
+      console.log(data)
+      var res = await this.addOrd(data)
+      if(res.code === 10) {
+        this.CLEAR_CURRENT_RESV()
+        this.CLEAR_ORDER_ITEM()
+        this.SAVE_CHECKED_OUT_RESV({...res.data, cell: f.mobile})
+        console.log(f.payType)
+        this.CONTROL_MODAL({target: 'cart', boo: false})
+        if(f.payType === 'ONLINE') {
+          this.$router.push({name: "Checkout", query: {chk: this.checkedOutResv.chk.chkSn, ord: this.checkedOutResv.ordSn}})
+        }else {
+          this.CONTROL_MODAL({target: 'phoneVerify', boo: true})
+        }
+        
+
+      }
       
     },
   }

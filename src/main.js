@@ -13,6 +13,8 @@ import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
 // require('vuetify/dist/vuetify.min.css')
 require(`../theme/index.css`)
+require(`./style/tme01.styl`)
+require(`./style/muse-custom.less`)
 
 
 
@@ -45,22 +47,11 @@ window.fbAsyncInit = function() {
 }(document, 'script', 'facebook-jssdk'));
 
 
-entry()
-
-async function entry() {
-
-  var res = await $.get("/static/theme.json");
-  
-  require(`./style/tme01.styl`)
-  require(`./style/muse-custom.less`)
-  
-
-  /* eslint-disable no-new */
-  new Vue({
-    el: '#app',
-    store,
-    router,
-    template: '<App/>',
-    components: { App }
-  })
-}
+/* eslint-disable no-new */
+new Vue({
+  el: '#app',
+  store,
+  router,
+  template: '<App/>',
+  components: { App }
+})

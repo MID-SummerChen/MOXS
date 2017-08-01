@@ -54,7 +54,7 @@
 
       <div class="modal-box-footer">
         <button @click="CONTROL_MODAL({target: 'ordCheckout', boo: false})">關閉</button>
-        <button class="blue-text" @click="onSaveResvInfo">確認</button>
+        <button class="blue-text" @click="onSaveOrdInfo">確認</button>
       </div>
       
     </div>
@@ -253,7 +253,7 @@
         }
         return
       },
-      onSaveResvInfo() {
+      onSaveOrdInfo() {
         this.$v.form.$touch()
         if(!this.$v.form.$invalid) {
           var f = this.form
