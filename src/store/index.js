@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import api from './modules/api'
 import modal from './modules/modal'
 import order from './modules/order'
+import db from './modules/db'
 import alertBox from './modules/modals/alertBox'
 import productModal from './modules/modals/productModal'
 import storeMapModal from './modules/modals/storeMapModal'
@@ -13,6 +14,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
+    db,
     api,
     modal,
     order,
@@ -80,7 +82,7 @@ export default new Vuex.Store({
   },
   actions: {
     async getSiteConfig({ state, commit, dispatch, rootState }) {
-      var res = await dispatch("getDomainConfig", {domain: devMode ? fakeHost : location.hostname})
+      var res = await dispatch("getDomainConfig", {domain: devMode ? fakeHost : location.hostname.split('.')[0]})
       if(res.code === 10) commit("GOT_CONFIG", res.data)
       var res = await dispatch("getStoreList")
       if(res.code === 10) commit("GOT_STORE_LIST", res.data.items)
