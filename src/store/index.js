@@ -27,6 +27,9 @@ export default new Vuex.Store({
     account: {},
     menu: [],
     modules: {},
+    pageMsgs: {
+      title: ""
+    },
     org: {},
     sev: {},
     imgs: {},
@@ -43,6 +46,7 @@ export default new Vuex.Store({
     modules: state => state.modules,
     storeList: state => state.storeList,
     checkoutType: state => state.checkoutType,
+    pageMsgs: state => state.pageMsgs,
   },
   mutations: {
     switchLoginStatus(state, status) {
@@ -75,6 +79,12 @@ export default new Vuex.Store({
       state.imgs = data.sev_theme_res
       state.colors = data.sev_theme
       state.paySets = data.org_pay_set
+      state.pageMsgs = _.assign({}, state.pageMsgs, {
+        title: state.imgs.indexTitle
+      })
+
+      // TAB標題及TAB_ICON
+      document.title = state.sev.sevName
     },
     GOT_STORE_LIST(state, storeList) {
       state.storeList = storeList
@@ -82,7 +92,11 @@ export default new Vuex.Store({
   },
   actions: {
     async getSiteConfig({ state, commit, dispatch, rootState }) {
-      var res = await dispatch("getDomainConfig", {domain: devMode ? fakeHost : location.hostname.split('.')[0]})
+      var data = {
+        domainType: location.hostname.indexOf("moxs") > -1 ? "SUBDOMAIN" : "DOMAIN",
+        domain: devMode ? fakeHost : location.hostname.split('.')[0]
+      }
+      var res = await dispatch("getDomainConfig", data)
       if(res.code === 10) commit("GOT_CONFIG", res.data)
       var res = await dispatch("getStoreList")
       if(res.code === 10) commit("GOT_STORE_LIST", res.data.items)

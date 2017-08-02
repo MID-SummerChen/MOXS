@@ -31,6 +31,7 @@ export default {
       chkStatusOpts: [
         { label: "待驗證", value: "WAIT_VERIFY" },
         { label: "待付款", value: "WAIT_PAY" },
+        { label: "已付款", value: "PAID" },
         { label: "待確認", value: "WAIT_CONFIRM" },
         { label: "已確認", value: "CONFIRMED" },
         { label: "已排程", value: "SETTING" },

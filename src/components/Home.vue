@@ -2,7 +2,7 @@
   <v-content :style="{'background-image': 'url('+ bgImgSrc +')'}">
     <v-container fluid>
       <div class="slogan-wrap">
-        <h3 class="slogan">最好吃的漢堡就在這裡</h3>
+        <h3 class="slogan">{{pageMsgs.title}}</h3>
         <router-link to="/">立即訂位點餐</router-link>
       </div>
     </v-container>
@@ -49,6 +49,7 @@ export default {
       'account',
       'apiHost',
       'apiModule',
+      'pageMsgs',
     ]),
     bgImgSrc() {
       return this.imgs.bgPrimaryWImg ? `http://${this.apiHost}/${this.apiModule.sys}/${this.imgs.bgPrimaryWImg}` : ''
