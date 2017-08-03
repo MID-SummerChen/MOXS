@@ -83,6 +83,9 @@ export default new Vuex.Store({
         title: state.imgs.indexTitle
       })
 
+      sessionStorage.setItem("sevSn", state.sev.sevSn)
+      sessionStorage.setItem("orgSn", state.org.orgSn)
+
       // TAB標題及TAB_ICON
       document.title = state.sev.sevName
     },
@@ -100,6 +103,7 @@ export default new Vuex.Store({
       if(res.code === 10) commit("GOT_CONFIG", res.data)
       var res = await dispatch("getStoreList")
       if(res.code === 10) commit("GOT_STORE_LIST", res.data.items)
+      return
     },
     async checkLoginStatus({ state, commit, dispatch, rootState }) {
       var res = await dispatch('checkLogin')

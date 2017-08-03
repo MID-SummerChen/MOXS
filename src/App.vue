@@ -184,8 +184,6 @@
       ])
     },
     mounted() {
-      this.checkLoginStatus()
-      this.getSiteConfig()
     },
     methods: {
       ...mapMutations([

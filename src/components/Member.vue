@@ -18,20 +18,8 @@
                 <button class="btn-t1" @click="$router.push({name: 'MemberEdit'})">編輯MOXS帳戶</button>
               </div>
           </div>
-          <div class="record">
-              <div class="record-header">
-                  最新預約記錄
-              </div>
-              <div class="item" v-for="resv in resvList" @click="$router.push({name: 'MemberRecordDetail', params: {resv_sn: resv.sn}})">
-                  <p>
-                      <span>{{resv.stoResvOptName}}  {{resv.date}} {{resv.startAt}} </span>
-                  </p>
-                  <p>{{resv.stoName}} {{resv.adultNum + resv.kidNum}}人 ${{resv.totalPrice}}</p>
-              </div>
-              <div class="record-footer">
-                  <button class="btn-t1" @click="$router.push({name: 'MemberRecord'})">查看全部預約記錄</button>
-              </div>
-          </div>
+          <resv-list v-if="checkoutType === 'resv'"></resv-list>
+          <ord-list v-if="checkoutType === 'ord'"></ord-list>
           
          
         </div>
@@ -44,6 +32,8 @@
 <script>
 import Header from '@/components/layout/Header.vue'
 import SideBar from '@/components/layout/SideBar.vue'
+import ResvList from '@/components/ResvList.vue'
+import OrdList from '@/components/OrdList.vue'
 import eventHub from '@/utils/eventHub'
 import commonMixin from '@/utils/commonMixin'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
@@ -53,15 +43,15 @@ export default {
   components: {
     HeaderCpt: Header,
     SideBar,
+    ResvList,
+    OrdList,
   },
   data() {
     return {
       memPicSrc: "",
-      resvList: []
     }
   },
   mounted() {
-    this._getAllResv()
     this.limitedPageCheck()
     this.memPicSrc = this.account.resUrl ? `http://${this.apiHost}/${this.apiModule.sys}${this.account.resUrl}` : ""
   },
@@ -74,18 +64,9 @@ export default {
   },
   methods: {
     ...mapActions([
-      'getAllResv'
+      'getAllResv',
+      'getAllOrd',
     ]),
-    async _getAllResv() {
-      var data = {
-        maxRecords: 5,
-        orderBy: "date:desc"
-      }
-      var res = await this.getAllResv(data)
-      if(res.code === 10) {
-        this.resvList = res.data.items
-      }
-    }
   }
 }
 </script>

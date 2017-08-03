@@ -11,7 +11,9 @@
     @media(max-width: ipad-media)
       padding-top: 20px
 
-      
+    .paper 
+        display: flex 
+        flex-direction: column
     .status 
         padding: 15px 
         border-bottom: 1px solid #eee
@@ -21,6 +23,7 @@
         &.is-error
             color: #f53b11
     .content-wrap
+        flex-grow: 1
         margin: 20px
         line-height: 30px
         font-size: 15px

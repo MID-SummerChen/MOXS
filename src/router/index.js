@@ -9,11 +9,13 @@ import News from '@/components/News'
 import Member from '@/components/Member'
 import MemberEdit from '@/components/MemberEdit'
 import MemberRecord from '@/components/MemberRecord'
-import MemberRecordDetail from '@/components/MemberRecordDetail'
+import ResvRecordDetail from '@/components/ResvRecordDetail'
+import OrdRecordDetail from '@/components/OrdRecordDetail'
+import VuexStore from '@/store'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   routes: [
     {
@@ -62,10 +64,34 @@ export default new Router({
       component: MemberRecord
     },
     {
-      path: '/member/record/:resv_sn',
-      name: 'MemberRecordDetail',
-      component: MemberRecordDetail
+      path: '/record/resv/:resv_sn',
+      name: 'ResvRecordDetail',
+      component: ResvRecordDetail
+    },
+    {
+      path: '/record/ord/:ord_sn',
+      name: 'OrdRecordDetail',
+      component: OrdRecordDetail
     },
 
   ]
 })
+
+
+router.beforeEach(async (to, from, next) => {
+  await VuexStore.dispatch('checkLoginStatus')
+  await VuexStore.dispatch('getSiteConfig')
+  next()
+  // VuexStore.commit('GET_LOGIN_INFO')
+  // if(!VuexStore.state.isLogin) {
+  //     var info = VuexStore.state.loginInfo
+  //     console.log(info)
+  //     if(info) {
+  //       await VuexStore.dispatch('onCheckLogin', {username: info.acc, loginType: info.type})
+  //     }
+  // }
+  
+  
+})
+
+export default router

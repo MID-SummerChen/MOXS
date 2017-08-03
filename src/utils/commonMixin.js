@@ -47,6 +47,7 @@ export default {
       'isLogin',
       'apiHost',
       'apiModule',
+      'checkoutType',
     ])
   },
   methods: {

@@ -2,8 +2,8 @@
 import {apiHost, apiModule, apiPath} from '../../cfg/apiBasic'
 
 
-var orgSn = "ORG17041916230000"
-var sevSn = "SEV17041917210000"
+var orgSn = "ORG"
+var sevSn = "SEV"
 import axios from 'axios'
 import Qs from 'query-string'
 
@@ -92,6 +92,10 @@ export default {
 
 async function apiInit(store, method, contentType = 'form', moduleType = 'sys', route, data, showErrMsg = true) {
   var headers = {}
+  console.log(route)
+  route = route.replace("ORG", sessionStorage.getItem("orgSn"))
+  route = route.replace("SEV", sessionStorage.getItem("sevSn"))
+  console.log(route)
 
   var url = `http://${apiHost}/${apiModule[moduleType]}/${apiPath}/${route}`
   if(contentType === "json") {
