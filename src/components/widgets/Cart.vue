@@ -72,7 +72,7 @@ export default {
     ...mapMutations([
       'CONTROL_MODAL',
       'REMOVE_ORDER_ITEM',
-      'SAVE_CHECKED_OUT_RESV',
+      'GOT_CHECKOUT_ORDER',
       'CLEAR_CURRENT_RESV',
       'CLEAR_ORDER_ITEM',
       'SET_CURRENT_PRODUCT',
@@ -158,7 +158,7 @@ export default {
       if(res.code === 10) {
         this.CLEAR_CURRENT_RESV()
         this.CLEAR_ORDER_ITEM()
-        this.SAVE_CHECKED_OUT_RESV(res.data)
+        this.GOT_CHECKOUT_ORDER(res.data)
         console.log(f.payType)
         this.CONTROL_MODAL({target: 'cart', boo: false})
         this.CONTROL_MODAL({target: 'resvSuccess', boo: true})
@@ -173,7 +173,7 @@ export default {
         stoResvOptId: f.resvTypeId,
         stoSn: f.store || this.storeList[0].sn,
         startAt: f.time,
-        gender: f.gender,
+        userGender: f.gender,
         userCell: f.mobile,
         payType: f.payType,
         userCity: f.city,
@@ -208,7 +208,7 @@ export default {
       if(res.code === 10) {
         this.CLEAR_CURRENT_RESV()
         this.CLEAR_ORDER_ITEM()
-        this.SAVE_CHECKED_OUT_RESV({...res.data, cell: f.mobile})
+        this.GOT_CHECKOUT_ORDER({...res.data, cell: f.mobile})
         console.log(f.payType)
         this.CONTROL_MODAL({target: 'cart', boo: false})
         if(f.payType === 'ONLINE') {

@@ -111,5 +111,8 @@ export default {
     time(val) {
       return moment(val).format("hh:mm")
     },
+    fullDateTime(val) {
+      return moment(val).format("YYYY/MM/DD HH:mm")
+    }
   }
 }

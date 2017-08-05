@@ -48,9 +48,9 @@
                         合計： <b>${{ordData.ordTotalPrice}}</b>
                     </div>
                     <div class="btn-wrap">
-                        <a href="" class="text-rose">取消預約</a>
-                        <a v-if="ordData.status === 'WAIT_VERIFY'" href=""  class="text-blue" @click.prevent="CONTROL_MODAL({target: 'phoneVerify', boo: true})">立即驗證</a>
-                        <a v-else href="" @click.prevent="CONTROL_MODAL({target: 'orderRecord', boo: true})" class="text-blue">交易紀錄</a>
+                        <a v-if="ordData.ordStatus === 'WAIT_VERIFY'" href=""  class="text-blue" @click.prevent="CONTROL_MODAL({target: 'phoneVerify', boo: true})">立即驗證</a>
+                         <a v-if="ordData.ordStatus === 'WAIT_PAY'" href=""  class="text-blue" @click.prevent="goToPay">立即付款</a> 
+                        <a v-else-if="chkInfo.chkStatus !== 'PENDING'" href="" @click.prevent="CONTROL_MODAL({target: 'orderRecord', boo: true})" class="text-blue">交易紀錄</a>
                     </div>
                 </div>
             </div>
@@ -78,15 +78,26 @@ export default {
             ordItems: []
         }
     },
-    mounted() {
-        this._getOrd()
+    async mounted() {
+        await this._getOrd()
+        if(this.ordData.payType === 'ONLINE') {
+            this._getOrdChk()
+        }
+        
         this._getAllOrdItems()
+    },
+    computed: {
+        ...mapGetters([
+            'chkInfo'
+        ])
     },
     methods: {
         ...mapMutations([
-            'SAVE_CHECKED_OUT_RESV'
+            'GOT_CHECKOUT_ORDER',
+            'GOT_CHECKOUT_INFO',
         ]),
         ...mapActions([
+            'getOrdChk',
             'getOrd',
             'getAllOrdItems',
         ]),
@@ -94,8 +105,9 @@ export default {
             var res = await this.getOrd(this.$route.params.ord_sn)
             if(res.code === 10) {
                 this.ordData = res.data
-                this.SAVE_CHECKED_OUT_RESV(res.data)
+                this.GOT_CHECKOUT_ORDER(res.data)
             }
+            return
         },
         async _getAllOrdItems() {
             var res = await this.getAllOrdItems(this.$route.params.ord_sn)
@@ -104,6 +116,21 @@ export default {
                 this.ordItems = res.data.items
             }
         },
+        async _getOrdChk() {
+            var res = await this.getOrdChk(this.$route.params.ord_sn)
+            if(res.code === 10) {
+                var chkInfo = _.assign({} ,res.data, {
+                    totalPrice: _.sumBy(res.data.chkDetail, "total_price")
+                })
+                this.GOT_CHECKOUT_INFO(chkInfo)
+            }
+        },
+        goToPay() {
+            this.$router.push({name: 'Checkout', query: {
+                chk: this.chkInfo.chkSn,
+                ord: this.ordData.ordSn,
+            }})
+        }
 
     }
 }

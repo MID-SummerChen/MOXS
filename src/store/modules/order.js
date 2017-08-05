@@ -3,8 +3,10 @@ export default {
     orderItems: [],
     currentResv: {},
     checkedOutResv: {},
+    chkInfo: {},
   },
   getters: {
+    chkInfo: state => state.chkInfo,
     orderItems: state => state.orderItems,
     currentResv: state => state.currentResv,
     checkedOutResv: state => state.checkedOutResv,
@@ -13,13 +15,16 @@ export default {
     }
   },
   mutations: {
+    GOT_CHECKOUT_INFO(state, chkInfo) {
+      state.chkInfo = chkInfo
+    },
     SAVE_CURRENT_RESV(state, resvForm) {
       state.currentResv = _.assign({}, state.currentResv, resvForm)
     },
     CLEAR_CURRENT_RESV(state) {
       state.currentResv = {}
     },
-    SAVE_CHECKED_OUT_RESV(state, data) {
+    GOT_CHECKOUT_ORDER(state, data) {
       state.checkedOutResv = _.assign({}, data)
     },
     ADD_ORDER_ITEM(state, item) {

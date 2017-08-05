@@ -54,6 +54,7 @@ export default {
         async _getAllOrd() {
             var data = {
                 maxRecords: 7,
+                orderBy: "createAt:desc",
                 page: this.page,
             }
             this.isLoading = true

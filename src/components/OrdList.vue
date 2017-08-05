@@ -46,7 +46,7 @@ export default {
     async _getAllOrd() {
       var data = {
         maxRecords: 5,
-        // orderBy: "date:desc"
+        orderBy: "createAt:desc"
       }
       var res = await this.getAllOrd(data)
       if(res.code === 10) {

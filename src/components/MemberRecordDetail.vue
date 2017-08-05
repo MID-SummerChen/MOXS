@@ -90,7 +90,7 @@ export default {
     },
     methods: {
         ...mapMutations([
-            'SAVE_CHECKED_OUT_RESV'
+            'GOT_CHECKOUT_ORDER'
         ]),
         ...mapActions([
             'getResv',
@@ -100,7 +100,7 @@ export default {
             var res = await this.getResv(this.$route.params.resv_sn)
             if(res.code === 10) {
                 this.resvData = res.data
-                this.SAVE_CHECKED_OUT_RESV(res.data)
+                this.GOT_CHECKOUT_ORDER(res.data)
             }
         },
         async _getAllResvItems() {

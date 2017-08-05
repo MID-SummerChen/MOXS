@@ -70,7 +70,6 @@
                   </div>
                 </el-col>
               </template>
-              
               <el-col :sm="24">
                 <div class="check-group">
                   <label>
@@ -96,7 +95,7 @@
             </el-row>
           </div>
           <div class="btn-wrap">
-            <a href="" class="text-blue">取消</a>
+            <a href="" class="text-blue" @click.prevent="$router.push({name: 'Member'})">取消</a>
             <a href="" @click.prevent="onCheckout">確認付款</a>
             <!--<router-link :to="{name: 'CheckoutResult'}">確認付款</router-link>-->
           </div>
@@ -117,6 +116,7 @@ import commonMixin from '@/utils/commonMixin'
 import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 export default {
   name: 'Products',
+  mixins: [commonMixin],
   components: {
     HeaderCpt: Header,
     SideBar,
@@ -142,12 +142,12 @@ export default {
   },
   computed: {
     ...mapState([
-      'paySets'
+      'paySets',
+      'sev',
+      'org',
     ]),
     ...mapGetters([
       'account',
-      'orgSn',
-      'sevSn',
       'checkoutType',
     ]),
     itemsTotalPrice() {
@@ -226,7 +226,7 @@ export default {
         invoiceTitle: f.invoiceTitle,
         taxId: f.taxId,
       }
-      this.hiddingForm.link = `http://${this.apiHost}/${this.apiModule.sev}/api/cs/org/${this.orgSn}/sev/${this.sevSn}/chk/${this.$route.query.chk}/pay`
+      this.hiddingForm.link = `http://${this.apiHost}/${this.apiModule.sev}/api/cs/org/${this.org.ORG_SN}/sev/${this.sev.SEV_SN}/chk/${this.$route.query.chk}/pay`
       this.hiddingForm.data = data
       this.$nextTick(() => {
         _.each(this.hiddingForm.data, (v, k) => {
