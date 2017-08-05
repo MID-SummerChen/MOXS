@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
+import Maintenance from '@/components/Maintenance'
+import Dashboard from '@/components/Dashboard'
 import Products from '@/components/Products'
 import Checkout from '@/components/Checkout'
 import CheckoutResult from '@/components/CheckoutResult'
@@ -20,59 +22,73 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'Home',
-      component: Home
+      name: 'Dashboard',
+      component: Dashboard,
+      children: [
+        {
+          path: '',
+          name: 'Home',
+          component: Home
+        },
+        {
+          path: '/products',
+          name: 'Products',
+          component: Products
+        },
+        {
+          path: '/checkout',
+          name: 'Checkout',
+          component: Checkout
+        },
+        {
+          path: '/checkout/result',
+          name: 'CheckoutResult',
+          component: CheckoutResult
+        },
+        {
+          path: '/info',
+          name: 'Info',
+          component: Info
+        },
+        {
+          path: '/news',
+          name: 'News',
+          component: News
+        },
+        {
+          path: '/member',
+          name: 'Member',
+          component: Member
+        },
+        {
+          path: '/member/edit',
+          name: 'MemberEdit',
+          component: MemberEdit
+        },
+        {
+          path: '/member/record',
+          name: 'MemberRecord',
+          component: MemberRecord
+        },
+        {
+          path: '/record/resv/:resv_sn',
+          name: 'ResvRecordDetail',
+          component: ResvRecordDetail
+        },
+        {
+          path: '/record/ord/:ord_sn',
+          name: 'OrdRecordDetail',
+          component: OrdRecordDetail
+        },
+      ]
     },
     {
-      path: '/products/:lv1?/:lv2?/:lv3?',
-      name: 'Products',
-      component: Products
+      path: '/maintenance',
+      name: 'Maintenance',
+      component: Maintenance
     },
-    {
-      path: '/checkout',
-      name: 'Checkout',
-      component: Checkout
-    },
-    {
-      path: '/checkout/result',
-      name: 'CheckoutResult',
-      component: CheckoutResult
-    },
-    {
-      path: '/info',
-      name: 'Info',
-      component: Info
-    },
-    {
-      path: '/news',
-      name: 'News',
-      component: News
-    },
-    {
-      path: '/member',
-      name: 'Member',
-      component: Member
-    },
-    {
-      path: '/member/edit',
-      name: 'MemberEdit',
-      component: MemberEdit
-    },
-    {
-      path: '/member/record',
-      name: 'MemberRecord',
-      component: MemberRecord
-    },
-    {
-      path: '/record/resv/:resv_sn',
-      name: 'ResvRecordDetail',
-      component: ResvRecordDetail
-    },
-    {
-      path: '/record/ord/:ord_sn',
-      name: 'OrdRecordDetail',
-      component: OrdRecordDetail
-    },
+    
+    
 
   ]
 })
@@ -80,7 +96,14 @@ const router = new Router({
 
 router.beforeEach(async (to, from, next) => {
   await VuexStore.dispatch('checkLoginStatus')
-  await VuexStore.dispatch('getSiteConfig')
+  var res = await VuexStore.dispatch('getSiteConfig')
+  if(to.name !== 'Maintenance') {
+    if(res.code !== 10) {
+      next({name: 'Maintenance'})
+    }else {
+      next()
+    }
+  }
   next()
   // VuexStore.commit('GET_LOGIN_INFO')
   // if(!VuexStore.state.isLogin) {

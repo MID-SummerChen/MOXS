@@ -19,6 +19,7 @@
   import {mapState, mapGetters, mapActions, mapMutations} from 'vuex'
 export default {
   name: 'Home',
+  mixins: [commonMixin],
   components: {
     HeaderCpt: Header,
     SideBar,
@@ -29,20 +30,6 @@ export default {
   },
   computed: {
     ...mapState({
-      productModal: state => state.modal.product,
-      checkoutModal: state => state.modal.checkout,
-      qrcodeModal: state => state.modal.qrcode,
-      loginModal: state => state.modal.login,
-      orderRecord: state => state.modal.orderRecord,
-      phoneVerify: state => state.modal.phoneVerify,
-      memberPw: state => state.modal.memberPw,
-      newsDetail: state => state.modal.newsDetail,
-      storeMap: state => state.modal.storeMap,
-      cart: state => state.modal.cart,
-      noScroll: state => state.modal.noScroll,
-      alertBox: state => state.alertBox.display,
-      isLogin: state => state.isLogin,
-      menu: state => state.menu,
       resources: state => state.resources,
     }),
     ...mapGetters([
@@ -50,7 +37,7 @@ export default {
       'pageMsgs',
     ]),
     bgImgSrc() {
-      return this.resources.bgPrimaryWImg ? `${this.resHttpPath}/${this.resources.bgPrimaryWImg}` : ''
+      return this.resources.WEB_INDEX_MAIN_IMG ? `${this.resHttpPath}${this.resources.WEB_INDEX_MAIN_IMG}` : ''
     }
   },
   mounted() {

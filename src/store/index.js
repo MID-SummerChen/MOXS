@@ -65,31 +65,31 @@ export default new Vuex.Store({
       var link = document.createElement('link');
       // link.id = 'customLink';
       link.rel = 'stylesheet';
-      link.href = `${resHttpPath}/${data.sev_theme.CSS_URL}`;
+      link.href = `${resHttpPath}/${data.SEV_THEME.CSS_URL}`;
       document.head.appendChild(link);
 
-      state.menu = data.modules_menu_web
-      state.modules = data.modules_config
+      state.menu = data.MODULES_MENU_WEB
+      state.modules = data.MODULES_CONFIG
       // state.checkoutType = "resv"
       if(state.modules.ORD) {
         state.checkoutType = 'ord'
       }else {
         state.checkoutType = "resv"
       }
-      state.org = data.organization
-      state.sev = data.service
-      state.resources = data.sev_theme_res
-      state.colors = data.sev_theme
-      state.paySets = data.org_pay_set
+      state.org = data.ORGANIZATION
+      state.sev = data.SERVICE
+      state.resources = data.SEV_THEME_RES
+      state.colors = data.SEV_THEME
+      state.paySets = data.ORG_PAY_SET
       state.pageMsgs = _.assign({}, state.pageMsgs, {
-        title: state.resources.indexTitle
+        title: state.resources.INDEX_TITLE
       })
 
-      sessionStorage.setItem("sevSn", state.sev.sevSn)
-      sessionStorage.setItem("orgSn", state.org.orgSn)
+      sessionStorage.setItem("sevSn", state.sev.SEV_SN)
+      sessionStorage.setItem("orgSn", state.org.ORG_SN)
 
       // TAB標題及TAB_ICON
-      document.title = state.sev.sevName
+      document.title = state.sev.SEV_NAME
     },
     GOT_STORE_LIST(state, storeList) {
       state.storeList = storeList
@@ -98,14 +98,14 @@ export default new Vuex.Store({
   actions: {
     async getSiteConfig({ state, commit, dispatch, rootState }) {
       var data = {
-        domainType: location.hostname.indexOf("moxs") > -1 ? "SUBDOMAIN" : "DOMAIN",
+        domainType: devMode ? "SUBDOMAIN" : location.hostname.indexOf("moxs") > -1 ? "SUBDOMAIN" : "DOMAIN",
         domain: devMode ? fakeHost : location.hostname.split('.')[0]
       }
-      var res = await dispatch("getDomainConfig", data)
-      if(res.code === 10) commit("GOT_CONFIG", res.data)
-      var res = await dispatch("getStoreList")
-      if(res.code === 10) commit("GOT_STORE_LIST", res.data.items)
-      return
+      var configRes = await dispatch("getDomainConfig", data)
+      if(configRes.code === 10) commit("GOT_CONFIG", configRes.data)
+      var storeRes = await dispatch("getStoreList")
+      if(storeRes.code === 10) commit("GOT_STORE_LIST", storeRes.data.items)
+      return configRes
     },
     async checkLoginStatus({ state, commit, dispatch, rootState }) {
       var res = await dispatch('checkLogin')

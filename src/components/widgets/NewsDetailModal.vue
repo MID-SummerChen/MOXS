@@ -10,11 +10,8 @@
         <p class="date">{{newsData.updateAt}}</p>
       </div>
       <div class="modal-box-content">
-        <div v-if="newsData.newsImageUrl" class="img-wrap">
-          <img :src="toImgSrc(newsData.newsImageUrl)" alt="">
-        </div>
+        <img v-if="newsData.newsImageUrl" :src="toImgSrc(newsData.newsImageUrl)" alt="">
         <p>{{newsData.newsContent}}</p>
-        
         
       </div>
       
@@ -64,5 +61,4 @@
 </script>
 
 <style lang="stylus">
-
 </style>

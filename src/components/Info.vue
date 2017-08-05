@@ -67,7 +67,7 @@ export default {
             'account',
         ]),
         bgImgSrc() {
-            return this.resources.bgPrimaryWImg ? `${this.resHttpPath}/${this.resources.bgInfoWImg}` : ''
+            return this.resources.WEB_INFO_MAIN_IMG ? `${this.resHttpPath}/${this.resources.WEB_INFO_MAIN_IMG}` : ''
         }
     },
     methods: {
