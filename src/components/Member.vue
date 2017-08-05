@@ -53,13 +53,11 @@ export default {
   },
   mounted() {
     this.limitedPageCheck()
-    this.memPicSrc = this.account.resUrl ? `http://${this.apiHost}/${this.apiModule.sys}${this.account.resUrl}` : ""
+    this.memPicSrc = this.account.resUrl ? `${this.resHttpPath}${this.account.resUrl}` : ""
   },
   computed: {
     ...mapGetters([
       'account',
-      'apiHost',
-      'apiModule',
     ])
   },
   methods: {

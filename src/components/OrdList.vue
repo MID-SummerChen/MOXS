@@ -27,7 +27,6 @@ export default {
   },
   data() {
     return {
-      memPicSrc: "",
       ordList: [],
       ordList: [],
     }
@@ -35,13 +34,9 @@ export default {
   mounted() {
     this._getAllOrd()
     this.limitedPageCheck()
-    this.memPicSrc = this.account.resUrl ? `http://${this.apiHost}/${this.apiModule.sys}${this.account.resUrl}` : ""
   },
   computed: {
     ...mapGetters([
-      'account',
-      'apiHost',
-      'apiModule',
     ])
   },
   methods: {

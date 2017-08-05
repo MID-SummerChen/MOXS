@@ -162,8 +162,6 @@ export default {
     computed: {
         ...mapGetters([
             'account',
-            'apiHost',
-            'apiModule',
         ])
     },
     methods: {
@@ -199,7 +197,7 @@ export default {
                 f.addr = this.account.mb.addr || ""
                 f.cell = this.account.mb.cell || ""
                 f.birth = this.account.mb.birth || ""
-                this.memPicSrc = this.account.resUrl ? `http://${this.apiHost}/${this.apiModule.sys}${this.account.resUrl}` : ""
+                this.memPicSrc = this.account.resUrl ? `${this.resHttpPath}${this.account.resUrl}` : ""
             } else {
                 setTimeout(this.setData, 500)
             }
@@ -224,7 +222,7 @@ export default {
                 var res = await this.updateMember({ac: {resId: res.data.id}})
                 if (res.code === 10) {
                     await this.checkLoginStatus()
-                    this.memPicSrc = `http://${this.apiHost}/${this.apiModule.sys}${this.account.resUrl}`
+                    this.memPicSrc = `${this.resHttpPath}${this.account.resUrl}`
                     this.$message({
                         message: '更新成功',
                         type: 'success'

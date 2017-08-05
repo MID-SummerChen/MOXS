@@ -24,7 +24,7 @@
       <div class="items" data-uk-grid="{gutter: 0}">
         <el-card v-for="t in items" :body-style="{ padding: '0px' }" @click.native="onClickItem(t.sn)">
           <div v-if="t.imgUrl" class="img-wrap" :style="{'background-image': 'url(' + toImgSrc('sev', t.imgUrl) + ')'}"></div>
-          <div v-else class="img-wrap" :style="{'background-image': 'url(' + toImgSrc('sys', imgs.itemDefaultImg) + ')'}"></div>
+          <div v-else class="img-wrap" :style="{'background-image': 'url(' + toImgSrc('sys', resources.itemDefaultImg) + ')'}"></div>
           <div class="card-content">
             <div class="card-content-title">
               <p class="desc">{{t.name}}</p>
@@ -70,7 +70,7 @@
     },
     computed: {
       ...mapState({
-        imgs: state => state.imgs,
+        resources: state => state.resources,
       }),
       ...mapGetters([
       ]),

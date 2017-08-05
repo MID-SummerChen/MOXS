@@ -7,7 +7,7 @@ import db from './modules/db'
 import alertBox from './modules/modals/alertBox'
 import productModal from './modules/modals/productModal'
 import storeMapModal from './modules/modals/storeMapModal'
-import {fakeHost, devMode, apiHost, apiModule } from '../cfg/apiBasic'
+import {fakeHost, devMode, apiHost, apiModule, resHttpPath } from '../cfg/apiBasic'
 
 
 Vue.use(Vuex)
@@ -32,12 +32,13 @@ export default new Vuex.Store({
     },
     org: {},
     sev: {},
-    imgs: {},
+    resources: {},
     colors: {},
     paySets: [],
     storeList: [],
     googleKey: 'AIzaSyCJwqPoYKWtOxe2xnb3tneHV1Vu9EdKZAQ',
     checkoutType: "",
+    resHttpPath,
   },
   getters: {
     isLogin: state => state.isLogin,
@@ -47,6 +48,7 @@ export default new Vuex.Store({
     storeList: state => state.storeList,
     checkoutType: state => state.checkoutType,
     pageMsgs: state => state.pageMsgs,
+    resHttpPath: state => state.resHttpPath,
   },
   mutations: {
     switchLoginStatus(state, status) {
@@ -63,7 +65,7 @@ export default new Vuex.Store({
       var link = document.createElement('link');
       // link.id = 'customLink';
       link.rel = 'stylesheet';
-      link.href = `http://${apiHost}/${apiModule.sys}/${data.sev_theme.CSS_URL}`;
+      link.href = `${resHttpPath}/${data.sev_theme.CSS_URL}`;
       document.head.appendChild(link);
 
       state.menu = data.modules_menu_web
@@ -76,11 +78,11 @@ export default new Vuex.Store({
       }
       state.org = data.organization
       state.sev = data.service
-      state.imgs = data.sev_theme_res
+      state.resources = data.sev_theme_res
       state.colors = data.sev_theme
       state.paySets = data.org_pay_set
       state.pageMsgs = _.assign({}, state.pageMsgs, {
-        title: state.imgs.indexTitle
+        title: state.resources.indexTitle
       })
 
       sessionStorage.setItem("sevSn", state.sev.sevSn)

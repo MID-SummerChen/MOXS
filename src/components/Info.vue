@@ -61,15 +61,13 @@ export default {
     },
     computed: {
         ...mapState({
-            imgs: state => state.imgs,
+            resources: state => state.resources,
         }),
         ...mapGetters([
             'account',
-            'apiHost',
-            'apiModule',
         ]),
         bgImgSrc() {
-            return this.imgs.bgPrimaryWImg ? `http://${this.apiHost}/${this.apiModule.sys}/${this.imgs.bgInfoWImg}` : ''
+            return this.resources.bgPrimaryWImg ? `${this.resHttpPath}/${this.resources.bgInfoWImg}` : ''
         }
     },
     methods: {

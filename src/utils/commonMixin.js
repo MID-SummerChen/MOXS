@@ -44,10 +44,12 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'account',
       'isLogin',
       'apiHost',
       'apiModule',
       'checkoutType',
+      'resHttpPath',
     ])
   },
   methods: {
@@ -58,7 +60,7 @@ export default {
       'checkLoginStatus'
     ]),
     toImgSrc(type, pathFile) {
-      return pathFile ? `http://${this.apiHost}/${this.apiModule[type]}${pathFile}` : `/static/imgs/food03.jpg`
+      return pathFile ? `${this.resHttpPath}/${pathFile}` : `/static/imgs/food03.jpg`
     },
     toResvType(value) {
       var i = _.findIndex(this.resvTypeOpts, { value })

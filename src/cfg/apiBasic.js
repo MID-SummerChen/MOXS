@@ -1,12 +1,14 @@
 
-const devMode = false
-const apiHost = "114.33.8.32:8890"
+const devMode = true
+const apiHost = "dev.moxs-system.com"
+const resHost = "res.moxs-system.com"
+const resHttpPath = `http://${resHost}/dev`
 const apiModule = {
   sys: "moxs_sys",
   sev: "moxs_sev"
 }
 const apiPath = 'api'
-const fakeHost = 'shake'
+const fakeHost = 'ruby'
 
 export {
   devMode,
@@ -14,4 +16,5 @@ export {
   apiModule,
   apiPath,
   fakeHost,
+  resHttpPath,
 }

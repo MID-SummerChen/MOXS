@@ -30,9 +30,9 @@
             <v-toolbar-side-icon :ripple="false" class="hidden-md-and-up" @click.native.stop="showSidebar = !showSidebar" />
             <v-toolbar-logo>
               <router-link to="/" class="logo">
-                <img v-if="imgs.logoDarkWImg" :src="getLogoImg()" alt="">
+                <img v-if="resources.logoDarkWImg" :src="getLogoImg()" alt="">
               </router-link>
-              <!--<img v-if="imgs.logoDarkWImg" :src="getLogoImg()" alt="">-->
+              <!--<img v-if="resources.logoDarkWImg" :src="getLogoImg()" alt="">-->
             </v-toolbar-logo>
             <v-spacer />
             <v-btn v-if="modules.RESV" :ripple="false" @click.native="CONTROL_MODAL({target: 'cart', boo: true})">
@@ -56,7 +56,7 @@
         <main>
           <v-sidebar fixed v-model="showSidebar">
             <router-link to="/" class="logo">
-              <img v-if="imgs.logoDarkWImg" :src="getLogoImg()" alt="">
+              <img v-if="resources.logoDarkWImg" :src="getLogoImg()" alt="">
             </router-link>
             <v-list>
               <v-list-item v-if="menu.indexOf('ITEM') > -1">
@@ -175,12 +175,11 @@
         isLogin: state => state.isLogin,
         modules: state => state.modules,
         menu: state => state.menu,
-        imgs: state => state.imgs,
+        resources: state => state.resources,
       }),
       ...mapGetters([
         'account',
-        'apiHost',
-        'apiModule',
+        'resHttpPath',
       ])
     },
     mounted() {
@@ -196,7 +195,7 @@
         'getSiteConfig',
       ]),
       getLogoImg() {
-        return `http://${this.apiHost}/${this.apiModule.sys}/${this.imgs.logoLightWImg}`
+        return `${this.resHttpPath}/${this.resources.logoLightWImg}`
       },
       async _onLogout() {
         var res = await this.onLogout()

@@ -43,16 +43,14 @@ export default {
       alertBox: state => state.alertBox.display,
       isLogin: state => state.isLogin,
       menu: state => state.menu,
-      imgs: state => state.imgs,
+      resources: state => state.resources,
     }),
     ...mapGetters([
       'account',
-      'apiHost',
-      'apiModule',
       'pageMsgs',
     ]),
     bgImgSrc() {
-      return this.imgs.bgPrimaryWImg ? `http://${this.apiHost}/${this.apiModule.sys}/${this.imgs.bgPrimaryWImg}` : ''
+      return this.resources.bgPrimaryWImg ? `${this.resHttpPath}/${this.resources.bgPrimaryWImg}` : ''
     }
   },
   mounted() {

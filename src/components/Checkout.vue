@@ -146,8 +146,6 @@ export default {
     ]),
     ...mapGetters([
       'account',
-      'apiHost',
-      'apiModule',
       'orgSn',
       'sevSn',
       'checkoutType',

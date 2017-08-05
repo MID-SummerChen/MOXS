@@ -32,7 +32,7 @@
       <!-- 查詢密碼 -->
       <div v-if="currentMode === 'forget'" class="modal-box-content">
         <div class="logo">
-          <img v-if="imgs.logoDarkWImg" :src="getLogoImg()" alt="">
+          <img v-if="resources.logoDarkWImg" :src="getLogoImg()" alt="">
         </div>
         <div style="margin-top: 20px"></div>
         <div class="form-group">
@@ -140,11 +140,9 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'apiHost',
-      'apiModule',
     ]),
     ...mapState({
-        imgs: state => state.imgs,
+        resources: state => state.resources,
     })
   },
   mounted() {
@@ -163,7 +161,7 @@ export default {
       'onLogin',
     ]),
     getLogoImg() {
-      return `http://${this.apiHost}/${this.apiModule.sys}/${this.imgs.logoLightWImg}`
+      return `${this.resHttpPath}/${this.resources.logoLightWImg}`
     },
     async sendPwMail() {
       var data = {
