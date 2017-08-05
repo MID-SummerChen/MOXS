@@ -108,7 +108,7 @@ export default {
     },
     showOrderItem(targetIndex) {
       this.SET_CURRENT_PRODUCT(targetIndex)
-      this.CONTROL_MODAL({target: 'product', boo: true})
+      this.CONTROL_MODAL({target: 'productOrder', boo: true})
     },
     onReset() {
       this.CLEAR_CURRENT_RESV()

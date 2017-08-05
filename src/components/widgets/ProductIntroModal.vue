@@ -1,71 +1,23 @@
 <template>
-  <div id="product-modal" class="my-modal-wrap" @click.self="onClose">
+  <div id="product-intro-modal" class="my-modal-wrap" @click.self="onClose">
     <div class="modal-box">
-      <div class="close-btn" @click="onClose">
-        <v-icon>clear</v-icon>
-      </div>
-      <div v-if="product.sn" class="modal-box-content">
-        <div v-if="product.imgUrl" class="img-wrap">
-          <img :src="toImgSrc(product.imgUrl)" alt="">
-        </div>
-        <h5>{{product.name}}</h5>
-        <!--{{product}}-->
-        <div class="btn-wrap">
-          <button class="my-btn t1" :class="{active: currentTab === 1}" @click="currentTab = 1">餐點介紹</button>
-          <button class="my-btn t1" :class="{active: currentTab === 2}" @click="currentTab = 2">餐點預定</button>
-        </div>
-        <div class="content" ref="scrollBox">
-          <template v-if="currentTab === 1">
-            {{product.desc}}
+      <div v-if="product.sn" ref="scrollBox" class="modal-box-content">
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <img :src="toImgSrc(product.imgUrl)" alt="">
+          </el-col>
+          <el-col :span="12" class="intro">
+            <h5>{{product.name}}</h5>
             <div v-for="attr in product.attrs" class="attr">
               {{attr.name}}: {{attr.value}}
             </div>
-            <div style="margin-top: 30px"></div>
-          </template>
-          <template v-else>
-            <div v-for="prc in product.prcs" class="selector-t2">
-              <label>{{prc.name}}：</label>
-              <el-select v-model="form.prcOpt">
-                <el-option v-for="opt in prc.opts" :value="opt" :label="opt.name + opt.value + '元'">
-                </el-option>
-              </el-select>
-            </div>
-            
-
-            <div v-for="chk in product.chks" class="plus">{{chk.name}}：
-              <span v-for="opt in chk.opts" :class="{active: form.chkOpts.indexOf(opt.id) > -1}" @click="onSelectChk(chk, opt.id)">{{opt.name + opt.value}}</span> 
-            </div>
-            <div v-if="product.prcs.length > 0" class="total">
-              <div>單價
-                <p>{{getUnitPrice()}}元</p>
-              </div>
-              <div class="sign"><span @click="form.count > 0 ? form.count-=1 : null">-</span></div>
-              <div>數量
-                <p>{{form.count}}個</p>
-              </div>
-              <div class="sign"><span @click="form.count+=1">+</span></div>
-              <div>小計
-                <p>{{getUnitPrice() * form.count}}元</p>
-              </div>
-            </div>
-            <div v-else class="singleCount">
-              <span>數量：</span>
-              <el-input-number v-model="form.count" :min="1" :max="10" size="small" ></el-input-number>
-            </div>
-            <div class="ps">
-              <p>備註</p>
-              <textarea v-model="form.note"></textarea>
-            </div>
-              
-          </template>
-          
-          
-        </div>
-        <div class="sub-btn-wrap">
-          <div v-show="currentTab === 2" class="button" @click="onAddedToCart">{{orderIndex !== null ? '確定更新' : '加入預約清單'}}</div>
-          <!--<div class="button" @click="CONTROL_MODAL({target: 'product', boo: false})">關閉</div>-->
-        </div>
-        
+            <p class="desc">{{product.desc}}</p>
+          </el-col>
+        </el-row>
+      </div>
+      <div class="modal-box-footer">
+          <button @click.prevent="onClose">關閉</button>
+          <button @click.prevent="onSwitchToOrder" class="text-blue">加入預約</button>
       </div>
     </div>
   </div>
@@ -79,7 +31,6 @@
     mixins: [commonMixin],
     data() {
       return {
-        currentTab: 2,
         product: {},
         form: {
           chkOpts: [],
@@ -99,19 +50,14 @@
       })
     },
   async mounted() {
-      
       await this._getItem()
       if(this.orderIndex !== null) {
         this.setOrderedData()
       }
+      setTimeout(() => {
+        Ps.update(this.$refs.scrollBox)
+      })
       
-    },
-    watch: {
-      currentTab() {
-        setTimeout(() => {
-          Ps.update(this.$refs.scrollBox)
-        })
-      }
     },
     methods: {
       ...mapMutations([
@@ -145,6 +91,10 @@
         f.note = item.rtmNote
         f.prcOpt = _.find(this.product.prcs[0].opts, {id: item.prcs[0].opt.id})
         if(item.chks) f.chkOpts = _.map(item.chks[0].opts, "id")
+      },
+      onSwitchToOrder() {
+        this.CONTROL_MODAL({target: 'productIntro', boo: false})
+        this.CONTROL_MODAL({target: 'productOrder', boo: true})
       },
       onAddedToCart() {
         var p = this.product
@@ -196,7 +146,7 @@
       },
       onClose() {
         this.CLEAR_CURRENT_PRODUCT()
-        this.CONTROL_MODAL({target: 'product', boo: false})
+        this.CONTROL_MODAL({target: 'productIntro', boo: false})
       }
     }
   }

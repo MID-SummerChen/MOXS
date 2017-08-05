@@ -1,8 +1,7 @@
 
 const devMode = true
 const apiHost = "dev.moxs-system.com"
-const resHost = "res.moxs-system.com"
-const resHttpPath = `http://${resHost}/dev`
+const resHttpPath = `http://dev_res.moxs-system.com`
 const apiModule = {
   sys: "moxs_sys",
   sev: "moxs_sev"

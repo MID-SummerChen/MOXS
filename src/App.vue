@@ -13,6 +13,8 @@
       <resv-checkout-modal v-if="resvCheckoutModal"></resv-checkout-modal>
       <ord-checkout-modal v-if="ordCheckoutModal"></ord-checkout-modal>
       <product-modal v-if="productModal"></product-modal>
+      <product-intro-modal v-if="productIntro"></product-intro-modal>
+      <product-order-modal v-if="productOrder"></product-order-modal>
       <order-record-modal v-if="orderRecord"></order-record-modal>
       <member-pw-modal v-if="memberPw"></member-pw-modal>
       <news-detail-modal v-if="newsDetail"></news-detail-modal>
@@ -108,6 +110,8 @@
   import ResvCheckoutModal from '@/components/widgets/ResvCheckoutModal.vue'
   import OrdCheckoutModal from '@/components/widgets/OrdCheckoutModal.vue'
   import ProductModal from '@/components/widgets/ProductModal.vue'
+  import ProductIntroModal from '@/components/widgets/ProductIntroModal.vue'
+  import ProductOrderModal from '@/components/widgets/ProductOrderModal.vue'
   import LoginModal from '@/components/widgets/LoginModal.vue'
   import OrderRecordModal from '@/components/widgets/OrderRecordModal.vue'
   import ResvSuccessModal from '@/components/widgets/ResvSuccessModal.vue'
@@ -130,6 +134,8 @@
       ResvCheckoutModal,
       OrdCheckoutModal,
       ProductModal,
+      ProductIntroModal,
+      ProductOrderModal,
       LoginModal,
       OrderRecordModal,
       StoreMapModal,
@@ -159,6 +165,8 @@
     computed: {
       ...mapState({
         productModal: state => state.modal.product,
+        productIntro: state => state.modal.productIntro,
+        productOrder: state => state.modal.productOrder,
         resvCheckoutModal: state => state.modal.resvCheckout,
         ordCheckoutModal: state => state.modal.ordCheckout,
         qrcodeModal: state => state.modal.qrcode,

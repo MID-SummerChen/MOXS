@@ -22,15 +22,15 @@
       </div>
 
       <div class="items" data-uk-grid="{gutter: 0}">
-        <el-card v-for="t in items" :body-style="{ padding: '0px' }" @click.native="onClickItem(t.sn)">
-          <div v-if="t.imgUrl" class="img-wrap" :style="{'background-image': 'url(' + toImgSrc('sev', t.imgUrl) + ')'}"></div>
-          <div v-else class="img-wrap" :style="{'background-image': 'url(' + toImgSrc('sys', resources.itemDefaultImg) + ')'}"></div>
+        <el-card v-for="t in items" :body-style="{ padding: '0px' }" @click.native="openProductIntro(t.sn)">
+          <div v-if="t.imgUrl" class="img-wrap" :style="{'background-image': 'url(' + toImgSrc(t.imgUrl) + ')'}"></div>
+          <div v-else class="img-wrap" :style="{'background-image': 'url(' + toImgSrc(resources.itemDefaultImg) + ')'}"></div>
           <div class="card-content">
             <div class="card-content-title">
               <p class="desc">{{t.name}}</p>
               <p class="dollar">{{t.price ? '$'+t.price : ''}}</p>
             </div>
-            <div class="icon-plus"></div>
+            <div class="icon-plus" @click.stop="openProductOrder(t.sn)"></div>
           </div>
           
         </el-card>
@@ -111,9 +111,13 @@
           this.items = res.data.items
         }
       },
-      async onClickItem(itemSn) {
+      async openProductIntro(itemSn) {
         this.SAVE_CURRENT_PRODUCT(itemSn)
-        this.CONTROL_MODAL({target: 'product', boo: true})
+        this.CONTROL_MODAL({target: 'productIntro', boo: true})
+      },
+      async openProductOrder(itemSn) {
+        this.SAVE_CURRENT_PRODUCT(itemSn)
+        this.CONTROL_MODAL({target: 'productOrder', boo: true})
       },
       toNextCls(clsId, clsLevel) {
         this.$router.push({name: 'Products', query: {

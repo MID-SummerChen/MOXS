@@ -11,7 +11,7 @@
       </div>
       <div class="modal-box-content">
         <div v-if="newsData.newsImageUrl" class="img-wrap">
-          <img :src="toImgSrc('sev', newsData.newsImageUrl)" alt="">
+          <img :src="toImgSrc(newsData.newsImageUrl)" alt="">
         </div>
         <p>{{newsData.newsContent}}</p>
         

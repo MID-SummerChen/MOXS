@@ -59,7 +59,7 @@ export default {
     ...mapActions([
       'checkLoginStatus'
     ]),
-    toImgSrc(type, pathFile) {
+    toImgSrc(pathFile) {
       return pathFile ? `${this.resHttpPath}/${pathFile}` : `/static/imgs/food03.jpg`
     },
     toResvType(value) {

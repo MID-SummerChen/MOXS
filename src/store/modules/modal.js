@@ -7,6 +7,8 @@ export default {
     resvCheckout: false,
     ordCheckout: false,
     product: false,
+    productIntro: false,
+    productOrder: false,
     login: false,
     cart: false,
     orderRecord: false,

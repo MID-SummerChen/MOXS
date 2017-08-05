@@ -11,7 +11,7 @@
                     <div class="paper-content">
                         <div class="items">
                             <div class="item" v-for="n in newsList" @click="$router.push({name: 'News', query: {sn: n.newsSn}})">
-                                <div v-if="n.newsImageUrl" class="item-img" :style="{'background-image': 'url(' + toImgSrc('sev', n.newsImageUrl) + ')'}"></div>
+                                <div v-if="n.newsImageUrl" class="item-img" :style="{'background-image': 'url(' + toImgSrc(n.newsImageUrl) + ')'}"></div>
                                 <div class="item-content">
                                     <p>{{n.newsSubtitle}}</p>
                                     <h5>{{n.newsTitle}}</h5>
