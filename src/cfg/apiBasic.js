@@ -1,5 +1,5 @@
 
-const devMode = true
+const devMode = false
 const apiHost = "dev.moxs-system.com"
 const resHttpPath = `http://dev_res.moxs-system.com`
 const apiModule = {
