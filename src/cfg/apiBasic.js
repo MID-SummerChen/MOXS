@@ -8,6 +8,8 @@ const apiModule = {
 }
 const apiPath = 'api'
 const fakeHost = 'ruby'
+const setFakeType = false
+const fakeType = 'resv'
 
 export {
   devMode,
@@ -15,5 +17,7 @@ export {
   apiModule,
   apiPath,
   fakeHost,
+  fakeType,
+  setFakeType,
   resHttpPath,
 }

@@ -70,7 +70,7 @@
           <div class="btn-wrap">
             <a v-if="checkoutType === 'resv'" href="" @click.prevent="goToResvRecord" class="text-blue">查訊預約記錄</a>
             <a v-if="checkoutType === 'ord'" href="" @click.prevent="goToOrdRecord" class="text-blue">查訊訂單記錄</a>
-            <!-- <router-link :to="{name: 'ResvRecordDetail', params: {resv_sn: $route.query.resv}}" class="text-blue">查訊預約記錄</router-link> -->
+            <!-- <router-link :to="{name: 'ResvRecordDetail', params: {resv_sn: $route.query.resvSn}}" class="text-blue">查訊預約記錄</router-link> -->
           </div>
         </div>
       </div>
@@ -101,10 +101,10 @@ export default {
   },
   mounted() {
     
-    if(this.$route.query.resv) {
+    if(this.checkoutType === 'resv') {
       this._getResv()
       this._getResvChk()
-    }else if(this.$route.query.ordSn) {
+    }else if(this.checkoutType === 'ord') {
       this._getOrd()
       this._getOrdChk()
     }
@@ -123,19 +123,19 @@ export default {
       'getOrd',
     ]),
     goToResvRecord() {
-      this.$router.push({name: 'ResvRecordDetail', params: {resv_sn: this.$route.query.resv}})
+      this.$router.push({name: 'ResvRecordDetail', params: {resv_sn: this.$route.query.resvSn}})
     },
     goToOrdRecord() {
       this.$router.push({name: 'OrdRecordDetail', params: {ord_sn: this.$route.query.ordSn}})
     },
     async _getResvChk() {
-      var res = await this.getResvChk(this.$route.query.resv)
+      var res = await this.getResvChk(this.$route.query.resvSn)
       if(res.code === 10) {
         this.chkInfo = res.data
       }
     },
     async _getResv() {
-      var res = await this.getResv(this.$route.query.resv)
+      var res = await this.getResv(this.$route.query.resvSn)
       if(res.code === 10) {
         this.resvInfo = res.data
       }

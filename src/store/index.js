@@ -7,7 +7,7 @@ import db from './modules/db'
 import alertBox from './modules/modals/alertBox'
 import productModal from './modules/modals/productModal'
 import storeMapModal from './modules/modals/storeMapModal'
-import {fakeHost, devMode, apiHost, apiModule, resHttpPath } from '../cfg/apiBasic'
+import {fakeHost, devMode, apiHost, apiModule, resHttpPath, setFakeType, fakeType } from '../cfg/apiBasic'
 
 
 Vue.use(Vuex)
@@ -70,12 +70,19 @@ export default new Vuex.Store({
 
       state.menu = data.MODULES_MENU_WEB
       state.modules = data.MODULES_CONFIG
-      // state.checkoutType = "resv"
       if(state.modules.ORD) {
         state.checkoutType = 'ord'
       }else {
         state.checkoutType = "resv"
       }
+
+      if(setFakeType) {
+        /*
+          For Test
+        */
+        state.checkoutType = fakeType
+      }
+
       state.org = data.ORGANIZATION
       state.sev = data.SERVICE
       state.resources = data.SEV_THEME_RES

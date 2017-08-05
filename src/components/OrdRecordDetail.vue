@@ -48,9 +48,15 @@
                         合計： <b>${{ordData.ordTotalPrice}}</b>
                     </div>
                     <div class="btn-wrap">
-                        <a v-if="ordData.ordStatus === 'WAIT_VERIFY'" href=""  class="text-blue" @click.prevent="CONTROL_MODAL({target: 'phoneVerify', boo: true})">立即驗證</a>
-                         <a v-if="ordData.ordStatus === 'WAIT_PAY'" href=""  class="text-blue" @click.prevent="goToPay">立即付款</a> 
-                        <a v-else-if="chkInfo.chkStatus !== 'PENDING'" href="" @click.prevent="CONTROL_MODAL({target: 'orderRecord', boo: true})" class="text-blue">交易紀錄</a>
+                        <template v-if="ordData.payType === 'ONLINE'">
+                            <a v-if="ordData.ordStatus === 'WAIT_PAY'" href=""  class="text-blue" @click.prevent="goToPay">立即付款</a> 
+                            <a v-else-if="chkInfo.chkStatus !== 'PENDING'" href="" @click.prevent="CONTROL_MODAL({target: 'orderRecord', boo: true})" class="text-blue">交易紀錄</a>
+                        </template>
+                        <template v-else>
+                            <a v-if="ordData.ordStatus === 'WAIT_VERIFY'" href=""  class="text-blue" @click.prevent="CONTROL_MODAL({target: 'phoneVerify', boo: true})">立即驗證</a>
+                        </template>
+                        
+                        
                     </div>
                 </div>
             </div>

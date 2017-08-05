@@ -54,9 +54,16 @@
                         合計： <b>${{resvData.totalPrice}}</b>
                     </div>
                     <div class="btn-wrap">
-                        <a href="" class="text-rose">取消預約</a>
-                        <a v-if="resvData.status === 'WAIT_VERIFY'" href=""  class="text-blue" @click.prevent="CONTROL_MODAL({target: 'phoneVerify', boo: true})">立即驗證</a>
-                        <a v-else href="" @click.prevent="CONTROL_MODAL({target: 'orderRecord', boo: true})" class="text-blue">交易紀錄</a>
+                        <template v-if="resvData.payType === 'ONLINE'">
+                            <a v-if="resvData.status === 'WAIT_PAY'" href=""  class="text-blue" @click.prevent="goToPay">立即付款</a> 
+                            <a v-else-if="chkInfo.chkStatus !== 'PENDING'" href="" @click.prevent="CONTROL_MODAL({target: 'orderRecord', boo: true})" class="text-blue">交易紀錄</a>
+                        </template>
+                        <template v-else>
+                            <a v-if="resvData.status === 'WAIT_VERIFY'" href=""  class="text-blue" @click.prevent="CONTROL_MODAL({target: 'phoneVerify', boo: true})">立即驗證</a>
+                        </template>
+                        
+                        
+                        
                     </div>
                 </div>
             </div>
@@ -84,15 +91,25 @@ export default {
             resvItems: []
         }
     },
-    mounted() {
-        this._getResv()
+    async mounted() {
+        await this._getResv()
+        if(this.resvData.payType === 'ONLINE') {
+            this._getResvChk()
+        }
         this._getAllResvItems()
+    },
+    computed: {
+        ...mapGetters([
+            'chkInfo'
+        ])
     },
     methods: {
         ...mapMutations([
-            'GOT_CHECKOUT_ORDER'
+            'GOT_CHECKOUT_ORDER',
+            'GOT_CHECKOUT_INFO',
         ]),
         ...mapActions([
+            'getResvChk',
             'getResv',
             'getAllResvItems',
         ]),
@@ -102,6 +119,7 @@ export default {
                 this.resvData = res.data
                 this.GOT_CHECKOUT_ORDER(res.data)
             }
+            return
         },
         async _getAllResvItems() {
             var res = await this.getAllResvItems(this.$route.params.resv_sn)
@@ -110,6 +128,21 @@ export default {
                 this.resvItems = res.data.items
             }
         },
+        async _getResvChk() {
+            var res = await this.getResvChk(this.$route.params.resv_sn)
+            if(res.code === 10) {
+                var chkInfo = _.assign({} ,res.data, {
+                    totalPrice: _.sumBy(res.data.chkDetail, "total_price")
+                })
+                this.GOT_CHECKOUT_INFO(chkInfo)
+            }
+        },
+        goToPay() {
+            this.$router.push({name: 'Checkout', query: {
+                chk: this.chkInfo.chkSn,
+                resv: this.resvData.sn,
+            }})
+        }
 
     }
 }
