@@ -3,10 +3,10 @@
     <div class="modal-box">
       <div v-if="product.sn" ref="scrollBox" class="modal-box-content">
         <el-row :gutter="20">
-          <el-col :span="12">
+          <el-col :sm="24" :md="12">
             <img :src="toImgSrc(product.imgUrl)" alt="">
           </el-col>
-          <el-col :span="12" class="intro">
+          <el-col :sm="24" :md="12" class="intro">
             <h5>{{product.name}}</h5>
             <div v-for="attr in product.attrs" class="attr">
               {{attr.name}}: {{attr.value}}
