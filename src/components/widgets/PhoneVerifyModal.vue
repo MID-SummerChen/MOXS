@@ -3,7 +3,7 @@
     <div class="modal-box">
       <div class="modal-box-content">
         <h5>請輸入手機驗證碼</h5>
-        <p>系統已發送驗證碼簡訊至{{checkedOutResv.cell}}</p>
+        <p>系統已發送驗證碼簡訊至{{checkedOutResv.userCell || checkedOutResv.cell}}</p>
         <div class="verifySection">
           <input type="text" placeholder="驗證碼..." v-model="verifyCode" @keyup.enter="onVerifySubmit">
           <button v-if="checkoutType === 'ord'" class="submit-btn" @click.prevent="sendOrdVerifyAgain">發送驗證碼</button>

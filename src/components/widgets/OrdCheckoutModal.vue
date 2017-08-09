@@ -20,7 +20,7 @@
           <el-col :sm="24">
             <mu-text-field v-model="form.mobile" label="手機" hintText="" style="width: 100%"/><br/>
           </el-col>
-          <el-col :sm="24">
+          <el-col :sm="24" v-if="paySets.length > 0">
             <mu-select-field v-model="form.payType" :labelFocusClass="['label-foucs']" label="付款方式" style="width: 100%">
               <mu-menu-item v-for="(opt, i) in payTypeOpts" :value="opt.value" :title="opt.label" />
             </mu-select-field>
@@ -75,7 +75,7 @@
         resvTypeList: [],
         form: {
           resvTypeId: "",
-          payType: "ONLINE",
+          payType: "ONSITE",
           paySetId: "",
           date: "",
           time: "",

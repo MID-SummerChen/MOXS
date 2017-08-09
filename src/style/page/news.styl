@@ -31,33 +31,33 @@
                     @media(max-width: mobile-media)
                         height: 90px
                     .item-img
-                        width: 140px
+                        width: 248px
                         height: 140px
                         display: inline-block
                         background-size: cover 
                         background-position: center center
                         @media(max-width: mobile-media)
-                            width: 80px
+                            width: 142px
                             height: 80px
                     .item-content
                         padding: 10px 20px
                         vertical-align: top
                         display: inline-block
-                        width: calc(100% - 140px - 10px)
+                        width: calc(100% - 248px - 10px)
                         @media(max-width: mobile-media)
                             padding: 10px 15px
-                            width: calc(100% - 80px - 10px)
+                            width: calc(100% - 142px - 10px)
                         > p 
                             color: #666
+                            margin-bottom: 10px
                             @media(max-width: mobile-media)
                                 font-size: 13px
+                                margin-bottom: 0
                         > h5 
                             color: main-color
-                            margin-bottom: 10px
                             font-weight: bold
                             @media(max-width: mobile-media)
                                 font-size: 20px
-                                margin-bottom: 0
                             @media(max-width: mini-media)
                                 font-size: 16px
                                 // line-height: 20px
@@ -80,7 +80,8 @@
 
         .paper-footer 
             text-align: center 
-            font-size: 22px 
+            font-size: 16px 
+            letter-spacing: 1px
             font-weight: bold 
             padding: 10px
             background-color: #eee

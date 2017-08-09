@@ -15,8 +15,8 @@
                     <el-row :gutter="30">
                         <el-col :sm="8"
                                 v-for="store in storeList">
-                            <div class="box" @click="showStoreMap(store)">
-                                <div class="icon-location"></div>
+                            <div class="box">
+                                <div class="icon-location" @click="showStoreMap(store)"></div>
                                 <h5>{{store.name}}</h5>
                                 <p class="small">{{store.city}}{{store.area}}{{store.addr}}</p>
                                 <p class="small">{{store.tel}}</p>

@@ -1,5 +1,5 @@
 
-var noScrollModals = ['product', 'checkout', 'newsDetail']
+var noScrollModals = ['productIntro', 'checkout', 'newsDetail', 'productOrder', 'storeMap']
 export default {
   state: {
     alertBox: false,

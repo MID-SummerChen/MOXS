@@ -1,17 +1,18 @@
 <template>
   <div id="product-intro-modal" class="my-modal-wrap" @click.self="onClose">
     <div class="modal-box">
-      <div v-if="product.sn" ref="scrollBox" class="modal-box-content">
+      <div v-if="product.sn" class="modal-box-content">
         <el-row :gutter="20">
           <el-col :sm="24" :md="12">
             <img :src="toImgSrc(product.imgUrl)" alt="">
           </el-col>
           <el-col :sm="24" :md="12" class="intro">
             <h5>{{product.name}}</h5>
-            <div v-for="attr in product.attrs" class="attr">
-              {{attr.name}}: {{attr.value}}
+            <div v-for="prc in product.prcs" class="prc">
+              {{prc.name}}: 
+              <span v-for="opt in prc.opts"><b>{{opt.name}}</b> {{opt.value}}元 </span>
             </div>
-            <p class="desc">{{product.desc}}</p>
+            <p class="desc" ref="scrollBox" v-html="product.desc"></p>
           </el-col>
         </el-row>
       </div>

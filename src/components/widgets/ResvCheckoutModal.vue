@@ -62,7 +62,7 @@
           </template>
           
           <el-col :sm="24">
-            <div class="sub-radio-check">
+            <div class="sub-radio-check" v-if="paySets.length > 0">
               是否使用線上付款？
               <el-radio-group v-model="form.payType">
                 <el-radio class="radio" label="ONLINE">是</el-radio>
@@ -87,7 +87,7 @@
 </template>
 
 <script>
-  import { mapGetters, mapActions, mapMutations } from 'vuex'
+  import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
   import commonMixin from '@/utils/commonMixin'
   export default {
     name: 'CheckoutModal',
@@ -99,7 +99,7 @@
         resvTypeList: [],
         form: {
           resvTypeId: "",
-          payType: "ONLINE",
+          payType: "ONSITE",
           date: "",
           time: "",
           city: "",
@@ -122,6 +122,9 @@
       }
     },
     computed: {
+      ...mapState([
+        'paySets'
+      ]),
       ...mapGetters([
         'account',
         'menu',

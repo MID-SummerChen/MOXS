@@ -13,7 +13,7 @@
           </el-col>
           <el-col :span="24" class="form-item">
             <div v-for="chk in product.chks" class="plus">{{chk.name}}：
-              <span v-for="opt in chk.opts" :class="{active: form.chkOpts.indexOf(opt.id) > -1}" @click="onSelectChk(chk, opt.id)">{{opt.name + opt.value}}</span> 
+              <span v-for="opt in chk.opts" :class="{active: form.chkOpts.findIndex(chk => chk.optId === opt.id) > -1}" @click="onSelectChk(chk, opt.id)">{{opt.name + opt.value}}</span> 
             </div>
           </el-col>
           <el-col :span="24" class="form-item">
@@ -101,7 +101,13 @@
         f.count = item.count
         f.note = item.rtmNote
         f.prcOptId = item.prcs[0].opt.id
-        if(item.chks) f.chkOpts = _.map(item.chks[0].opts, "id")
+        if(item.chks) {
+          _.each(item.chks, chk => {
+            _.each(chk.opts, opt => {
+              f.chkOpts = f.chkOpts.concat({chkId: chk.chkId, optId: opt.id})
+            })
+          })
+        }
       },
       onAddedToCart() {
         var p = this.product
@@ -120,11 +126,18 @@
               }
             ]
           }
+          console.dir(_(this.form.chkOpts).groupBy('chkId').value())
           if(p.chks[0]) {
-            item.chks = [{
-            chkId: p.chks[0].id,
-            opts: _(p.chks[0].opts).filter(opt => this.form.chkOpts.indexOf(opt.id) > -1).value()
-          }]
+            item.chks = _(this.form.chkOpts).groupBy('chkId').map(_opts =>{
+              var i = _.findIndex(p.chks, {id: _opts[0].chkId})
+              if(i > -1) {
+                return {
+                  chkId: p.chks[i].id,
+                  opts: _(p.chks[i].opts).filter(opt => _.findIndex(_opts, {optId: opt.id}) > -1).value()
+                }
+              }
+              
+            }).value()
           }
           
           if(this.orderIndex !== null) {
@@ -140,16 +153,17 @@
         
       },
       onSelectChk(chk, optId) {
-        var i = _.indexOf(this.form.chkOpts, optId)
+        var i = _.findIndex(this.form.chkOpts, {optId})
+        var count = _.filter(this.form.chkOpts, {chkId: chk.id}).length
         if(i > -1) {
-          this.form.chkOpts = this.form.chkOpts.filter(t => t !== optId)
-        }else {
-          this.form.chkOpts = this.form.chkOpts.concat([optId])
+          this.form.chkOpts = this.form.chkOpts.filter(t => t.optId !== optId)
+        }else if(chk.selectNum > count) {
+          this.form.chkOpts = this.form.chkOpts.concat({chkId: chk.id, optId})
         }
       },
       getUnitPrice() {
-        var selectedChks = _.map(this.form.chkOpts, optId => {
-          var i = this.product.chks[0].opts.findIndex(t => t.id === optId)
+        var selectedChks = _.map(this.form.chkOpts, chk => {
+          var i = this.product.chks[0].opts.findIndex(t => t.id === chk.optId)
           return i > -1 ? this.product.chks[0].opts[i] : null
         })
         var priceOptIndex = _.findIndex(this.product.prcs[0].opts, {id: this.form.prcOptId})

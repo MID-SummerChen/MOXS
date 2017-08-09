@@ -10,19 +10,20 @@
                 <div class="paper">
                     <div class="paper-content">
                         <div class="items">
-                            <div class="item" v-for="n in newsList" @click="$router.push({name: 'News', query: {sn: n.newsSn}})">
+                            <div class="item animated fadeInUp" v-for="n in newsList" @click="$router.push({name: 'News', query: {sn: n.newsSn}})">
                                 <div v-if="n.newsImageUrl" class="item-img" :style="{'background-image': 'url(' + toImgSrc(n.newsImageUrl) + ')'}"></div>
                                 <div class="item-content">
-                                    <p>{{n.newsSubtitle}}</p>
                                     <h5>{{n.newsTitle}}</h5>
+                                    <p>{{n.newsSubtitle}}</p>
                                     <div class="text">{{n.newsContent}}</div>
 
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="paper-footer">
-                        載入更多
+                    <div v-if="totalPages > page" class="paper-footer" @click="onLoadMore">
+                        <span v-if="isLoading">載入中...</span>
+                        <span v-else>載入更多</span>
                     </div>
     
                 </div>
@@ -47,7 +48,10 @@ export default {
     },
     data() {
         return {
-            newsList: []
+            newsList: [],
+            page: 1,
+            totalPages: 1,
+            isLoading: false,
         }
     },
     mounted() {
@@ -71,10 +75,35 @@ export default {
             'getNewsList'
         ]),
         async _getNewsList() {
+            var data = {
+                maxRecords: 7,
+                page: this.page,
+                orderBy: "updateAt:desc"
+            }
+            this.isLoading = true
             var res = await this.getNewsList()
             if(res.code === 10) {
-                this.newsList = res.data.items
+                this.totalPages = res.data.totalPages
+                var i = 0
+                fadeLoop.call(this)
+                function fadeLoop() {
+                    setTimeout(() => {
+                        this.newsList = this.newsList.concat(res.data.items[i])
+                        i++ 
+                        if(i < res.data.pageRecords) {
+                            fadeLoop.call(this)
+                        }else {
+                            this.isLoading = false
+                        }
+                    }, 100)
+                }
             }
+            return 
+        },
+        async onLoadMore() {
+            this.page = this.page+1
+            await this._getNewsList()
+            
         }
     }
 }

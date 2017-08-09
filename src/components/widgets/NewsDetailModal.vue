@@ -5,8 +5,8 @@
         <v-icon>clear</v-icon>
       </div>
       <div class="modal-box-header">
-        <p class="title-top">{{newsData.newsSubtitle}}</p>
         <h5>{{newsData.newsTitle}}</h5>
+        <p class="title-top">{{newsData.newsSubtitle}}</p>
         <p class="date">{{newsData.updateAt}}</p>
       </div>
       <div class="modal-box-content">

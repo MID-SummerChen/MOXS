@@ -95,15 +95,20 @@ export default {
       }
     },
     onOrdCheckSubmit() {
-      if(this.currentResv.display) {
+      if(!this.currentResv.display) {
+        this.$message("請先填寫預約資訊")
+        this.CONTROL_MODAL({target: 'ordCheckout', boo: true})
+        
+      }
+      else if(!this.isLogin) {
+        this.CONTROL_MODAL({target: 'login', boo: true})
+      }
+      else {
         this.$confirm('是否送出訂單？', '訂單確認', {
           confirmButtonText: '確定',
           cancelButtonText: '繼續購物',
           type: 'warning'
         }).then(this.onOrdSubmit).catch(() => false);
-      }else {
-        this.$message("請先填寫預約資訊")
-        this.CONTROL_MODAL({target: 'ordCheckout', boo: true})
       }
     },
     showOrderItem(targetIndex) {
@@ -208,7 +213,7 @@ export default {
       if(res.code === 10) {
         this.CLEAR_CURRENT_RESV()
         this.CLEAR_ORDER_ITEM()
-        this.GOT_CHECKOUT_ORDER({...res.data, cell: f.mobile})
+        this.GOT_CHECKOUT_ORDER(res.data)
         console.log(f.payType)
         this.CONTROL_MODAL({target: 'cart', boo: false})
         if(f.payType === 'ONLINE') {
