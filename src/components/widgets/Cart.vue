@@ -3,7 +3,8 @@
       <div class="top">
         <span class="close" @click="CONTROL_MODAL({target: 'cart', boo: false})"><v-icon>clear</v-icon></span>
         
-        <span class="title">訂位點餐</span>
+        <span v-if="checkoutType === 'resv'" class="title">{{modules.RESV.TITLE}}</span>
+        <span v-if="checkoutType === 'ord'" class="title">{{modules.ORD.TITLE}}</span>
         <span class="reset" @click="onReset">重設</span>
       </div>
       <!--<div class="content">填寫預約資料...</div>-->
@@ -45,7 +46,7 @@
 </template>
 
 <script>
-  import {mapGetters, mapActions, mapMutations} from 'vuex'
+  import {mapState, mapGetters, mapActions, mapMutations} from 'vuex'
 import commonMixin from '@/utils/commonMixin'
 export default {
   name: 'Cart',
@@ -56,6 +57,10 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      modules: state => state.modules,
+      menu: state => state.menu,
+    }),
     ...mapGetters([
       'storeList',
       'orderItems',

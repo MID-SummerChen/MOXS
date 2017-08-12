@@ -1,14 +1,14 @@
 <template>
   <div id="store-map-modal" class="my-modal-wrap" @click.self="CONTROL_MODAL({target: 'storeMap', boo: false})">
     <div class="modal-box">
-      <!--<div class="close-btn" @click="CONTROL_MODAL({target: 'storeMap', boo: false})">
+      <div class="close-btn" @click="CONTROL_MODAL({target: 'storeMap', boo: false})">
         <v-icon>clear</v-icon>
-      </div>-->
+      </div>
       
       <div class="modal-box-content">
         <div ref="map" class="mapWrap"></div>
-        <div style="margin-top: 15px"></div>
-        <button class="my-btn btn-t1 active block" @click.self="CONTROL_MODAL({target: 'storeMap', boo: false})">關閉</button>
+        <!-- <div style="margin-top: 15px"></div> -->
+        <!-- <button class="my-btn btn-t1 active block" @click.self="CONTROL_MODAL({target: 'storeMap', boo: false})">關閉</button> -->
       </div>
       
     </div>

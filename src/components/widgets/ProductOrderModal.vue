@@ -16,13 +16,18 @@
               <span v-for="opt in chk.opts" :class="{active: form.chkOpts.findIndex(chk => chk.optId === opt.id) > -1}" @click="onSelectChk(chk, opt.id)">{{opt.name + opt.value}}</span> 
             </div>
           </el-col>
-          <el-col :span="24" class="form-item">
-            <mu-select-field v-model="form.count" :labelFocusClass="['label-foucs']" hintText="數量：" style="width: 100%">
+          <el-col :span="16" class="form-item">
+            <mu-text-field v-model="form.count" hintText="數量：" style="width: 100%"/>
+            <!-- <mu-select-field v-model="form.count" :labelFocusClass="['label-foucs']" hintText="數量：" style="width: 100%">
               <mu-menu-item v-for="n in 20" :value="n" :title="n+''" />
-            </mu-select-field>
+            </mu-select-field> -->
+          </el-col>
+          <el-col :span="8" class="form-item">
+            <mu-float-button icon="remove" @click.native="form.count--" mini class="demo-float-button"/>
+            <mu-float-button icon="add" @click.native="form.count++" mini class="demo-float-button"/>
           </el-col>
           <el-col :span="24" class="form-item">
-            <mu-text-field v-model="form.note" hintText="備註：" multiLine :rows="6" style="width: 100%"/>
+            <mu-text-field v-model="form.note" hintText="備註：" multiLine :rows="3" style="width: 100%"/>
           </el-col>
         </el-row>
       </div>
@@ -46,7 +51,7 @@
         form: {
           chkOpts: [],
           prcOptId: null,
-          count: "",
+          count: 1,
           note: ""
         },
       }
@@ -86,7 +91,7 @@
         if(res.code === 10) {
           this.product = res.data
           if(this.product.prcs.length > 0) {
-            // this.form.prcOptId = this.product.prcs[0].opts[0].id
+            this.form.prcOptId = this.product.prcs[0].opts[0].id
           }
           setTimeout(() => {
             Ps.update(this.$refs.scrollBox)

@@ -9,16 +9,17 @@
             <div class="main-content">
                 <div class="paper">
                     <div class="paper-content">
+                        <h5 class="emptyMsg" v-if="newsList.length === 0">尚無資料</h5>
                         <div class="items">
-                            <div class="item animated fadeInUp" v-for="n in newsList" @click="$router.push({name: 'News', query: {sn: n.newsSn}})">
-                                <div v-if="n.newsImageUrl" class="item-img" :style="{'background-image': 'url(' + toImgSrc(n.newsImageUrl) + ')'}"></div>
+                             <div class="item animated fadeInUp" v-for="n in newsList" @click="$router.push({name: 'News', query: {sn: n.newsSn}})">
+                                 <div v-if="n.newsImageUrl" class="item-img" :style="{'background-image': 'url(' + toImgSrc(n.newsImageUrl) + ')'}"></div> 
                                 <div class="item-content">
                                     <h5>{{n.newsTitle}}</h5>
                                     <p>{{n.newsSubtitle}}</p>
                                     <div class="text">{{n.newsContent}}</div>
 
                                 </div>
-                            </div>
+                            </div> 
                         </div>
                     </div>
                     <div v-if="totalPages > page" class="paper-footer" @click="onLoadMore">
@@ -85,7 +86,11 @@ export default {
             if(res.code === 10) {
                 this.totalPages = res.data.totalPages
                 var i = 0
-                fadeLoop.call(this)
+                
+                if(res.data.items.length > 0) {
+                    fadeLoop.call(this)
+                }
+
                 function fadeLoop() {
                     setTimeout(() => {
                         this.newsList = this.newsList.concat(res.data.items[i])

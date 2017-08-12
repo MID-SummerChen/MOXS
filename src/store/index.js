@@ -92,8 +92,27 @@ export default new Vuex.Store({
         title: state.resources.INDEX_TITLE
       })
 
+
+      // 設定SEV及ORG
       sessionStorage.setItem("sevSn", state.sev.SEV_SN)
       sessionStorage.setItem("orgSn", state.org.ORG_SN)
+
+      // 設定FB
+      window.fbAsyncInit = function() {
+        console.log(state.sev.SEV_FB_ID)
+        FB.init({
+          appId      : state.sev.SEV_FB_ID,
+          xfbml      : true,
+          version    : 'v2.9'
+        });
+        FB.AppEvents.logPageView();
+      };
+
+      var js, fjs = document.getElementsByTagName("script")[0];
+      if (document.getElementById("facebook-jssdk")) {return;}
+      js = document.createElement("script"); js.id = "facebook-jssdk";
+      js.src = "//connect.facebook.net/zh_TW/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
 
       // TAB標題及TAB_ICON
       document.title = state.sev.SEV_NAME
