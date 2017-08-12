@@ -4,9 +4,10 @@
         <div class="date-items" v-for="(resvs, month) in resvListByMonth">
             <div class="date">{{month}}</div>
             <div class="items">
-                <div class="item animated fadeInUp" v-for="resv in resvs" @click="$router.push({name: 'ResvRecordDetail', params: {resv_sn: resv.sn}})">
+                <div class="item-resv animated fadeInUp" v-for="resv in resvs" @click="$router.push({name: 'ResvRecordDetail', params: {resv_sn: resv.sn}})">
                     <p>
                         <span>{{resv.stoResvOptName}}  {{resv.date}} {{resv.startAt}} </span>
+                        <span class="status">{{toChkStatus(resv.status)}}</span>
                     </p>
                     <p>{{resv.stoName}} {{resv.adultNum + resv.kidNum}}人 ${{resv.totalPrice}}</p>
                 </div>

@@ -25,7 +25,7 @@
       <div ref="scrollBox" class="items">
         <div v-for="(item, i) in orderItems" class="item">
           <div class="item-content" @click="showOrderItem(i)">
-            <p class="title">{{item.name}}</p>
+            <p class="title">{{item.name}} <i v-if="item.rtmNote" class="fa fa-commenting-o"></i></p>
             <p v-for="prc in item.prcs" class="sub-title">{{prc.opt.name}} <span>{{item.count}}份</span></p>
             <p v-for="chk in item.chks" class="tags">
               <span v-for="opt in chk.opts">加{{opt.name}}</span>

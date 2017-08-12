@@ -18,7 +18,9 @@
             </mu-select-field>
           </el-col>
           <el-col :sm="12">
-            <mu-text-field v-model="form.adultNum" label="人數" hintText="" style="width: 100%"/><br/>
+            <mu-select-field v-model="form.adultNum" :labelFocusClass="['label-foucs']" label="人數" style="width: 100%">
+              <mu-menu-item v-for="n in 20" :value="n" :title="n+''" />
+            </mu-select-field>
           </el-col>
           <template>
             <el-col :sm="12">
@@ -111,6 +113,8 @@
           mobile: "",
           adultNum: 2,
           kidNum: 0,
+          note: ""
+
         },
         cityList: [],
         areaList: [],
@@ -133,8 +137,8 @@
         'currentResv',
       ])
     },
-    mounted() {
-      this._getGeo()
+    async mounted() {
+      await this._getGeo()
       this.setInitForm()
       this.setForm()
     },
@@ -142,6 +146,7 @@
       'form.store': 'onStoreChanged',
       'form.resvTypeId': 'onResvTypeChanged',
       'form.date': 'onDateChanged',
+      'form.city': 'onCityChanged',
     },
     methods: {
       ...mapMutations([
@@ -164,7 +169,7 @@
         if(mb) {
           f.name = mb.name
           f.city = mb.city
-          f.area = mb.area
+          // f.area = mb.area
           f.addr = mb.addr
           f.mobile = mb.cell
           f.gender = mb.gender
@@ -176,10 +181,11 @@
         if(this.currentResv.form) {
           f.name = c.name
           f.city = c.city
-          f.area = c.area
+          // f.area = c.area
           f.addr = c.addr
           f.mobile = c.mobile
           f.gender = c.gender
+          f.note = c.note
 
           f.payType = c.payType
           f.adultNum = c.adultNum
@@ -272,6 +278,7 @@
           name: f.name,
           date: f.date,
           time: f.time,
+          note: f.note,
         }
         var i = _.findIndex(this.storeList, {sn: f.store})
         if(i > -1) d.storeName = this.storeList[i].name
@@ -286,6 +293,14 @@
         var i = _.findIndex(this.resvTypeList, {id: this.form.resvTypeId})
         return i > -1 ? this.resvTypeList[i].sysResvOptId : ""
       },
+      onCityChanged() {
+        if(this.form.city) {
+          this.form.area = ""
+          var i = _.findIndex(this.cityList, {geoName: this.form.city})
+          if(i > -1) this._getGeo(this.cityList[i].code)
+        }
+          
+      },
       async _getGeo(superCode) {
           console.log(superCode)
           var data ={
@@ -293,10 +308,24 @@
           }
           var res = await this.getGeo(data)
           if(res.code === 10) {
-              superCode
-              ? this.areaList = res.data
-              : this.cityList = res.data
+            if(superCode) {
+              this.areaList = res.data
+              if(this.currentResv.form) {
+                this.form.area = this.currentResv.form.area
+              }else {
+                var i = _.findIndex(this.areaList, {geoName: this.account.mb.area})
+                if(i > -1) this.form.area = this.account.mb.area
+              }
+              
+            }else {
+              this.cityList = res.data
+              if(this.currentResv.form) {
+                this.form.city = this.currentResv.form.city
+              }
+              
+            }
           }
+          return
       },
       onCityOptsChanged() {
           this.form.area = ""

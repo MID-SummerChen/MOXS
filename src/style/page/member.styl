@@ -40,23 +40,39 @@
                 font-size: 16px
                 p 
                     margin: 6px 0
-        .btn-t1 
+        .btn-t2 
             margin-left: 15px
     .record 
         margin: 30px 0
         .record-header 
-            color: main-color
             padding: 5px
             border-bottom: 1px solid #ccc
-        .item
+            color: #9b9b9b
+            font-weight: bold
+        .item-resv
             border-bottom: 1px solid #ccc
             padding: 15px 5px
             cursor: pointer
             p:first-of-type 
                 font-weight: bold
+                span.status 
+                    color: main-blue
+                    float: right
                 a 
                     margin-left: 10px 
                     color: main-color
+        .item-ord
+            border-bottom: 1px solid #ccc
+            padding: 15px 5px
+            cursor: pointer
+            display: flex 
+            span 
+                flex: 1
+                text-align: center
+                &:first-of-type 
+                    text-align: left
+            span.status 
+                color: main-blue
 
         .record-footer 
             text-align: right

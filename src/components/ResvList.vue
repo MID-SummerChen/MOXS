@@ -3,14 +3,15 @@
       <div class="record-header">
           最新預約記錄
       </div>
-      <div class="item" v-for="resv in resvList" @click="$router.push({name: 'ResvRecordDetail', params: {resv_sn: resv.sn}})">
+      <div class="item-resv" v-for="resv in resvList" @click="$router.push({name: 'ResvRecordDetail', params: {resv_sn: resv.sn}})">
           <p>
-              <span>{{resv.stoResvOptName}}  {{resv.date}} {{resv.startAt}} </span>
+              <span>{{resv.stoResvOptName}}  {{resv.date}} {{resv.startAt}}</span>
+              <span class="status">{{toChkStatus(resv.status)}}</span>
           </p>
           <p>{{resv.stoName}} {{resv.adultNum + resv.kidNum}}人 ${{resv.totalPrice}}</p>
       </div>
       <div class="record-footer">
-          <button class="btn-t1" @click="$router.push({name: 'MemberRecord'})">查看全部預約記錄</button>
+          <button class="btn-t2" @click="$router.push({name: 'MemberRecord'})">查看全部預約記錄</button>
       </div>
   </div>
 </template>

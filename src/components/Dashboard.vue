@@ -12,7 +12,7 @@
               </router-link>
             </v-toolbar-logo>
             <v-spacer />
-            <v-btn v-if="modules.RESV" :ripple="false" @click.native="CONTROL_MODAL({target: 'cart', boo: true})">
+            <v-btn :ripple="false" @click.native="CONTROL_MODAL({target: 'cart', boo: true})">
               <v-icon>today</v-icon>
               <span class="toolbar-icon-title">預約點餐</span>
             </v-btn>

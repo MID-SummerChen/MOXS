@@ -8,6 +8,7 @@ const apiModule = {
 }
 const apiPath = 'api'
 const fakeHost = 'ruby'
+
 const setFakeType = false
 const fakeType = 'resv'
 

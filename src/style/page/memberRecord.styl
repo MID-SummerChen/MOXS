@@ -25,22 +25,36 @@
             .date-items 
                 margin-bottom: 20px
                 .date 
-                    color: main-color 
+                    color: #9b9b9b
                 .items 
-                    .item 
+                    .item-resv
                         padding: 13px 0 
                         border-bottom: 1px solid #ddd
                         cursor: pointer
-                        animation: 
                         p
                             color: #666
                             &:first-of-type 
                                 font-weight: bold 
                                 color: #000
                                 margin-bottom: 3px
+                                span.status 
+                                    color: main-blue
+                                    float: right
                                 i 
                                     margin-left: 10px 
                                     color: main-color
+                    .item-ord
+                        border-bottom: 1px solid #ccc
+                        padding: 15px 5px
+                        cursor: pointer
+                        display: flex 
+                        span 
+                            flex: 1
+                            text-align: center
+                            &:first-of-type 
+                                text-align: left
+                        span.status 
+                            color: main-blue
         .paper-footer 
             text-align: center 
             font-size: 16px 

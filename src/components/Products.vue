@@ -18,13 +18,11 @@
         <el-button v-for="cls in itemsCls" @click="toNextCls(cls.id, cls.level)">{{cls.name}}</el-button>
       </div>
       <div v-else style="padding-top: 42px">
-        
       </div>
-
       <div class="items" data-uk-grid="{gutter: 0}">
         <el-card v-for="t in items" :body-style="{ padding: '0px' }" @click.native="openProductIntro(t.sn)">
           <div v-if="t.imgUrl" class="img-wrap" :style="{'background-image': 'url(' + toImgSrc(t.imgUrl) + ')'}"></div>
-          <div v-else class="img-wrap" :style="{'background-image': 'url(' + toImgSrc(resources.itemDefaultImg) + ')'}"></div>
+          <div v-else class="img-wrap" :style="{'background-image': 'url(' + toImgSrc(resources.WEB_ITEM_DEFAULT_IMG) + ')'}"></div>
           <div class="card-content">
             <div class="card-content-title">
               <p class="desc">{{t.name}}</p>

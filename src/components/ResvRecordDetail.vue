@@ -35,6 +35,7 @@
                                 <span style="color: #f53b11">[{{toChkStatus(resvData.status)}}]</span>
                             </p>
                             <p>建檔時間：{{resvData.createAt}}</p>
+                            <p>備註：{{resvData.note}}</p>
                         </el-col>
 
                     </el-row>
@@ -92,6 +93,13 @@ export default {
         }
     },
     async mounted() {
+        await this._getResv()
+        if(this.resvData.payType === 'ONLINE') {
+            this._getResvChk()
+        }
+        this._getAllResvItems()
+    },
+    async $route() {
         await this._getResv()
         if(this.resvData.payType === 'ONLINE') {
             this._getResvChk()

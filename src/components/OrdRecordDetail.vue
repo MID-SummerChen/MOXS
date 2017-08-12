@@ -11,7 +11,7 @@
             <div class="main-content">
                 <div class="paper">
                     <div class="top-title">
-                        <h4><span>{{ordData.stoName}}</span></h4>
+                        <h4>{{ordData.ordSn}}</h4>
                     </div>
                     <el-row :gutter="20" class="record-content">
                         <!-- <el-col :xs="12" :sm="8">
@@ -23,11 +23,10 @@
                             <div class="number-box status">{{toChkStatus(ordData.ordStatus)}}</div>
                         </el-col>
                         <el-col :sm="24">
-                            <p>紀錄編號：{{ordData.ordSn}}</p>
-                            <p>預約分店：{{ordData.stoSn}}</p>
-                            <p>預約人：{{ordData.userName}} {{toGender(ordData.gender)}} {{ordData.userCell}}</p>
+                            <p>購買人：{{ordData.userName}} {{toGender(ordData.userGender)}} {{ordData.userCell}}</p>
                             <p v-if="ordData.userAddr">地址：{{ordData.userCity + ordData.userArea + ordData.userAddr}}</p>
-                            <p>付款方式：{{toPayType(ordData.payType)}}</p>
+                            <p>帳單金額：${{ordData.ordTotalPrice}}</p>
+                            <p>付款方式：{{toPayType(ordData.payType)}}[{{toChkStatus(ordData.ordStatus)}}]</p>
                             <p>建檔時間：{{ordData.createAt}}</p>
                         </el-col>
 
@@ -82,6 +81,15 @@ export default {
         return {
             ordData: {},
             ordItems: []
+        }
+    },
+    watch: {
+        async $route() {
+            await this._getOrd()
+            if(this.ordData.payType === 'ONLINE') {
+                this._getOrdChk()
+            }
+            this._getAllOrdItems()
         }
     },
     async mounted() {

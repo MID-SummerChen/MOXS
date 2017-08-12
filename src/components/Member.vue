@@ -15,7 +15,7 @@
                   <p class="username">{{account.mb.name}}</p>
               </div>
               <div>
-                <button class="btn-t1" @click="$router.push({name: 'MemberEdit'})">編輯MOXS帳戶</button>
+                <button class="btn-t2" @click="$router.push({name: 'MemberEdit'})">編輯MOXS帳戶</button>
               </div>
           </div>
           <resv-list v-if="checkoutType === 'resv'"></resv-list>

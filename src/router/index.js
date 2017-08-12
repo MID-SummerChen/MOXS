@@ -95,8 +95,8 @@ const router = new Router({
 
 
 router.beforeEach(async (to, from, next) => {
-  await VuexStore.dispatch('checkLoginStatus')
   var res = await VuexStore.dispatch('getSiteConfig')
+  await VuexStore.dispatch('checkLoginStatus')
   if(to.name !== 'Maintenance') {
     if(res.code !== 10) {
       next({name: 'Maintenance'})

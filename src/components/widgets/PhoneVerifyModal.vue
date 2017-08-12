@@ -65,9 +65,13 @@
         var res = await this.verifyOrd(data)
         if(res.code === 10) {
           this.CONTROL_MODAL({target: 'phoneVerify', boo: false})
-          this.$router.push({name: "Member"})
-          // this.$router.push({name: 'CheckoutResult', query: {ord: this.checkedOutResv.ordSn}})
           this.$message('驗證成功');
+          if(this.$route.name === 'OrdRecordDetail') {
+            this.$router.push({name: 'OrdRecordDetail', params: {ord_sn: this.checkedOutResv.ordSn}, query: {re: 1}})
+          }else {
+            this.$router.push({name: 'OrdRecordDetail', params: {ord_sn: this.checkedOutResv.ordSn}})
+          }
+          
         }
         
       },
@@ -79,9 +83,12 @@
         var res = await this.verifyResv(data)
         if(res.code === 10) {
           this.CONTROL_MODAL({target: 'phoneVerify', boo: false})
-          this.$router.push({name: "Member"})
-          // this.$router.push({name: 'CheckoutResult', query: {resv: this.checkedOutResv.sn}})
           this.$message('驗證成功');
+          if(this.$route.name === 'ResvRecordDetail') {
+            this.$router.push({name: 'ResvRecordDetail', params: {resv_sn: this.checkedOutResv.sn}, query: {re: 1}})
+          }else {
+            this.$router.push({name: 'ResvRecordDetail', params: {resv_sn: this.checkedOutResv.sn}})
+          }
         }
         
       },

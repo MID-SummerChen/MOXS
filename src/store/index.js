@@ -49,7 +49,6 @@ export default new Vuex.Store({
     checkoutType: state => state.checkoutType,
     pageMsgs: state => state.pageMsgs,
     resHttpPath: state => state.resHttpPath,
-    resHttpPath: state => state.resHttpPath,
   },
   mutations: {
     switchLoginStatus(state, status) {

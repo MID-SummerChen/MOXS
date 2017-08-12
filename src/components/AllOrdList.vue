@@ -4,8 +4,11 @@
         <div class="date-items" v-for="(ords, month) in ordListByMonth">
             <div class="date">{{month}}</div>
             <div class="items">
-                <div class="item animated fadeInUp" v-for="ord in ords" @click="$router.push({name: 'OrdRecordDetail', params: {ord_sn: ord.ordSn}})">
-                    <p>{{ord.stoName}} ${{ord.ordTotalPrice}}</p>
+                <div class="item-ord animated fadeInUp" v-for="ord in ords" @click="$router.push({name: 'OrdRecordDetail', params: {ord_sn: ord.ordSn}})">
+                    <span>{{ord.ordSn}}</span>
+                    <span>{{ord.updateAt}}</span>
+                    <span>{{ord.ordTotalPrice}}元</span>
+                    <span class="status">{{toChkStatus(ord.ordStatus)}}</span>
                 </div>
             </div>
         </div>
