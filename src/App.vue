@@ -8,6 +8,9 @@
       <resv-success-modal v-if="resvSuccess"></resv-success-modal>
     </transition>
     <transition name="fade">
+      <loading-mask v-if="showLoadingMask"></loading-mask>
+    </transition>
+    <transition name="fade">
       <login-modal v-if="loginModal"></login-modal>
       <qrcode-modal v-if="qrcodeModal"></qrcode-modal>
       <resv-checkout-modal v-if="resvCheckoutModal"></resv-checkout-modal>
@@ -45,6 +48,7 @@
   import NewsDetailModal from '@/components/widgets/NewsDetailModal.vue'
   import StoreMapModal from '@/components/widgets/StoreMapModal.vue'
   import AlertBox from '@/components/widgets/AlertBox.vue'
+  import LoadingMask from '@/components/widgets/LoadingMask.vue'
   import Cart from '@/components/widgets/Cart.vue'
   import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
   export default {
@@ -52,6 +56,7 @@
     components: {
       HeaderCpt: Header,
       SideBar,
+      LoadingMask,
       QrcodeModal: QRCodeModal,
       ResvCheckoutModal,
       OrdCheckoutModal,
@@ -91,6 +96,7 @@
         resources: state => state.resources,
       }),
       ...mapGetters([
+        'showLoadingMask',
         'account',
         'resHttpPath',
       ])

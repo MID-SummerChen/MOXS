@@ -15,11 +15,15 @@
     margin 10px 0
   &.sidebar--open, .sidebar--open.sidebar--mobile
     width menu-width
+    @media(max-width: mobile-media)
+      padding-top: 40px
     .logo 
-      width: 100%
+      width: 140px
       padding: 20px
+      margin: 0 auto
+      margin-top: 20px
       img 
-        max-width: 150px
+        max-width: 100%
         @media(max-width: mobile-media)
           display: none
 .with.left-fixed-sidebar main

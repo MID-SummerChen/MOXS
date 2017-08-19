@@ -63,10 +63,19 @@ export default new Vuex.Store({
         動態主題顏色
       */
       var link = document.createElement('link');
-      // link.id = 'customLink';
       link.rel = 'stylesheet';
       link.href = `${resHttpPath}/${data.SEV_THEME.CSS_URL}`;
       document.head.appendChild(link);
+      
+      /*
+        動態Favicon
+      */
+      var link = document.createElement('link');
+      link.type = 'image/x-icon';
+      link.rel = 'shortcut icon';
+      link.href = `${resHttpPath}/${data.SEV_THEME_RES.WEB_BROWSER_ICON}`;
+      document.head.appendChild(link);
+      
 
       state.menu = data.MODULES_MENU_WEB
       state.modules = data.MODULES_CONFIG
@@ -125,7 +134,7 @@ export default new Vuex.Store({
     async getSiteConfig({ state, commit, dispatch, rootState }) {
       var data = {
         domainType: devMode ? "SUBDOMAIN" : location.hostname.indexOf("moxs") > -1 ? "SUBDOMAIN" : "DOMAIN",
-        domain: devMode ? fakeHost : location.hostname.split('.')[0]
+        subdomain: devMode ? fakeHost : location.hostname.split('.')[0]
       }
       var configRes = await dispatch("getDomainConfig", data)
       if(configRes.code === 10) commit("GOT_CONFIG", configRes.data)

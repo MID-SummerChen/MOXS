@@ -12,9 +12,9 @@ import moment from 'moment'
 import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
 // require('vuetify/dist/vuetify.min.css')
+require(`./style/muse-custom.less`)
 require(`../theme/index.css`)
 require(`./style/tme01.styl`)
-require(`./style/muse-custom.less`)
     
 
 Vue.use(Vuetify)

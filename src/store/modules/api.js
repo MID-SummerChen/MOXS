@@ -10,10 +10,12 @@ import Qs from 'query-string'
 
 export default {
   state: {
+    showLoadingMask: false,
     isLoading: false,
     loadingApis: [],
   },
   getters: {
+    showLoadingMask: state => state.showLoadingMask,
     apiHost: state => apiHost,
     apiModule: state => apiModule,
     orgSn: state => orgSn,
@@ -23,12 +25,18 @@ export default {
     pushLoadingApi(state, apiUrl) {
       state.isLoading = true
       state.loadingApis = state.loadingApis.concat([apiUrl])
+      if(!state.showLoadingMask) {
+        state.showLoadingMask = true
+      }
       
     },
     pullLoadingApi(state, apiUrl) {
       state.loadingApis = state.loadingApis.filter(url => url !== apiUrl)
       if(state.loadingApis.length === 0) {
         state.isLoading = false
+        setTimeout(() => {
+          state.showLoadingMask = false
+        }, 1000)
       }
     }
   },
