@@ -7,7 +7,7 @@ const apiModule = {
   sev: "moxs_sev"
 }
 const apiPath = 'api'
-const fakeHost = 'tingmusic'
+const fakeHost = 'ruby'
 
 const setFakeType = false
 const fakeType = 'resv'

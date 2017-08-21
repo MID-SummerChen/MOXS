@@ -4,30 +4,38 @@
       <div v-if="product.sn" ref="scrollBox" class="modal-box-content">
         <h5>{{product.name}}</h5>
         <el-row :gutter="20">
-          <el-col :span="24" class="form-item">
+          <el-col :span="16" class="form-item">
             <div v-for="prc in product.prcs">
-              <mu-select-field v-model="form.prcOptId" hintText="價格：" :labelFocusClass="['label-foucs']" style="width: 100%">
+              <mu-select-field v-model="form.prcOptId" label="價格" labelFloat :labelFocusClass="['label-foucs']" style="width: 100%">
                 <mu-menu-item v-for="opt in prc.opts" :key="opt.id" :value="opt.id" :title="opt.name + ' $' + opt.value" />
               </mu-select-field>
             </div>
           </el-col>
-          <el-col :span="24" class="form-item">
-            <div v-for="chk in product.chks" class="plus">{{chk.name}}：
-              <span v-for="opt in chk.opts" :class="{active: form.chkOpts.findIndex(chk => chk.optId === opt.id) > -1}" @click="onSelectChk(chk, opt.id)">{{opt.name + opt.value}}</span> 
+          <el-col :span="16" class="form-item">
+            <!-- {{form.chkOpts}}<br> -->
+            <!-- {{form.optAtChk}} -->
+            <div v-for="chk in product.chks">
+              <!-- <mu-select-field :value="form.optAtChk[chk.id].join()" v-if="form.optAtChk[chk.id] && chk.expOp === 'EQ' && chk.selectNum === 1" :label="chk.name" labelFloat :labelFocusClass="['label-foucs']" style="width: 100%" @change="function(optId) {return onSelectChk(chk, optId)}">
+                <mu-menu-item v-for="opt in chk.opts" :key="opt.id" :value="opt.id" :title="opt.name + (opt.value ? opt.value : '')" />
+              </mu-select-field> -->
+              <mu-select-field v-if="form.optAtChk[chk.id]" :value="form.optAtChk[chk.id]" @change="function(optId) {return onSelectChk(chk, optId)}" multiple :label="chk.name" labelFloat :labelFocusClass="['label-foucs']" style="width: 100%">
+                <mu-menu-item v-for="opt in chk.opts" :key="opt.id" :value="opt.id" :title="opt.name + (opt.value ? opt.value : '')" />
+              </mu-select-field>
             </div>
+
           </el-col>
           <el-col :span="16" class="form-item">
-            <mu-text-field v-model="form.count" hintText="數量：" style="width: 100%"/>
+            <mu-text-field v-model="form.count" label="數量" labelFloat style="width: 100%"/>
             <!-- <mu-select-field v-model="form.count" :labelFocusClass="['label-foucs']" hintText="數量：" style="width: 100%">
               <mu-menu-item v-for="n in 20" :value="n" :title="n+''" />
             </mu-select-field> -->
           </el-col>
           <el-col :span="8" class="form-item">
-            <mu-float-button icon="remove" @click.native="form.count--" mini class="demo-float-button"/>
+            <mu-float-button icon="remove" @click.native="form.count > 1 ? form.count-- : null" mini class="demo-float-button"/>
             <mu-float-button icon="add" @click.native="form.count++" mini class="demo-float-button"/>
           </el-col>
-          <el-col :span="24" class="form-item">
-            <mu-text-field v-model="form.note" hintText="備註：" multiLine :rows="3" style="width: 100%"/>
+          <el-col :span="16" class="form-item">
+            <mu-text-field v-model="form.note" label="備註" labelFloat multiLine :rows="3" style="width: 100%"/>
           </el-col>
         </el-row>
       </div>
@@ -50,6 +58,7 @@
         product: {},
         form: {
           chkOpts: [],
+          optAtChk: {},
           prcOptId: null,
           count: 1,
           note: ""
@@ -93,6 +102,11 @@
           if(this.product.prcs.length > 0) {
             this.form.prcOptId = this.product.prcs[0].opts[0].id
           }
+          if(this.product.chks.length > 0) {
+            _.each(this.product.chks, chk => {
+              this.form.optAtChk[chk.id] = []
+            })
+          }
           setTimeout(() => {
             Ps.update(this.$refs.scrollBox)
           })
@@ -108,63 +122,97 @@
         f.prcOptId = item.prcs[0].opt.id
         if(item.chks) {
           _.each(item.chks, chk => {
-            _.each(chk.opts, opt => {
-              f.chkOpts = f.chkOpts.concat({chkId: chk.chkId, optId: opt.id})
-            })
+            f.optAtChk[chk.chkId] = _.map(chk.opts, "id")
           })
+          this.$forceUpdate()
         }
       },
       onAddedToCart() {
         var p = this.product
-        var priceOptIndex = _.findIndex(this.product.prcs[0].opts, {id: this.form.prcOptId})
-        if(priceOptIndex > -1) {
-          var item = {
-            sn: p.sn,
-            name: p.name,
-            count: this.form.count,
-            unitPrice: this.getUnitPrice(),
-            rtmNote: this.form.note,
-            prcs: [
-              {
-                prcId: p.prcs[0] ? p.prcs[0].id : "",
-                opt: this.product.prcs[0].opts[priceOptIndex],
-              }
-            ]
-          }
-          console.dir(_(this.form.chkOpts).groupBy('chkId').value())
-          if(p.chks[0]) {
-            item.chks = _(this.form.chkOpts).groupBy('chkId').map(_opts =>{
-              var i = _.findIndex(p.chks, {id: _opts[0].chkId})
-              if(i > -1) {
-                return {
-                  chkId: p.chks[i].id,
-                  opts: _(p.chks[i].opts).filter(opt => _.findIndex(_opts, {optId: opt.id}) > -1).value()
+        var valid = _(p.chks).map(chk => {
+          return this.onCheckOptNum(chk, this.form.optAtChk[chk.id])
+        }).every()
+        if(valid) {
+          var priceOptIndex = _.findIndex(p.prcs[0].opts, {id: this.form.prcOptId})
+          if(priceOptIndex > -1) {
+            var item = {
+              sn: p.sn,
+              name: p.name,
+              count: this.form.count,
+              unitPrice: this.getUnitPrice(),
+              rtmNote: this.form.note,
+              prcs: [
+                {
+                  prcId: p.prcs[0] ? p.prcs[0].id : "",
+                  opt: p.prcs[0].opts[priceOptIndex],
                 }
-              }
-              
-            }).value()
+              ]
+            }
+            if(p.chks.length > 0) {
+              item.chks = _.mapValues(this.form.optAtChk, (opts, chkId) => {
+                var i = _.findIndex(p.chks, {id: chkId})
+                return {
+                    chkId: chkId,
+                    opts:  _(p.chks[i].opts).filter(opt => opts.indexOf(opt.id) > -1).value()
+                  }
+              })
+            }
+            
+            if(this.orderIndex !== null) {
+              this.UPDATE_ORDER_ITEM({index: this.orderIndex, item})
+            }else {
+              this.ADD_ORDER_ITEM(item)
+            }
+            
+            this.CONTROL_MODAL({target: 'cart', boo: true})
+            this.CONTROL_MODAL({target: 'productOrder', boo: false})
+            this.CLEAR_CURRENT_PRODUCT()
           }
-          
-          if(this.orderIndex !== null) {
-            this.UPDATE_ORDER_ITEM({index: this.orderIndex, item})
-          }else {
-            this.ADD_ORDER_ITEM(item)
-          }
-          
-          this.CONTROL_MODAL({target: 'cart', boo: true})
-          this.CONTROL_MODAL({target: 'productOrder', boo: false})
-          this.CLEAR_CURRENT_PRODUCT()
         }
+        
         
       },
       onSelectChk(chk, optId) {
-        var i = _.findIndex(this.form.chkOpts, {optId})
-        var count = _.filter(this.form.chkOpts, {chkId: chk.id}).length
-        if(i > -1) {
-          this.form.chkOpts = this.form.chkOpts.filter(t => t.optId !== optId)
-        }else if(chk.selectNum > count) {
-          this.form.chkOpts = this.form.chkOpts.concat({chkId: chk.id, optId})
+        // EQ	等於
+        // GT	大於
+        // LT	小於
+        // GE	大於等於
+        // LE	小於等於
+        console.log(chk, optId)
+        var val = []
+        val = typeof optId === 'string' ? [optId] : optId
+        this.form.optAtChk[chk.id] = val
+        this.$forceUpdate()
+        
+      },
+      onCheckOptNum(chk, val) {
+        if(chk.expOp === 'EQ') {
+          if(!(val.length === chk.selectNum)) {
+            this.$message.error(`選擇數量須等於${chk.selectNum}`)
+            return false
+          }
+        }else if(chk.expOp === 'GT') {
+          if(!(val.length > chk.selectNum)) {
+            this.$message.error(`選擇數量須大於${chk.selectNum}`)
+            return false
+          }
+        }else if(chk.expOp === 'LT') {
+          if(!(val.length < chk.selectNum)) {
+            this.$message.error(`選擇數量須小於${chk.selectNum}`)
+            return false
+          }
+        }else if(chk.expOp === 'GE') {
+          if(!(val.length >= chk.selectNum)) {
+            this.$message.error(`選擇數量須大於等於${chk.selectNum}`)
+            return false
+          }
+        }else if(chk.expOp === 'LE') {
+          if(!(val.length <= chk.selectNum)) {
+            this.$message.error(`選擇數量須小於等於${chk.selectNum}`)
+            return false
+          }
         }
+        return true
       },
       getUnitPrice() {
         var selectedChks = _.map(this.form.chkOpts, chk => {

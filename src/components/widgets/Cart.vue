@@ -2,9 +2,7 @@
   <div class="cart">
       <div class="top">
         <span class="close" @click="CONTROL_MODAL({target: 'cart', boo: false})"><v-icon>clear</v-icon></span>
-        
-        <span v-if="checkoutType === 'resv'" class="title">{{modules.RESV.TITLE}}</span>
-        <span v-if="checkoutType === 'ord'" class="title">{{modules.ORD.TITLE}}</span>
+        <span class="title">{{currentTypeTitle}}</span>
         <span class="reset" @click="onReset">重設</span>
       </div>
       <!--<div class="content">填寫預約資料...</div>-->
@@ -20,17 +18,16 @@
         <p>{{currentResv.display.address}}</p>
       </div>
       <div v-else class="content" @click="CONTROL_MODAL({target: checkoutType === 'resv' ? 'resvCheckout' : 'ordCheckout', boo: true})">
-        <h5>預約資訊</h5>
-        <p>請填寫預約資料</p>
+        <p>請填寫{{currentTypeTitle}}資料</p>
       </div>
       <div ref="scrollBox" class="items">
         <div v-for="(item, i) in orderItems" class="item">
           <div class="item-content" @click="showOrderItem(i)">
             <p class="title">{{item.name}} <i v-if="item.rtmNote" class="fa fa-commenting-o"></i></p>
             <p v-for="prc in item.prcs" class="sub-title">{{prc.opt.name}} <span>{{item.count}}份</span></p>
-            <p v-for="chk in item.chks" class="tags">
-              <span v-for="opt in chk.opts">加{{opt.name}}</span>
-            </p>
+            <span v-for="chk in item.chks" class="tags">
+              <span v-for="opt in chk.opts">{{opt.name}}</span>
+            </span>
           </div>
           <div class="item-price">${{item.unitPrice * item.count}}</div>
           <div class="item-cancel" @click.stop="REMOVE_ORDER_ITEM(i)"><i class="el-icon-close"></i></div>
@@ -69,6 +66,16 @@ export default {
       'checkoutType',
       'checkedOutResv',
     ]),
+    currentTypeTitle() {
+      switch(this.checkoutType) {
+        case 'resv': 
+          return this.modules.RESV.TITLE
+        case 'ord': 
+          return this.modules.ORD.TITLE
+        default: 
+          return '預約'
+      } 
+    }
   },
   mounted() {
     Ps.initialize(this.$refs.scrollBox);
