@@ -156,9 +156,9 @@ export default {
   },
   mounted() {
     // this.getResvCheckoutInfo(this.$route.query.resv)
-    if(this.checkoutType === 'resv') {
+    if(this.checkoutType.code === 'resv') {
       this._getResvChk()
-    }else if(this.checkoutType === 'ord'){
+    }else if(this.checkoutType.code === 'ord'){
       this._getOrdChk()
     }
     

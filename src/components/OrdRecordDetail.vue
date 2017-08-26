@@ -4,7 +4,7 @@
             <div class="main-title">
                 <ul>
                     <li @click="$router.push({name: 'Member'})">會員中心</li>
-                    <li @click="$router.push({name: 'MemberRecord'})">預約記錄</li>
+                    <li @click="$router.push({name: 'MemberRecord'})">訂單記錄</li>
                     <li>{{ordData.ordSn}}</li>
                 </ul>
             </div>
@@ -15,11 +15,11 @@
                     </div>
                     <el-row :gutter="20" class="record-content">
                         <!-- <el-col :xs="12" :sm="8">
-                            <label>預約號碼</label>
+                            <label>訂單號碼</label>
                             <div v-if="ordData.ordCode" class="number-box">{{ordData.ordCode.slice(-4)}}</div>
                         </el-col> -->
                         <el-col :xs="12" :sm="8">
-                            <label>預約狀態</label>
+                            <label>訂單狀態</label>
                             <div class="number-box status">{{toChkStatus(ordData.ordStatus)}}</div>
                         </el-col>
                         <el-col :sm="24">
@@ -28,10 +28,11 @@
                             <p>帳單金額：${{ordData.ordTotalPrice}}</p>
                             <p>付款方式：{{toPayType(ordData.payType)}}[{{toChkStatus(ordData.ordStatus)}}]</p>
                             <p>建檔時間：{{ordData.createAt}}</p>
+                            <p>備註：{{ordData.ordNote}}</p>
                         </el-col>
 
                     </el-row>
-                    <h5>預約餐點</h5>
+                    <h5>訂單內容</h5>
                     <div class="items">
                         <div class="item" v-for="item in ordItems">
                             <div class="title">

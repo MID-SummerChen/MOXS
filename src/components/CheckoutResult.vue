@@ -15,7 +15,7 @@
             <i class="fa fa-times-circle"></i> 預約失敗
           </div>-->
           <div class="content-wrap">
-            <template v-if="checkoutType === 'resv'">
+            <template v-if="checkoutType.code === 'resv'">
               預約號碼
               <div v-if="resvInfo.resvCode" class="number-box">
                 {{resvInfo.resvCode.slice(resvInfo.resvCode.length-4)}}
@@ -43,8 +43,8 @@
                 </el-col>
               </el-row>
             </template>
-            <template v-if="checkoutType === 'ord'">
-              <el-row :gutter="40" v-if="checkoutType === 'ord'">
+            <template v-if="checkoutType.code === 'ord'">
+              <el-row :gutter="40" v-if="checkoutType.code === 'ord'">
                 <el-col :sm="12">
                   <p>紀錄編號：{{ordInfo.ordSn}}</p>
                   <p>預約分店：{{ordInfo.stoSn}}</p>
@@ -68,8 +68,8 @@
           </div>
          
           <div class="btn-wrap">
-            <a v-if="checkoutType === 'resv'" href="" @click.prevent="goToResvRecord" class="text-blue">查訊預約記錄</a>
-            <a v-if="checkoutType === 'ord'" href="" @click.prevent="goToOrdRecord" class="text-blue">查訊訂單記錄</a>
+            <a v-if="checkoutType.code === 'resv'" href="" @click.prevent="goToResvRecord" class="text-blue">查訊預約記錄</a>
+            <a v-if="checkoutType.code === 'ord'" href="" @click.prevent="goToOrdRecord" class="text-blue">查訊訂單記錄</a>
             <!-- <router-link :to="{name: 'ResvRecordDetail', params: {resv_sn: $route.query.resvSn}}" class="text-blue">查訊預約記錄</router-link> -->
           </div>
         </div>
@@ -101,10 +101,10 @@ export default {
   },
   mounted() {
     
-    if(this.checkoutType === 'resv') {
+    if(this.checkoutType.code === 'resv') {
       this._getResv()
       this._getResvChk()
-    }else if(this.checkoutType === 'ord') {
+    }else if(this.checkoutType.code === 'ord') {
       this._getOrd()
       this._getOrdChk()
     }

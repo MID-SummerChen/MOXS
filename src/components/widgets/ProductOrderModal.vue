@@ -186,29 +186,32 @@
         
       },
       onCheckOptNum(chk, val) {
+        console.log(chk)
         if(chk.expOp === 'EQ') {
           if(!(val.length === chk.selectNum)) {
-            this.$message.error(`選擇數量須等於${chk.selectNum}`)
+            this.$message.error(`${chk.name}數量須為${chk.selectNum}個`)
             return false
           }
         }else if(chk.expOp === 'GT') {
           if(!(val.length > chk.selectNum)) {
-            this.$message.error(`選擇數量須大於${chk.selectNum}`)
+            this.$message.error(`${chk.name}數量須為${chk.selectNum+1}個以上`)
             return false
           }
         }else if(chk.expOp === 'LT') {
           if(!(val.length < chk.selectNum)) {
-            this.$message.error(`選擇數量須小於${chk.selectNum}`)
+            this.$message.error(`${chk.name}數量須為${chk.selectNum-1}個以下`)
             return false
           }
         }else if(chk.expOp === 'GE') {
           if(!(val.length >= chk.selectNum)) {
-            this.$message.error(`選擇數量須大於等於${chk.selectNum}`)
+            // this.$message.error(`${chk.name}數量須大於等於${chk.selectNum}`)
+            this.$message.error(`${chk.name}數量須為${chk.selectNum}個以上`)
             return false
           }
         }else if(chk.expOp === 'LE') {
           if(!(val.length <= chk.selectNum)) {
-            this.$message.error(`選擇數量須小於等於${chk.selectNum}`)
+            // this.$message.error(`${chk.name}數量須小於等於${chk.selectNum}`)
+            this.$message.error(`${chk.name}數量須為${chk.selectNum}個以下`)
             return false
           }
         }

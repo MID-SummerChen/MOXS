@@ -18,7 +18,7 @@
             </mu-select-field>
           </el-col>
           <el-col :sm="12">
-            <mu-select-field v-model="form.adultNum" :labelFocusClass="['label-foucs']" label="人數" style="width: 100%">
+            <mu-select-field v-model="form.adultNum" :labelFocusClass="['label-foucs']" label="人數" :disabled="getResvCode(form.resvTypeId) !== 'STAYIN'" style="width: 100%">
               <mu-menu-item v-for="n in 20" :value="n" :title="n+''" />
             </mu-select-field>
           </el-col>
@@ -62,7 +62,9 @@
               <mu-text-field v-model="form.addr" label="地址" hintText="" style="width: 100%"/><br/>
             </el-col>
           </template>
-          
+          <el-col :sm="24">
+            <mu-text-field v-model="form.note" label="備註" multiLine :rows="2" :rowsMax="6" style="width: 100%"/><br/>
+          </el-col>
           <el-col :sm="24">
             <div class="sub-radio-check" v-if="paySets.length > 0">
               是否使用線上付款？
@@ -283,7 +285,10 @@
         var i = _.findIndex(this.storeList, {sn: f.store})
         if(i > -1) d.storeName = this.storeList[i].name
         var i = _.findIndex(this.resvTypeList, {id: f.resvTypeId})
-        if(i > -1) d.resvType = this.resvTypeList[i].name
+        if(i > -1) {
+          d.resvType = this.resvTypeList[i].name
+          d.resvTypeCode = this.resvTypeList[i].sysResvOptId
+        }
 
         this.SAVE_CURRENT_RESV({form: f, display: d})
         this.CONTROL_MODAL({target: 'resvCheckout', boo: false})

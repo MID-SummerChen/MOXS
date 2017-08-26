@@ -24,18 +24,14 @@
                             <div class="number-box status">{{toChkStatus(resvData.status)}}</div>
                         </el-col>
                         <el-col :sm="24">
-                            <p>紀錄編號：{{resvData.sn}}</p>
-                            <p>預約分店：{{resvData.stoSn}}</p>
-                            <p>預約類型：{{toResvType(resvData.typeName)}}</p>
-                            <p>預約時間：{{resvData.date}} {{resvData.startAt}}</p>
-                            <p>預約人數：{{resvData.adultNum + resvData.kidNum}}</p>
                             <p>預約人：{{resvData.name}} {{toGender(resvData.gender)}} {{resvData.cell}}</p>
                             <p v-if="resvData.addr">地址：{{resvData.city + resvData.area + resvData.addr}}</p>
+                            <p>帳單金額：${{resvData.totalPrice}}</p>
                             <p>付款方式：{{toPayType(resvData.payType)}} 
                                 <span style="color: #f53b11">[{{toChkStatus(resvData.status)}}]</span>
                             </p>
                             <p>建檔時間：{{resvData.createAt}}</p>
-                            <p>備註：{{resvData.note}}</p>
+                            <p>備註：{{resvData.resvNote}}</p>
                         </el-col>
 
                     </el-row>

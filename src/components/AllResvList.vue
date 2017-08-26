@@ -59,7 +59,7 @@ export default {
             var data = {
                 maxRecords: 7,
                 page: this.page,
-                orderBy: "date:desc"
+                orderBy: "createAt: desc"
             }
             this.isLoading = true
             var res = await this.getAllResv(data)

@@ -4,12 +4,12 @@
             <div class="main-title">
                 <ul>
                     <li @click="$router.push({name: 'Member'})">會員中心</li>
-                    <li>預約記錄</li>
+                    <li>{{checkoutType.title}}記錄</li>
                 </ul>
             </div>
             <div class="main-content">
-                <all-resv-list v-if="checkoutType === 'resv'"></all-resv-list>
-                <all-ord-list v-if="checkoutType === 'ord'"></all-ord-list>
+                <all-resv-list v-if="checkoutType.code === 'resv'"></all-resv-list>
+                <all-ord-list v-if="checkoutType.code === 'ord'"></all-ord-list>
             </div>
     
         </v-container>

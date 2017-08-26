@@ -1,7 +1,7 @@
 <template>
   <div class="record">
       <div class="record-header">
-          最新預約記錄
+          最新訂單記錄
       </div>
       <div class="item-ord" v-for="ord in ordList" @click="$router.push({name: 'OrdRecordDetail', params: {ord_sn: ord.ordSn}})">
           <span>{{ord.ordSn}}</span>
@@ -10,7 +10,7 @@
           <span class="status">{{toChkStatus(ord.ordStatus)}}</span>
       </div>
       <div class="record-footer">
-          <button class="btn-t2" @click="$router.push({name: 'MemberRecord'})">查看全部預約記錄</button>
+          <button class="btn-t2" @click="$router.push({name: 'MemberRecord'})">查看全部訂單記錄</button>
       </div>
   </div>
 </template>
@@ -31,7 +31,6 @@ export default {
   data() {
     return {
       ordList: [],
-      ordList: [],
     }
   },
   mounted() {
@@ -49,7 +48,7 @@ export default {
     async _getAllOrd() {
       var data = {
         maxRecords: 5,
-        orderBy: "createAt:desc"
+        orderBy: "createAt: desc"
       }
       var res = await this.getAllOrd(data)
       if(res.code === 10) {

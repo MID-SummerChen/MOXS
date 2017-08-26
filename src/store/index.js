@@ -37,7 +37,10 @@ export default new Vuex.Store({
     paySets: [],
     storeList: [],
     googleKey: 'AIzaSyCJwqPoYKWtOxe2xnb3tneHV1Vu9EdKZAQ',
-    checkoutType: "",
+    checkoutType: {
+      code: "",
+      title: ""
+    },
     resHttpPath,
   },
   getters: {
@@ -80,9 +83,9 @@ export default new Vuex.Store({
       state.menu = data.MODULES_MENU_WEB
       state.modules = data.MODULES_CONFIG
       if(state.modules.ORD) {
-        state.checkoutType = 'ord'
-      }else {
-        state.checkoutType = "resv"
+        state.checkoutType = {code: 'ord', title: '訂單'}
+      }else if(state.modules.RESV) {
+        state.checkoutType = {code: 'resv', title: '預約'}
       }
 
       if(setFakeType) {

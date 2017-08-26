@@ -2,28 +2,30 @@
   <div class="cart">
       <div class="top">
         <span class="close" @click="CONTROL_MODAL({target: 'cart', boo: false})"><v-icon>clear</v-icon></span>
-        <span class="title">{{currentTypeTitle}}</span>
+        <span class="title">{{checkoutType.title}}</span>
         <span class="reset" @click="onReset">重設</span>
       </div>
       <!--<div class="content">填寫預約資料...</div>-->
-      <div v-if="currentResv.display" class="content" @click="CONTROL_MODAL({target: checkoutType === 'resv' ? 'resvCheckout' : 'ordCheckout', boo: true})">
+      
+      <div v-if="currentResv.display" class="content" @click="CONTROL_MODAL({target: checkoutType.code === 'resv' ? 'resvCheckout' : 'ordCheckout', boo: true})">
         <!--{{currentResv.display}}-->
         <h5>{{currentResv.display.resvType}}</h5>
         <p>
           {{currentResv.display.date}}
-          <span v-if="checkoutType === 'resv'">{{currentResv.display.time}}({{currentResv.display.adultNum + currentResv.display.kidNum}}人)</span>
+          <span v-if="checkoutType.code === 'resv'">{{currentResv.display.time}}</span>
+          <span v-if="checkoutType.code === 'resv' && currentResv.display.resvTypeCode === 'STAYIN'">({{currentResv.display.adultNum}}人)</span>
           <span>{{toPayType(currentResv.display.payType)}}</span>
         </p>
         <p>{{currentResv.display.name}}{{toGender(currentResv.display.gender)}} <span>{{currentResv.display.mobile}}</span></p>
         <p>{{currentResv.display.address}}</p>
       </div>
-      <div v-else class="content" @click="CONTROL_MODAL({target: checkoutType === 'resv' ? 'resvCheckout' : 'ordCheckout', boo: true})">
-        <p>請填寫{{currentTypeTitle}}資料</p>
+      <div v-else class="content" @click="CONTROL_MODAL({target: checkoutType.code === 'resv' ? 'resvCheckout' : 'ordCheckout', boo: true})">
+        <p>請填寫{{checkoutType.title}}資料</p>
       </div>
       <div ref="scrollBox" class="items">
         <div v-for="(item, i) in orderItems" class="item">
           <div class="item-content" @click="showOrderItem(i)">
-            <p class="title">{{item.name}} <i v-if="item.rtmNote" class="fa fa-commenting-o"></i></p>
+            <p class="title">{{item.name}}<mu-icon v-if="item.rtmNote" value="chat" :size="18" color="#ccc"/></p>
             <p v-for="prc in item.prcs" class="sub-title">{{prc.opt.name}} <span>{{item.count}}份</span></p>
             <span v-for="chk in item.chks" class="tags">
               <span v-for="opt in chk.opts">{{opt.name}}</span>
@@ -35,8 +37,8 @@
       </div>
       <div class="total">
         合計 NT$ {{orderItemsTotalPrice}}
-        <button v-if="checkoutType === 'resv'" type="button" class="submit" @click="onResvCheckSubmit">確認預約</button>
-        <button v-if="checkoutType === 'ord'" type="button" class="submit" @click="onOrdCheckSubmit">確認預約</button>
+        <button v-if="checkoutType.code === 'resv'" type="button" class="submit" @click="onResvCheckSubmit">送出{{checkoutType.title}}</button>
+        <button v-if="checkoutType.code === 'ord'" type="button" class="submit" @click="onOrdCheckSubmit">送出{{checkoutType.title}}</button>
       </div>
 
     </div>
@@ -66,16 +68,6 @@ export default {
       'checkoutType',
       'checkedOutResv',
     ]),
-    currentTypeTitle() {
-      switch(this.checkoutType) {
-        case 'resv': 
-          return this.modules.RESV.TITLE
-        case 'ord': 
-          return this.modules.ORD.TITLE
-        default: 
-          return '預約'
-      } 
-    }
   },
   mounted() {
     Ps.initialize(this.$refs.scrollBox);
@@ -147,6 +139,7 @@ export default {
         area: f.area,
         addr: f.addr,
         name: f.name,
+        resvNote: f.note,
       }
       data.items = _.map(this.orderItems, item => {
         return {
@@ -197,6 +190,7 @@ export default {
         userArea: f.area,
         userAddr: f.addr,
         userName: f.name,
+        ordNote: f.note,
       }
       data.ordItem = _.map(this.orderItems, item => {
         return {

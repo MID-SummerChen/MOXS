@@ -16,17 +16,17 @@ To change `display` (e.g. `display: inline-block;`), we suggest using a common C
 // HTML
 <i class="icon icon-home"></i>
 */
-
-
-
-.icon {
-  display: inline-block;
-}
-.icon-Mountain{
+.icon-Mountain {
   background-image: url(sprite.png);
-  background-position: -321px -144px;
+  background-position: -267px -233px;
   width: 164px;
   height: 10px;
+}
+.icon-andorid-app {
+  background-image: url(sprite.png);
+  background-position: 0px -352px;
+  width: 236px;
+  height: 89px;
 }
 .icon-appstore {
   background-image: url(sprite.png);
@@ -36,21 +36,27 @@ To change `display` (e.g. `display: inline-block;`), we suggest using a common C
 }
 .icon-calendar {
   background-image: url(sprite.png);
-  background-position: -321px -154px;
+  background-position: -334px -267px;
   width: 28px;
   height: 28px;
 }
 .icon-calendar＿gray {
   background-image: url(sprite.png);
-  background-position: -495px -93px;
+  background-position: -491px -182px;
   width: 28px;
   height: 28px;
 }
 .icon-cancel_circular {
   background-image: url(sprite.png);
-  background-position: -427px -93px;
+  background-position: -503px -139px;
   width: 34px;
   height: 34px;
+}
+.icon-circle-close {
+  background-image: url(sprite.png);
+  background-position: -461px -182px;
+  width: 30px;
+  height: 30px;
 }
 .icon-googleplay {
   background-image: url(sprite.png);
@@ -58,33 +64,39 @@ To change `display` (e.g. `display: inline-block;`), we suggest using a common C
   width: 279px;
   height: 93px;
 }
+.icon-ios-app {
+  background-image: url(sprite.png);
+  background-position: -267px -93px;
+  width: 236px;
+  height: 89px;
+}
 .icon-location {
   background-image: url(sprite.png);
-  background-position: -267px -183px;
+  background-position: -503px -93px;
   width: 32px;
   height: 46px;
 }
 .icon-logo {
   background-image: url(sprite.png);
-  background-position: -267px -93px;
+  background-position: -267px -182px;
   width: 160px;
   height: 36px;
 }
 .icon-menu {
   background-image: url(sprite.png);
-  background-position: -349px -154px;
+  background-position: -519px -182px;
   width: 24px;
   height: 18px;
 }
 .icon-miniLogo {
   background-image: url(sprite.png);
-  background-position: -267px -129px;
+  background-position: -280px -267px;
   width: 54px;
   height: 54px;
 }
 .icon-plus {
   background-image: url(sprite.png);
-  background-position: -461px -93px;
+  background-position: -427px -182px;
   width: 34px;
   height: 34px;
 }
@@ -96,7 +108,7 @@ To change `display` (e.g. `display: inline-block;`), we suggest using a common C
 }
 .icon-store-title {
   background-image: url(sprite.png);
-  background-position: -321px -129px;
+  background-position: -267px -218px;
   width: 126px;
   height: 15px;
 }

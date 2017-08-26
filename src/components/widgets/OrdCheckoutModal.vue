@@ -44,7 +44,7 @@
             <mu-text-field v-model="form.addr" label="地址" hintText="" style="width: 100%"/><br/>
           </el-col>
           <el-col :sm="24">
-            <mu-text-field v-model="form.note" label="備註" multiLine :rows="3" :rowsMax="6" style="width: 100%"/><br/>
+            <mu-text-field v-model="form.note" label="備註" multiLine :rows="2" :rowsMax="6" style="width: 100%"/><br/>
           </el-col>
 
         </el-row>
@@ -294,7 +294,7 @@
               this.areaList = res.data
               if(this.currentResv.form) {
                 this.form.area = this.currentResv.form.area
-              }else {
+              }else if(this.account.mb){
                 var i = _.findIndex(this.areaList, {geoName: this.account.mb.area})
                 if(i > -1) this.form.area = this.account.mb.area
               }

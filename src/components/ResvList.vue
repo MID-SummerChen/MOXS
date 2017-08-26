@@ -50,7 +50,7 @@ export default {
     async _getAllResv() {
       var data = {
         maxRecords: 5,
-        orderBy: "date:desc"
+        orderBy: "createAt: desc"
       }
       var res = await this.getAllResv(data)
       if(res.code === 10) {

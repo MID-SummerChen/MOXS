@@ -18,8 +18,8 @@
                 <button class="btn-t2" @click="$router.push({name: 'MemberEdit'})">編輯MOXS帳戶</button>
               </div>
           </div>
-          <resv-list v-if="checkoutType === 'resv'"></resv-list>
-          <ord-list v-if="checkoutType === 'ord'"></ord-list>
+          <resv-list v-if="checkoutType.code === 'resv'"></resv-list>
+          <ord-list v-if="checkoutType.code === 'ord'"></ord-list>
           
          
         </div>

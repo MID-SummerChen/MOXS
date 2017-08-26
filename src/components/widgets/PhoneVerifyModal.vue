@@ -6,14 +6,14 @@
         <p>系統已發送驗證碼簡訊至{{checkedOutResv.userCell || checkedOutResv.cell}}</p>
         <div class="verifySection">
           <input type="text" placeholder="驗證碼..." v-model="verifyCode" @keyup.enter="onVerifySubmit">
-          <button v-if="checkoutType === 'ord'" class="submit-btn" @click.prevent="sendOrdVerifyAgain">發送驗證碼</button>
-          <button v-if="checkoutType === 'resv'" class="submit-btn" @click.prevent="sendResvVerifyAgain">發送驗證碼</button>
+          <button v-if="checkoutType.code === 'ord'" class="submit-btn" @click.prevent="sendOrdVerifyAgain">發送驗證碼</button>
+          <button v-if="checkoutType.code === 'resv'" class="submit-btn" @click.prevent="sendResvVerifyAgain">發送驗證碼</button>
         </div>
       </div>
       <div class="modal-box-footer">
         <button @click="CONTROL_MODAL({target: 'phoneVerify', boo: false})">取消</button>
-        <button v-if="checkoutType === 'ord'" type="submit" class="blue-text" @click.prevent="onOrdVerifySubmit">確認</button>
-        <button v-if="checkoutType === 'resv'" type="submit" class="blue-text" @click.prevent="onResvVerifySubmit">確認</button>
+        <button v-if="checkoutType.code === 'ord'" type="submit" class="blue-text" @click.prevent="onOrdVerifySubmit">確認</button>
+        <button v-if="checkoutType.code === 'resv'" type="submit" class="blue-text" @click.prevent="onResvVerifySubmit">確認</button>
       </div>
     </div>
   </div>

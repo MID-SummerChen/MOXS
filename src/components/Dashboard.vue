@@ -12,11 +12,11 @@
               </router-link>
             </v-toolbar-logo>
             <v-spacer />
-            <v-btn v-if="menu.indexOf('ORD') > -1" :ripple="false" @click.native="CONTROL_MODAL({target: 'cart', boo: true})">
+            <v-btn v-if="Object.keys(modules).indexOf('ORD') > -1" :ripple="false" @click.native="CONTROL_MODAL({target: 'cart', boo: true})">
               <v-icon>shopping_cart</v-icon>
               <span class="toolbar-icon-title">{{modules.ORD.TITLE}}</span>
             </v-btn>
-            <v-btn v-if="menu.indexOf('RESV') > -1" :ripple="false" @click.native="CONTROL_MODAL({target: 'cart', boo: true})">
+            <v-btn v-if="Object.keys(modules).indexOf('RESV') > -1" :ripple="false" @click.native="CONTROL_MODAL({target: 'cart', boo: true})">
               <v-icon>today</v-icon>
               <span class="toolbar-icon-title">{{modules.RESV.TITLE}}</span>
             </v-btn>
@@ -45,16 +45,16 @@
                   <router-link :to="{name: 'Products'}">{{modules.ITEM.TITLE}}</router-link>
                 </v-list-tile>
               </v-list-item>
-              <!--<v-list-item v-if="modules.RESV">
+              <v-list-item v-if="modules.RESV">
                 <v-list-tile ripple>
                   <router-link :to="{name: 'Products'}">{{modules.RESV.TITLE}}</router-link>
                 </v-list-tile>
-              </v-list-item>-->
-              <!-- <v-list-item v-if="menu.indexOf('ORD') > -1">
+              </v-list-item>
+               <v-list-item v-if="menu.indexOf('ORD') > -1">
                 <v-list-tile ripple>
                   <router-link :to="{name: 'Products'}">{{modules.ORD.TITLE}}</router-link>
                 </v-list-tile>
-              </v-list-item> -->
+              </v-list-item> 
               <v-list-item>
                 <v-list-tile v-if="menu.indexOf('NEWS') > -1" ripple>
                   <router-link :to="{name: 'News'}">{{modules.NEWS.TITLE}}</router-link>
