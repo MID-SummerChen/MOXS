@@ -45,14 +45,14 @@
                   <router-link :to="{name: 'Products'}">{{modules.ITEM.TITLE}}</router-link>
                 </v-list-tile>
               </v-list-item>
-              <v-list-item v-if="modules.RESV">
+              <v-list-item v-if="menu.indexOf('RESV') > -1">
                 <v-list-tile ripple>
-                  <router-link :to="{name: 'Products'}">{{modules.RESV.TITLE}}</router-link>
+                  <a href="" @click.prevent="CONTROL_MODAL({target: 'cart', boo: true})">{{modules.RESV.TITLE}}</a>
                 </v-list-tile>
               </v-list-item>
                <v-list-item v-if="menu.indexOf('ORD') > -1">
                 <v-list-tile ripple>
-                  <router-link :to="{name: 'Products'}">{{modules.ORD.TITLE}}</router-link>
+                  <a href="" @click.prevent="CONTROL_MODAL({target: 'cart', boo: true})">{{modules.ORD.TITLE}}</a>
                 </v-list-tile>
               </v-list-item> 
               <v-list-item>
@@ -100,16 +100,6 @@
       return {
         showSidebar: true,
         eventHub,
-        // modules: [
-        //   {title: "餐點瀏覽", route: {name: 'Products'}},
-        //   {title: "訂位點餐", route: {name: 'Products'}},
-        //   {title: "動態消息", route: {name: 'News'}},
-        //   {title: "商店資訊", route: {name: 'Info'}},
-        //   {title: "會員中心", route: {name: 'Member'}},
-        //   {title: "APP下載", openModal: "qrcode"},
-        //   {divider: true},
-        //   {title: "會員登入", openModal: "login"},
-        // ]
       }
     },
     computed: {

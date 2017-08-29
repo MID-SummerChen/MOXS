@@ -20,7 +20,7 @@
         <p>{{currentResv.display.address}}</p>
       </div>
       <div v-else class="content" @click="CONTROL_MODAL({target: checkoutType.code === 'resv' ? 'resvCheckout' : 'ordCheckout', boo: true})">
-        <p>請填寫{{checkoutType.title}}資料</p>
+        <p>請填寫{{checkoutType.label}}資料</p>
       </div>
       <div ref="scrollBox" class="items">
         <div v-for="(item, i) in orderItems" class="item">
@@ -37,8 +37,8 @@
       </div>
       <div class="total">
         合計 NT$ {{orderItemsTotalPrice}}
-        <button v-if="checkoutType.code === 'resv'" type="button" class="submit" @click="onResvCheckSubmit">送出{{checkoutType.title}}</button>
-        <button v-if="checkoutType.code === 'ord'" type="button" class="submit" @click="onOrdCheckSubmit">送出{{checkoutType.title}}</button>
+        <button v-if="checkoutType.code === 'resv'" type="button" class="submit" @click="onResvCheckSubmit">送出{{checkoutType.label}}</button>
+        <button v-if="checkoutType.code === 'ord'" type="button" class="submit" @click="onOrdCheckSubmit">送出{{checkoutType.label}}</button>
       </div>
 
     </div>

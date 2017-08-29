@@ -83,9 +83,9 @@ export default new Vuex.Store({
       state.menu = data.MODULES_MENU_WEB
       state.modules = data.MODULES_CONFIG
       if(state.modules.ORD) {
-        state.checkoutType = {code: 'ord', title: '訂單'}
+        state.checkoutType = {code: 'ord', title: state.modules.ORD.TITLE, label: '訂單'}
       }else if(state.modules.RESV) {
-        state.checkoutType = {code: 'resv', title: '預約'}
+        state.checkoutType = {code: 'resv', title: state.modules.RESV.TITLE, label: '預約'}
       }
 
       if(setFakeType) {

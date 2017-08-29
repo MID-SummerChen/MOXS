@@ -95,24 +95,19 @@ const router = new Router({
 
 
 router.beforeEach(async (to, from, next) => {
-  var res = await VuexStore.dispatch('getSiteConfig')
-  await VuexStore.dispatch('checkLoginStatus')
-  if(to.name !== 'Maintenance') {
+  if(to.name === 'Maintenance') {
+    return next()
+  }
+  if(!VuexStore.state.sev.SEV_SN) {
+    var res = await VuexStore.dispatch('getSiteConfig')
     if(res.code !== 10) {
-      next({name: 'Maintenance'})
-    }else {
-      next()
+      return next({name: 'Maintenance'})
     }
   }
+  if(to.name !== from.name) {
+    await VuexStore.dispatch('checkLoginStatus')
+  }
   next()
-  // VuexStore.commit('GET_LOGIN_INFO')
-  // if(!VuexStore.state.isLogin) {
-  //     var info = VuexStore.state.loginInfo
-  //     console.log(info)
-  //     if(info) {
-  //       await VuexStore.dispatch('onCheckLogin', {username: info.acc, loginType: info.type})
-  //     }
-  // }
   
   
 })

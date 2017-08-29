@@ -1,5 +1,5 @@
 
-const devMode = true
+const devMode = false
 const apiHost = "dev.moxs-system.com"
 const resHttpPath = `http://dev-res.moxs-system.com`
 const apiModule = {
@@ -7,10 +7,10 @@ const apiModule = {
   sev: "moxs_sev"
 }
 const apiPath = 'api'
-const fakeHost = 'ruby'
+const fakeHost = 'tingmusic'
 
-const setFakeType = true
-const fakeType = {code: 'resv', title: '預約'}
+const setFakeType = false
+const fakeType = {code: 'resv', title: '預約記錄', label: '預約'}
 
 export {
   devMode,

@@ -4,7 +4,7 @@
             <div class="main-title">
                 <ul>
                     <li @click="$router.push({name: 'Member'})">會員中心</li>
-                    <li>{{checkoutType.title}}記錄</li>
+                    <li>{{checkoutType.label}}記錄</li>
                 </ul>
             </div>
             <div class="main-content">
