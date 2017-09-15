@@ -23,6 +23,8 @@
     "PACE": "pace#^1.0.2",
     "moment": "^2.18.1",
     "perfect-scrollbar": "^0.7.0",
-    "animate.css": "^3.5.2"
+    "animate.css": "^3.5.2",
+    "promise-polyfill": "^6.0.2",
+    "es6-promise": "^4.1.1"
   }
 }

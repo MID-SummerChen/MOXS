@@ -14,6 +14,7 @@
             <v-spacer />
             <v-btn v-if="Object.keys(modules).indexOf('ORD') > -1" :ripple="false" @click.native="CONTROL_MODAL({target: 'cart', boo: true})">
               <v-icon>shopping_cart</v-icon>
+              <span class="icon-plus-num">{{orderItems.length}}</span>
               <span class="toolbar-icon-title">{{modules.ORD.TITLE}}</span>
             </v-btn>
             <v-btn v-if="Object.keys(modules).indexOf('RESV') > -1" :ripple="false" @click.native="CONTROL_MODAL({target: 'cart', boo: true})">
@@ -22,7 +23,7 @@
             </v-btn>
             <v-btn v-if="isLogin" :ripple="false">
               <v-icon>account_circle</v-icon>
-              <span class="toolbar-icon-title">{{account.mb ? account.mb.name : '訪客'}}</span>
+              <span class="toolbar-icon-title">{{account.id ? getEmailAcc(account.id) : '訪客'}}</span>
               <div class="headerSubMenu">
                 <router-link :to="{name: 'Member'}">會員中心</router-link>
                 <a href="" @click.prevent="_onLogout">登   出</a>
@@ -115,6 +116,7 @@
       ...mapGetters([
         'account',
         'resHttpPath',
+        'orderItems',
       ])
     },
     mounted() {
@@ -129,6 +131,9 @@
         'onLogout',
         'getSiteConfig',
       ]),
+      getEmailAcc(email) {
+          return email.slice(0, email.search(/@/))
+      },
       getLogoImg() {
         return `${this.resHttpPath}/${this.resources.WEB_LOGO_IMG}`
       },
@@ -146,6 +151,7 @@
 </script>
 
 <style lang="stylus">
+@import '../style/tme01.styl'
 .toolbar
   background-color #fff
   border-bottom: 1px solid #ccc
@@ -162,10 +168,25 @@
     transition: none 
     font-size: 15px
     height: 100%
+    position: relative
     @media(max-width: mobile-media)
       margin: 0
       min-width: 20px
       color: #fff
+    span.icon-plus-num
+      border-radius: 50%
+      width: 20px
+      height: 20px
+      background-color: brand-color1
+      color: #fff 
+      position: absolute 
+      left: 0 
+      top: 0
+      margin-top: 10px
+      margin-left: 0
+      font-family: Arial, Helvetica, sans-serif
+      font-weight: bold
+      // margin-left: 30px
     span.toolbar-icon-title
       @media(max-width: mobile-media)
         display: none
