@@ -9,7 +9,7 @@
                         <span>{{resv.stoResvOptName}}  {{resv.date}} {{resv.startAt}} </span>
                         <span class="status">{{toChkStatus(resv.status)}}</span>
                     </p>
-                    <p>{{resv.stoName}} {{resv.adultNum + resv.kidNum}}人 ${{resv.totalPrice}}</p>
+                    <p>{{resv.stoName}} <span v-if="resv.typeName === 'STAYIN'">{{resv.adultNum + resv.kidNum}}人</span> ${{resv.totalPrice}}</p>
                 </div>
             </div>
         </div>

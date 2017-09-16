@@ -25,7 +25,12 @@
             .date-items 
                 margin-bottom: 20px
                 .date 
-                    color: #9b9b9b
+                    color: #fff 
+                    background-color: #aaa
+                    display: inline-block
+                    border-radius: 8px
+                    padding: 0 8px
+                    margin-bottom: 10px
                 .items 
                     .item-resv
                         padding: 13px 5px
@@ -52,16 +57,23 @@
                         cursor: pointer
                         display: flex 
                         transition: all 0.3s ease
+                        @media(max-width mobile-media)
+                            flex-direction: column
                         &:hover 
                             color: #333
                             background-color: #f5f5f5
                         span 
                             flex: 1
-                            text-align: center
-                            &:first-of-type 
-                                text-align: left
-                        span.status 
-                            color: main-blue
+                            text-align: left
+                            &.status 
+                                // text-align: left
+                                color: main-blue
+                            &.price 
+                                text-align: right
+                                padding-right: 30px
+                                @media(max-width mobile-media)
+                                    text-align: left
+                                    padding-right: 0
         .paper-footer 
             text-align: center 
             font-size: 16px 

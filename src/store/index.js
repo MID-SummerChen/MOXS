@@ -113,7 +113,7 @@ export default new Vuex.Store({
       window.fbAsyncInit = function() {
         console.log(state.sev.SEV_FB_ID)
         FB.init({
-          appId      : state.sev.SEV_FB_ID,
+          appId      : devMode ? '119590558602110' : state.sev.SEV_FB_ID,
           xfbml      : true,
           version    : 'v2.9'
         });

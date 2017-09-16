@@ -6,7 +6,7 @@
       </div>
       
       <div class="modal-box-content">
-        <v-icon>error_outline</v-icon>{{msg}}
+        <i class="fa fa-check-circle"></i> {{msg}}
         
       </div>
       

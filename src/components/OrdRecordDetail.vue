@@ -11,6 +11,7 @@
             <div class="main-content">
                 <div class="paper">
                     <div class="top-title">
+                        <p>訂單編號</p>
                         <h4>{{ordData.ordSn}}</h4>
                     </div>
                     <el-row :gutter="20" class="record-content">
@@ -27,7 +28,7 @@
                             <p v-if="ordData.userAddr">地址：{{ordData.userCity + ordData.userArea + ordData.userAddr}}</p>
                             <p>帳單金額：${{ordData.ordTotalPrice}}</p>
                             <p>付款方式：{{toPayType(ordData.payType)}}[{{toChkStatus(ordData.ordStatus)}}]</p>
-                            <p>建檔時間：{{ordData.createAt}}</p>
+                            <p>建檔時間：{{ordData.createAt | fullDateTime}}</p>
                             <p>備註：{{ordData.ordNote}}</p>
                         </el-col>
 
@@ -35,6 +36,7 @@
                     <h5>訂單內容</h5>
                     <div class="items">
                         <div class="item" v-for="item in ordItems">
+                            <!-- {{item}} -->
                             <div class="title">
                                 <p class="name">{{item.itemName}}</p>
                                 <!--<p class="tags">{{item.subtitle}}</p>-->

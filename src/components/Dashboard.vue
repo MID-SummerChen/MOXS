@@ -8,17 +8,18 @@
             <v-toolbar-side-icon :ripple="false" class="hidden-md-and-up" @click.native.stop="showSidebar = !showSidebar" />
             <v-toolbar-logo>
               <router-link to="/" class="logo">
-                <img v-if="resources.WEB_LOGO_IMG" :src="getLogoImg()" alt="">
+                <img v-if="resources.WEB_LOGO_IMG" :src="getLogoImg" alt="">
               </router-link>
             </v-toolbar-logo>
             <v-spacer />
             <v-btn v-if="Object.keys(modules).indexOf('ORD') > -1" :ripple="false" @click.native="CONTROL_MODAL({target: 'cart', boo: true})">
               <v-icon>shopping_cart</v-icon>
-              <span class="icon-plus-num">{{orderItems.length}}</span>
+              <span class="icon-plus-num">{{getItemNum}}</span>
               <span class="toolbar-icon-title">{{modules.ORD.TITLE}}</span>
             </v-btn>
             <v-btn v-if="Object.keys(modules).indexOf('RESV') > -1" :ripple="false" @click.native="CONTROL_MODAL({target: 'cart', boo: true})">
               <v-icon>today</v-icon>
+              <span class="icon-plus-num">{{getItemNum}}</span>
               <span class="toolbar-icon-title">{{modules.RESV.TITLE}}</span>
             </v-btn>
             <v-btn v-if="isLogin" :ripple="false">
@@ -35,10 +36,10 @@
             </v-btn>
           </v-toolbar>
         </header>
-        <main>
+        <main :style="{'background-image': 'url('+ bgImgSrc +')'}">
           <v-sidebar fixed v-model="showSidebar">
             <router-link to="/" class="logo">
-              <img v-if="resources.WEB_LOGO_IMG" :src="getLogoImg()" alt="">
+              <img v-if="resources.WEB_LOGO_IMG" :src="getLogoImg" alt="">
             </router-link>
             <v-list>
               <v-list-item v-if="menu.indexOf('ITEM') > -1">
@@ -117,7 +118,17 @@
         'account',
         'resHttpPath',
         'orderItems',
-      ])
+      ]),
+
+      getItemNum() {
+        return _.sumBy(this.orderItems, "count")
+      },
+      getLogoImg() {
+        return `${this.resHttpPath}/${this.resources.WEB_LOGO_IMG}`
+      },
+      bgImgSrc() {
+        return this.resources.WEB_INDEX_MAIN_IMG ? `${this.resHttpPath}${this.resources.WEB_INDEX_MAIN_IMG}` : ''
+      },
     },
     mounted() {
     },
@@ -132,10 +143,7 @@
         'getSiteConfig',
       ]),
       getEmailAcc(email) {
-          return email.slice(0, email.search(/@/))
-      },
-      getLogoImg() {
-        return `${this.resHttpPath}/${this.resources.WEB_LOGO_IMG}`
+        return email.slice(0, email.search(/@/))
       },
       async _onLogout() {
         var res = await this.onLogout()
@@ -177,7 +185,7 @@
       border-radius: 50%
       width: 20px
       height: 20px
-      background-color: brand-color1
+      background-color: main-blue
       color: #fff 
       position: absolute 
       left: 0 

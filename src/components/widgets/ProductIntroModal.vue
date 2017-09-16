@@ -4,7 +4,8 @@
       <div v-if="product.sn" class="modal-box-content">
         <el-row :gutter="20">
           <el-col :sm="24" :md="12">
-            <img :src="toImgSrc(product.imgUrl)" alt="">
+            <img v-if="product.imgUrl" :src="toImgSrc(product.imgUrl)" alt="">
+            <img v-else :src="toImgSrc(resources.WEB_ITEM_DEFAULT_IMG)" alt="">
           </el-col>
           <el-col :sm="24" :md="12" class="intro">
             <h5>{{product.name}}</h5>
@@ -48,6 +49,7 @@
       ...mapState({
         itemSn: state => state.productModal.itemSn,
         orderIndex: state => state.productModal.orderIndex,
+        resources: state => state.resources,
       })
     },
   async mounted() {

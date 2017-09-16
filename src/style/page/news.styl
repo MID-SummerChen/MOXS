@@ -11,86 +11,58 @@
         @media(max-width: ipad-media)
             padding-top: 20px
 
-    .paper
-        padding: 10px
-        position: relative
-        display: flex 
-        flex-direction: column
+    .items 
+        width: 700px
+        margin: 0 auto
+        margin-bottom: 10px
 
-        @media(max-width: mobile-media)
-            padding: 0
-        .paper-content
-            flex-grow: 1
-            h5.emptyMsg
-                color: #999 
-                margin: 20px
-            .items 
-                margin-bottom: 10px
-                .item 
-                    border-bottom: 1px solid #ddd
-                    height: 150px 
-                    padding: 5px 0
-                    cursor: pointer
-                    @media(max-width: mobile-media)
-                        height: 90px
-                    .item-img
-                        width: 248px
-                        height: 140px
-                        display: inline-block
-                        background-size: cover 
-                        background-position: center center
-                        @media(max-width: mobile-media)
-                            width: 142px
-                            height: 80px
-                    .item-content
-                        padding: 10px 20px
-                        vertical-align: top
-                        display: inline-block
-                        width: calc(100% - 248px - 10px)
-                        @media(max-width: mobile-media)
-                            padding: 10px 15px
-                            width: calc(100% - 142px - 10px)
-                        > p 
-                            color: #666
-                            margin-bottom: 10px
-                            @media(max-width: mobile-media)
-                                font-size: 13px
-                                margin-bottom: 0
-                        > h5 
-                            color: main-color
-                            font-weight: bold
-                            @media(max-width: mobile-media)
-                                font-size: 20px
-                            @media(max-width: mini-media)
-                                font-size: 16px
-                                // line-height: 20px
-                            
-                        .text 
-                            flex-grow: 1
-                            display: block; /* Fallback for non-webkit */
-                            display: -webkit-box;
-                            height: 60px; /* Fallback for non-webkit */
-                            font-size: 14px;
-                            line-height: 20px;
-                            -webkit-line-clamp: 3;
-                            -webkit-box-orient: vertical;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                            color: #999
-                            font-size: 12px
-                            @media(max-width: mobile-media)
-                                display: none
-
-        .paper-footer 
-            text-align: center 
-            font-size: 16px 
-            letter-spacing: 1px
-            font-weight: bold 
-            padding: 10px
-            background-color: #eee
-            margin-left: -10px
-            margin-right: -10px
-            margin-bottom: -10px
+        $itemH = 200px
+        $itemImgW = 260px
+        $itemImgW_m = 150px
+        .item
+            height: $itemH
+            padding: 5px
             cursor: pointer
-            &:hover 
-                background-color: #e3e3e3
+            background-color: #fff 
+            box-shadow: 0 3px 5px rgba(#000, 0.2)
+            @media(max-width: mobile-media)
+                height: 90px
+            .item-img
+                width: $itemImgW
+                height: 100%
+                display: inline-block
+                background-size: cover 
+                background-position: center center
+                @media(max-width: mobile-media)
+                    width:  $itemImgW_m
+                    height: 80px
+            .item-content
+                padding: 10px 20px
+                vertical-align: top
+                display: inline-block
+                width: "calc(100% - %s - 10px)" % ($itemImgW)
+                height: 100%
+                @media(max-width: mobile-media)
+                    padding: 10px 15px
+                    width: "calc(100% - %s - 10px)" % ($itemImgW_m)
+                .item-content-body
+                    height: 90%
+                    width: 100%
+                    .text
+                        display: block; /* Fallback for non-webkit */
+                        display: -webkit-box;
+                        height: 80%; /* Fallback for non-webkit */
+                        font-size: 14px;
+                        line-height: 20px;
+                        -webkit-line-clamp: 3;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        color: #999
+                        font-size: 12px
+                        @media(max-width: mobile-media)
+                            display: none
+                .item-content-footer
+                    height: 10%
+                    text-align: right
+                    width: 100%

@@ -6,29 +6,31 @@
         <el-row :gutter="20">
           <el-col :span="16" class="form-item">
             <div v-for="prc in product.prcs">
-              <mu-select-field v-model="form.prcOptId" label="價格" labelFloat :labelFocusClass="['label-foucs']" style="width: 100%">
+              <mu-select-field :disabled="prc.opts.length === 1" v-model="form.prcOptId" label="價格" labelFloat :labelFocusClass="['label-foucs']" style="width: 100%">
                 <mu-menu-item v-for="opt in prc.opts" :key="opt.id" :value="opt.id" :title="opt.name + ' $' + opt.value" />
               </mu-select-field>
             </div>
           </el-col>
           <el-col :span="16" class="form-item">
-            <!-- {{form.chkOpts}}<br> -->
-            <!-- {{form.optAtChk}} -->
             <div v-for="chk in product.chks">
-              <!-- <mu-select-field :value="form.optAtChk[chk.id].join()" v-if="form.optAtChk[chk.id] && chk.expOp === 'EQ' && chk.selectNum === 1" :label="chk.name" labelFloat :labelFocusClass="['label-foucs']" style="width: 100%" @change="function(optId) {return onSelectChk(chk, optId)}">
-                <mu-menu-item v-for="opt in chk.opts" :key="opt.id" :value="opt.id" :title="opt.name + (opt.value ? opt.value : '')" />
-              </mu-select-field> -->
-              <mu-select-field v-if="form.optAtChk[chk.id]" :value="form.optAtChk[chk.id]" @change="function(optId) {return onSelectChk(chk, optId)}" multiple :label="chk.name" labelFloat :labelFocusClass="['label-foucs']" style="width: 100%">
-                <mu-menu-item v-for="opt in chk.opts" :key="opt.id" :value="opt.id" :title="opt.name + (opt.value ? opt.value : '')" />
-              </mu-select-field>
+              <!-- {{chekChkNum(chk)}} -->
+              <!-- {{chk.submitType}} -->
+              <template v-if="chekChkNum(chk) === 'single'">
+                <mu-select-field v-if="form.optAtChk[chk.id]" :value="form.optAtChk[chk.id]" @change="function(optId) {return onSelectChk(chk, optId)}" multiple :label="chk.name" labelFloat :labelFocusClass="['label-foucs']" style="width: 100%">
+                  <mu-menu-item v-for="opt in chk.opts" :key="opt.id" :value="opt.id" :title="opt.name + (opt.value ? opt.value + product.unit : '')" />
+                </mu-select-field>
+              </template>
+              <div style="margin-bottom: 15px" v-else>
+                <p style="margin-bottom: 10px; font-size: 12px; color: #666">{{chk.name}}</p>
+                <span class="chkItem" :class="{selected: form.optAtChk[chk.id].indexOf(opt.id) > -1}" v-for="opt in chk.opts" @click="onSelectChk(chk, opt.id)">{{opt.name}} ${{opt.value}}</span>
+              </div>
+              
+              
             </div>
 
           </el-col>
           <el-col :span="16" class="form-item">
-            <mu-text-field v-model="form.count" label="數量" labelFloat style="width: 100%"/>
-            <!-- <mu-select-field v-model="form.count" :labelFocusClass="['label-foucs']" hintText="數量：" style="width: 100%">
-              <mu-menu-item v-for="n in 20" :value="n" :title="n+''" />
-            </mu-select-field> -->
+            <mu-text-field v-model="form.count" :label="'數量(' + product.unit + ')'" labelFloat style="width: 100%"/>
           </el-col>
           <el-col :span="8" class="form-item">
             <mu-float-button icon="remove" @click.native="form.count > 1 ? form.count-- : null" mini class="demo-float-button"/>
@@ -41,7 +43,7 @@
       </div>
       <div class="modal-box-footer">
           <button @click.prevent="onClose">取消</button>
-          <button @click.prevent="onAddedToCart" class="text-blue">確認加入</button>
+          <button @click.prevent="onAddedToCart" class="text-blue">{{orderIndex !== null ? '修改項目' : '確認加入'}}</button>
       </div>
     </div>
   </div>
@@ -130,7 +132,12 @@
       onAddedToCart() {
         var p = this.product
         var valid = _(p.chks).map(chk => {
-          return this.onCheckOptNum(chk, this.form.optAtChk[chk.id])
+          if(chk.submitType === 'REQUIRED' || this.form.optAtChk[chk.id].length > 0) {
+            return this.onCheckOptNum(chk, this.form.optAtChk[chk.id])
+          }else {
+            return true
+          }
+          
         }).every()
         if(valid) {
           var priceOptIndex = _.findIndex(p.prcs[0].opts, {id: this.form.prcOptId})
@@ -141,6 +148,7 @@
               count: this.form.count,
               unitPrice: this.getUnitPrice(),
               rtmNote: this.form.note,
+              unit: p.unit,
               prcs: [
                 {
                   prcId: p.prcs[0] ? p.prcs[0].id : "",
@@ -180,10 +188,32 @@
         // LE	小於等於
         console.log(chk, optId)
         var val = []
-        val = typeof optId === 'string' ? [optId] : optId
+        // val = typeof optId === 'string' ? [optId] : optId
+        if(typeof optId === 'string') {
+          var i = this.form.optAtChk[chk.id].indexOf(optId)
+          console.log(i)
+          val = i > -1 ? this.form.optAtChk[chk.id].filter(id => id !== optId) : this.form.optAtChk[chk.id].concat(optId)
+        }else {
+          val = optId
+        }
+
         this.form.optAtChk[chk.id] = val
+        
         this.$forceUpdate()
         
+      },
+      chekChkNum(chk) {
+        if(chk.expOp === 'EQ') {
+          return chk.selectNum >= 2 ? 'multi' : 'single'
+        }else if(chk.expOp === 'GT') {
+          return 'multi'
+        }else if(chk.expOp === 'LT') {
+          return chk.selectNum > 2 ? 'multi' : 'single'
+        }else if(chk.expOp === 'GE') {
+          return 'multi'
+        }else if(chk.expOp === 'LE') {
+          return chk.selectNum >= 2 ? 'multi' : 'single'
+        }
       },
       onCheckOptNum(chk, val) {
         console.log(chk)

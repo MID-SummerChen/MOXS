@@ -32,7 +32,7 @@
       <!-- 查詢密碼 -->
       <div v-if="currentMode === 'forget'" class="modal-box-content">
         <div class="logo">
-          <img v-if="resources.logoDarkWImg" :src="getLogoImg()" alt="">
+          <img src="/static/imgs/moxs_logo.png" alt="">
         </div>
         <div style="margin-top: 20px"></div>
         <div class="form-group">
@@ -47,7 +47,9 @@
       </div>
       <!-- 會員註冊 -->
       <div v-else-if="currentMode === 'signup'" class="modal-box-content">
-        <div class="icon-store-title"></div>
+        <div class="logo">
+          <img src="/static/imgs/moxs_logo.png" alt="">
+        </div>
         <div style="margin-top: 20px"></div>
         <div class="form-group">
           <label for="email">E-MAIL</label>

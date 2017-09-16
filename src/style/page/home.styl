@@ -1,16 +1,18 @@
 // 首頁
 .page#Home 
-  main > .content 
+  main 
     background-color #333
     // background-image url(/static/imgs/bg.jpg)
     background-repeat no-repeat
     background-size cover
     background-position center center
-    justify-content center
-    align-items center
-    display flex
-    height: 100vh
-    margin-top: 0
+    > .content 
+      background-color: transparent
+      justify-content center
+      align-items center
+      display flex
+      height: 100vh
+      margin-top: 0
   // toolbar (top bar)
   .toolbar
     position fixed

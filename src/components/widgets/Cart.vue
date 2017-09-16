@@ -26,12 +26,12 @@
         <div v-for="(item, i) in orderItems" class="item">
           <div class="item-content" @click="showOrderItem(i)">
             <p class="title">{{item.name}}<mu-icon v-if="item.rtmNote" value="chat" :size="18" color="#ccc"/></p>
-            <p v-for="prc in item.prcs" class="sub-title">{{prc.opt.name}} <span>{{item.count}}份</span></p>
+            <p v-for="prc in item.prcs" class="sub-title">{{prc.opt.name}} <span>{{item.count}}{{item.unit}}</span></p>
             <span v-for="chk in item.chks" class="tags">
               <span v-for="opt in chk.opts">{{opt.name}}</span>
             </span>
           </div>
-          <div class="item-price">${{item.unitPrice * item.count}}</div>
+          <div class="item-price">${{item.unitPrice * item.count + sumChkOpts(item.chks)}}</div>
           <div class="item-cancel" @click.stop="REMOVE_ORDER_ITEM(i)"><i class="el-icon-close"></i></div>
         </div>
       </div>
@@ -61,6 +61,7 @@ export default {
       menu: state => state.menu,
     }),
     ...mapGetters([
+      'isLogin',
       'storeList',
       'orderItems',
       'orderItemsTotalPrice',
@@ -86,26 +87,37 @@ export default {
       'addOrd',
       'sendResvVerify',
     ]),
+    sumChkOpts(chks) {
+      var val = 0
+      _.each(chks, chk => {
+        val = val + _.sumBy(chk.opts, "value")
+      })
+      return val
+    },
     onResvCheckSubmit() {
-      if(this.currentResv.display) {
+      if(!this.isLogin) {
+        this.CONTROL_MODAL({target: 'login', boo: true})
+      }
+      else if(!this.currentResv.display) {
+        this.$message("請先填寫預約資訊")
+        this.CONTROL_MODAL({target: 'resvCheckout', boo: true})
+      }
+      else {
         this.$confirm('是否送出預約？', '預約確認', {
           confirmButtonText: '確定',
           cancelButtonText: '繼續購物',
           type: 'warning'
         }).then(this.onResvSubmit).catch(() => false);
-      }else {
-        this.$message("請先填寫預約資訊")
-        this.CONTROL_MODAL({target: 'resvCheckout', boo: true})
       }
+
     },
     onOrdCheckSubmit() {
-      if(!this.currentResv.display) {
-        this.$message("請先填寫預約資訊")
-        this.CONTROL_MODAL({target: 'ordCheckout', boo: true})
-        
-      }
-      else if(!this.isLogin) {
+      if(!this.isLogin) {
         this.CONTROL_MODAL({target: 'login', boo: true})
+      }
+      else if(!this.currentResv.display) {
+        this.$message("請先填寫訂單資訊")
+        this.CONTROL_MODAL({target: 'ordCheckout', boo: true})
       }
       else {
         this.$confirm('是否送出訂單？', '訂單確認', {

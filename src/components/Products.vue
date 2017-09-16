@@ -6,7 +6,7 @@
       <div class="main-title">
         <ul>
           <li>
-            <router-link :to="{name: 'Products'}">所有產品</router-link>
+            <router-link :to="{name: 'Products'}">所有項目</router-link>
           </li>
           <li v-for="b in breadcrumb">
             <router-link :to="{name: 'Products', query: {id: b.id}}">{{b.name}}</router-link>

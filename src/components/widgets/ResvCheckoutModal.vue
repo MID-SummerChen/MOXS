@@ -12,28 +12,30 @@
               <mu-menu-item v-for="(s, i) in storeList" :key="s.sn" :value="s.sn" :title="s.name" />
             </mu-select-field>
           </el-col>
+        </el-row>
+        <el-row :gutter="20">
           <el-col :sm="12">
             <mu-select-field v-model="form.resvTypeId" :labelFocusClass="['label-foucs']" label="預約類型" style="width: 100%">
               <mu-menu-item v-for="(r, i) in resvTypeList" :key="r.id" :value="r.id" :title="r.name" />
             </mu-select-field>
           </el-col>
           <el-col :sm="12">
-            <mu-select-field v-model="form.adultNum" :labelFocusClass="['label-foucs']" label="人數" :disabled="getResvCode(form.resvTypeId) !== 'STAYIN'" style="width: 100%">
+            <mu-select-field v-if="getResvCode(form.resvTypeId) === 'STAYIN'" v-model="form.adultNum" :labelFocusClass="['label-foucs']" label="人數" :disabled="getResvCode(form.resvTypeId) !== 'STAYIN'" style="width: 100%">
               <mu-menu-item v-for="n in 20" :value="n" :title="n+''" />
             </mu-select-field>
           </el-col>
-          <template>
-            <el-col :sm="12">
-              <mu-select-field v-model="form.date" :labelFocusClass="['label-foucs']" label="日期" style="width: 100%">
-                <mu-menu-item v-for="(d, i) in dateList" :key="d" :value="d" :title="d" />
-              </mu-select-field>
-            </el-col>
-            <el-col :sm="12">
-              <mu-select-field v-model="form.time" :labelFocusClass="['label-foucs']" label="時間" style="width: 100%">
-                <mu-menu-item v-for="(t, i) in timeList" :key="t" :value="t" :title="t" />
-              </mu-select-field>
-            </el-col>
-          </template>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :sm="12">
+            <mu-select-field v-model="form.date" :labelFocusClass="['label-foucs']" label="日期" style="width: 100%">
+              <mu-menu-item v-for="(d, i) in dateList" :key="d" :value="d" :title="d" />
+            </mu-select-field>
+          </el-col>
+          <el-col :sm="12">
+            <mu-select-field v-model="form.time" :labelFocusClass="['label-foucs']" label="時間" style="width: 100%">
+              <mu-menu-item v-for="(t, i) in timeList" :key="t" :value="t" :title="t" />
+            </mu-select-field>
+          </el-col>
           <el-col :sm="12">
             <div class="form-group">
               <mu-text-field v-model="form.name" label="姓名" hintText="" style="width: 100%"/><br/>
@@ -49,12 +51,12 @@
           </el-col>
           <template v-if="getResvCode(form.resvTypeId) === 'DELIVER'">
             <el-col :sm="12">
-              <mu-select-field v-model="form.city" :labelFocusClass="['label-foucs']" label="縣市" style="width: 100%">
+              <mu-select-field v-model="form.city" :labelFocusClass="['label-foucs']" label="城市" style="width: 100%" placeholder="請選擇城市">
                 <mu-menu-item v-for="(city, i) in cityList" :value="city.geoName" :title="city.geoName" />
               </mu-select-field>
             </el-col>
             <el-col :sm="12">
-              <mu-select-field v-model="form.area" :labelFocusClass="['label-foucs']" label="地區" style="width: 100%">
+              <mu-select-field v-model="form.area" :labelFocusClass="['label-foucs']" label="地區" style="width: 100%" placeholder="請選擇地區">
                 <mu-menu-item v-for="(area, i) in areaList" :value="area.geoName" :title="area.geoName" />
               </mu-select-field>
             </el-col>

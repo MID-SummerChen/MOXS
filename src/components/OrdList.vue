@@ -5,12 +5,12 @@
       </div>
       <div class="item-ord" v-for="ord in ordList" @click="$router.push({name: 'OrdRecordDetail', params: {ord_sn: ord.ordSn}})">
           <span>{{ord.ordSn}}</span>
-          <span>{{ord.updateAt}}</span>
-          <span>{{ord.ordTotalPrice}}元</span>
+          <span>{{ord.createAt | fullDate}}</span>
+          <span class="price">{{ord.ordTotalPrice}}元</span>
           <span class="status">{{toChkStatus(ord.ordStatus)}}</span>
       </div>
       <div class="record-footer">
-          <button class="btn-t2" @click="$router.push({name: 'MemberRecord'})">查看全部訂單記錄</button>
+          <button class="btn-t2" @click="$router.push({name: 'MemberRecord'})">查看所有訂單</button>
       </div>
   </div>
 </template>

@@ -7,7 +7,8 @@
                 </ul>
             </div>
             <div class="main-content">
-                <div class="title-img" :style="{'background-image': 'url('+ bgImgSrc +')'}"></div>
+                <!-- <div class="title-img" :style="{'background-image': 'url('+ bgImgSrc +')'}"></div> -->
+                <img :src="bgImgSrc" alt="">
                 <div class="page-content">
                     <h4>{{serviceInfo.name}}</h4>
                     <p class="desc">{{serviceInfo.desc}} </p>

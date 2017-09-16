@@ -31,12 +31,9 @@
           <div class="form">
             <el-row :gutter="40">
               <el-col :sm="12">
-                <div class="form-group">
-                  <label>付款金流</label>
-                  <el-select v-model="form.paySetId" style="width: 100%" @change="onPaySetChanged">
-                    <el-option v-for="p in paySets" :label="p.NAME + ' - 信用卡'" :value="p.ORG_PAY_SET_ID"></el-option>
-                  </el-select>
-                </div>
+                <mu-select-field v-model="form.paySetId" :labelFocusClass="['label-foucs']" label="付款方式" style="width: 100%">
+                  <mu-menu-item v-for="p in paySets" :value="p.ORG_PAY_SET_ID" :title="p.NAME + ' - 信用卡'" />
+                </mu-select-field>
               </el-col>
               <!--<el-col :sm="12">
                 <div class="form-group">
@@ -47,30 +44,42 @@
                 </div>
               </el-col>-->
               <el-col :sm="12">
-                <div class="form-group">
-                  <label>發票類型</label>
+                <!-- <div class="form-group">
+                  <label>發票選項</label>
                   <el-select v-model="form.invoiceType" style="width: 100%">
                     <el-option v-for="t in invoiceTypeOpts" :label="t.label" :value="t.value"></el-option>
                   </el-select>
-                </div>
+                </div> -->
+                <mu-select-field v-model="form.invoiceType" :labelFocusClass="['label-foucs']" label="發票選項" style="width: 100%">
+                  <mu-menu-item v-for="t in invoiceTypeOpts" :value="t.value" :title="t.label" />
+                </mu-select-field>
               </el-col>
               <template v-if="form.invoiceType === 'P'">
-                <el-col :sm="12">
-                  <div class="form-group">
-                    <label>發票收件人</label>
-                    <input type="text" v-model="form.invoiceReceiver"
-                          placeholder="請輸入收件人">
-                  </div>
+                <el-col :sm="24">
+                  <mu-text-field label="收件人" style="width: 100%" v-model="form.invoiceReceiver"/>
                 </el-col>
-                <el-col :sm="12">
+                <!-- <el-col :sm="12">
                   <div class="form-group">
                     <label>發票地址</label>
                     <input type="text" v-model="form.invoiceAddress"
                           placeholder="請輸入地址">
                   </div>
+                </el-col> -->
+                <el-col :sm="12">
+                  <mu-select-field v-model="form.city" :labelFocusClass="['label-foucs']" label="縣市" style="width: 100%">
+                    <mu-menu-item v-for="(city, i) in cityList" :value="city.geoName" :title="city.geoName" />
+                  </mu-select-field>
+                </el-col>
+                <el-col :sm="12">
+                  <mu-select-field v-model="form.area" :labelFocusClass="['label-foucs']" label="地區" style="width: 100%">
+                    <mu-menu-item v-for="(area, i) in areaList" :value="area.geoName" :title="area.geoName" />
+                  </mu-select-field>
+                </el-col>
+                <el-col :sm="24">
+                  <mu-text-field v-model="form.addr" label="地址" hintText="" style="width: 100%"/>
                 </el-col>
               </template>
-              <el-col :sm="24">
+              <el-col :sm="24" v-if="form.invoiceType !== 'D'">
                 <div class="check-group">
                   <label>
                     <input type="checkbox" v-model="form.invoiceFormatType" true-value="COMPANY" false-value="DEFAULT"> 需要統一編號？
@@ -79,23 +88,16 @@
               </el-col>
               <template v-if="form.invoiceFormatType === 'COMPANY'">
                 <el-col :sm="12">
-                  <div class="form-group">
-                    <label>公司抬頭</label>
-                    <input type="text" v-model="form.invoiceTitle"
-                          placeholder="請輸入公司抬頭">
-                  </div>
+                  <mu-text-field v-model="form.invoiceTitle" label="公司抬頭" hintText="請輸入公司抬頭" style="width: 100%"/>
                 </el-col>
                 <el-col :sm="12">
-                  <div class="form-group">
-                    <label>統一編號</label>
-                    <input type="text" v-model="form.taxId" placeholder="請輸入統一編號">
-                  </div>
+                  <mu-text-field v-model="form.taxId" label="統一編號" hintText="請輸入統一編號" style="width: 100%"/>
                 </el-col>
               </template>
             </el-row>
           </div>
           <div class="btn-wrap">
-            <a href="" class="text-blue" @click.prevent="$router.push({name: 'Member'})">取消</a>
+            <a href="" class="text-blue" @click.prevent="$router.push({name: 'Member'})">下次付款</a>
             <a href="" @click.prevent="onCheckout">確認付款</a>
             <!--<router-link :to="{name: 'CheckoutResult'}">確認付款</router-link>-->
           </div>
@@ -126,6 +128,8 @@ export default {
       items: [],
       payModeOpts: [],
       invoiceTypeOpts: [],
+      cityList: [],
+      areaList: [],
       form: {
         paySetId: "",
         payMode: "",
@@ -133,6 +137,9 @@ export default {
         invoiceTitle: "",
         invoiceType: "",
         taxId: "",
+        city: "",
+        area: "",
+        addr: "",
       },
       hiddingForm: {
         link: "",
@@ -154,7 +161,12 @@ export default {
       return _.sumBy(this.items, "total_price")
     }
   },
-  mounted() {
+  watch: {
+    'form.city': 'onCityChanged',
+    'form.paySetId': 'onPaySetChanged',
+  },
+  async mounted() {
+    await this._getGeo()
     // this.getResvCheckoutInfo(this.$route.query.resv)
     if(this.checkoutType.code === 'resv') {
       this._getResvChk()
@@ -168,10 +180,46 @@ export default {
   methods: {
     ...mapActions([
       'resvCheckout',
+      'getGeo',
       'getAllResvItems',
       'getResvChk',
       'getOrdChk',
     ]),
+    onCityChanged() {
+      console.log("onCityChanged", this.form.city)
+      if(this.form.city) {
+        this.form.area = ""
+        var i = _.findIndex(this.cityList, {geoName: this.form.city})
+        if(i > -1) this._getGeo(this.cityList[i].code)
+      }
+        
+    },
+    async _getGeo(superCode) {
+      console.log(superCode)
+      var data ={
+          superCode
+      }
+      var res = await this.getGeo(data)
+      if(res.code === 10) {
+        if(superCode) {
+          this.areaList = res.data
+          if(this.currentResv && this.currentResv.form) {
+            this.form.area = this.currentResv.form.area
+          }else {
+            var i = _.findIndex(this.areaList, {geoName: this.account.mb.area})
+            if(i > -1) this.form.area = this.account.mb.area
+          }
+          
+        }else {
+          this.cityList = res.data
+          if(this.currentResv && this.currentResv.form) {
+            this.form.city = this.currentResv.form.city
+          }
+          
+        }
+      }
+      return
+    },
     async _getOrdChk() {
       var res = await this.getOrdChk(this.$route.query.ord)
       if(res.code === 10) {
@@ -185,13 +233,17 @@ export default {
       }
     },
     onPaySetChanged() {
+      console.log("onPaySetChanged: " + this.form.paySetId)
       var i = _.findIndex(this.paySets, {ORG_PAY_SET_ID: this.form.paySetId})
+      console.log(i)
       if(i > -1) {
         this.invoiceTypeOpts = _.map(this.paySets[i].INVOICE_TYPE, t => ({label: t.NAME, value: t.VALUE}))
         this.form.invoiceType = this.invoiceTypeOpts[0] ? this.invoiceTypeOpts[0].value : ""
         this.payModeOpts = _.map(this.paySets[i].PAY_MODE, t => ({label: t.NAME, value: t.VALUE}))
         this.form.payMode = this.payModeOpts[0] ? this.payModeOpts[0].value : ""
       }
+      this.$forceUpdate()
+      
     },
     setForm() {
       if(this.paySets.length > 0 && this.account.mb) {
@@ -199,6 +251,11 @@ export default {
 
         var mb = this.account.mb
         this.form.invoiceReceiver = mb.name
+        this.form = _.assign({}, this.form, {
+          invoiceReceiver: mb.name,
+          city: mb.city,
+          addr: mb.addr,
+        })
         this.form.invoiceAddress = mb.city + mb.area + mb.addr
       }else {
         setTimeout(this.setForm, 500)
@@ -220,7 +277,7 @@ export default {
         payMode: f.payMode,
         InvoiceType: f.invoiceType,
         invoiceReceiver: f.invoiceReceiver,
-        invoiceAddress: f.invoiceAddress,
+        invoiceAddress: f.city + f.area + f.addr,
 
         invoiceFormatType: f.invoiceFormatType,
         invoiceTitle: f.invoiceTitle,

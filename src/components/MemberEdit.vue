@@ -81,7 +81,7 @@
                                         <el-select v-model="form.city"
                                                     @change="onCityOptsChanged"
                                                    style="width: 100px">
-                                            <el-option v-for="o in cityOpts"
+                                            <el-option v-for="o in cityList"
                                                        :label="o.geoName"
                                                        :value="o.geoName"
                                                        >
@@ -89,7 +89,7 @@
                                         </el-select>
                                         <el-select v-model="form.area"
                                                    style="width: 100px">
-                                            <el-option v-for="o in areaOpts"
+                                            <el-option v-for="o in areaList"
                                                        :label="o.geoName"
                                                        :value="o.geoName">
                                             </el-option>
@@ -148,15 +148,15 @@ export default {
                 addr: "",
                 email: "",
             },
-            cityOpts: [],
-            areaOpts: [],
+            cityList: [],
+            areaList: [],
         }
     },
-    mounted() {
+    async mounted() {
+        await this._getGeo()
         Ps.initialize(this.$refs.scrollBox);
         this.limitedPageCheck()
         this.setData()
-        this._getGeo()
         
     },
     computed: {
@@ -179,25 +179,32 @@ export default {
             var res = await this.getGeo(data)
             if(res.code === 10) {
                 superCode
-                ? this.areaOpts = res.data
-                : this.cityOpts = res.data
+                ? this.areaList = res.data
+                : this.cityList = res.data
             }
+            return
         },
         onCityOptsChanged() {
             this.form.area = ""
-            this._getGeo(this.cityOpts.find(o => o.geoName === this.form.city).code)
+            this._getGeo(this.cityList.find(o => o.geoName === this.form.city).code)
         },
-        setData() {
-            if (this.account.mb) {
-                var f = this.form
-                f.email = this.account.id
-                f.name = this.account.mb.name || ""
-                f.city = this.account.mb.city || ""
-                f.area = this.account.mb.area || ""
-                f.addr = this.account.mb.addr || ""
-                f.cell = this.account.mb.cell || ""
-                f.birth = this.account.mb.birth || ""
-                this.memPicSrc = this.account.resUrl ? `${this.resHttpPath}${this.account.resUrl}` : ""
+        async setData() {
+            var acc = this.account
+            if (acc.mb) {
+                var i = _.findIndex(this.cityList, {geoName: acc.mb.city})
+                if(i > -1) {
+                    await this._getGeo(this.cityList[i].code)
+                }
+                this.form = _.assign({}, this.form, {
+                    email: acc.id,
+                    name: acc.mb.name,
+                    city: acc.mb.city,
+                    area: acc.mb.area,
+                    addr: acc.mb.addr,
+                    cell: acc.mb.cell,
+                    birth: acc.mb.birth,
+                })
+                this.memPicSrc = acc.resUrl ? `${this.resHttpPath}${acc.resUrl}` : ""
             } else {
                 setTimeout(this.setData, 500)
             }

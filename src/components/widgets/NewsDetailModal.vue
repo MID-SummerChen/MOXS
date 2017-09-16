@@ -2,12 +2,10 @@
   <div id="news-detail-modal" class="my-modal-wrap" @click.self="onClose">
     <div class="modal-box">
       <div class="close-btn" @click="onClose">
-        <v-icon>clear</v-icon>
+        <i class="icon-circle-close"></i>
       </div>
       <div class="modal-box-header">
         <h5>{{newsData.newsTitle}}</h5>
-        <p class="title-top">{{newsData.newsSubtitle}}</p>
-        <p class="date">{{newsData.updateAt}}</p>
       </div>
       <div class="modal-box-content">
         <img v-if="newsData.newsImageUrl" :src="toImgSrc(newsData.newsImageUrl)" alt="">

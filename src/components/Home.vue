@@ -1,5 +1,5 @@
 <template>
-  <v-content :style="{'background-image': 'url('+ bgImgSrc +')'}">
+  <v-content>
     <v-container fluid>
       <div class="slogan-wrap">
         <h3 class="slogan">{{pageMsgs.title}}</h3>

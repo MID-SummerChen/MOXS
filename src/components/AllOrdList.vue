@@ -6,8 +6,8 @@
             <div class="items">
                 <div class="item-ord animated fadeInUp" v-for="ord in ords" @click="$router.push({name: 'OrdRecordDetail', params: {ord_sn: ord.ordSn}})">
                     <span>{{ord.ordSn}}</span>
-                    <span>{{ord.updateAt}}</span>
-                    <span>{{ord.ordTotalPrice}}元</span>
+                    <span>{{ord.createAt | fullDate}}</span>
+                    <span class="price">{{ord.ordTotalPrice}}元</span>
                     <span class="status">{{toChkStatus(ord.ordStatus)}}</span>
                 </div>
             </div>
@@ -44,7 +44,7 @@ export default {
     },
     computed: {
         ordListByMonth() {
-            return _.groupBy(this.ordList, v => moment(v.date).format('YYYY年MM月'))
+            return _.groupBy(this.ordList, v => moment(v.createAt).format('YYYY年MM月'))
         }
     },
     mounted() {
