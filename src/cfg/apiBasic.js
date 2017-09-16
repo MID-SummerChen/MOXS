@@ -10,7 +10,7 @@
  * =================
  * 
  */
-const devMode = true 
+const devMode = false 
 const fakeFBId = '119590558602110'
 const fakeSubdomain = 'tingmusic'
 
