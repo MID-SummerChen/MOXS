@@ -7,7 +7,7 @@ import db from './modules/db'
 import alertBox from './modules/modals/alertBox'
 import productModal from './modules/modals/productModal'
 import storeMapModal from './modules/modals/storeMapModal'
-import {fakeHost, devMode, apiHost, apiModule, resHttpPath, setFakeType, fakeType } from '../cfg/apiBasic'
+import {fakeFBId, fakeSubdomain, devMode, apiHost, apiModule, resHttpPath, setFakeType, fakeType } from '../cfg/apiBasic'
 
 
 Vue.use(Vuex)
@@ -113,7 +113,7 @@ export default new Vuex.Store({
       window.fbAsyncInit = function() {
         console.log(state.sev.SEV_FB_ID)
         FB.init({
-          appId      : devMode ? '119590558602110' : state.sev.SEV_FB_ID,
+          appId      : devMode ? fakeFBId : state.sev.SEV_FB_ID,
           xfbml      : true,
           version    : 'v2.9'
         });
@@ -137,7 +137,7 @@ export default new Vuex.Store({
     async getSiteConfig({ state, commit, dispatch, rootState }) {
       var data = {
         domainType: devMode ? "SUBDOMAIN" : location.hostname.indexOf("moxs") > -1 ? "SUBDOMAIN" : "DOMAIN",
-        subdomain: devMode ? fakeHost : location.hostname.split('.')[0]
+        subdomain: devMode ? fakeSubdomain : location.hostname.split('.')[0]
       }
       var configRes = await dispatch("getDomainConfig", data)
       if(configRes.code === 10) commit("GOT_CONFIG", configRes.data)

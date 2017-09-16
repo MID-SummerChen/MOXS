@@ -3,7 +3,7 @@
         <v-container fluid>
             <div class="main-title">
                 <ul>
-                    <li>商店介紹</li>
+                    <li>商店資訊</li>
                 </ul>
             </div>
             <div class="main-content">

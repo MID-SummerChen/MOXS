@@ -131,6 +131,10 @@
       },
       onAddedToCart() {
         var p = this.product
+        if(p.prcs.length === 0) {
+          this.$message.error("此品項無價格資訊")
+          return
+        }
         var valid = _(p.chks).map(chk => {
           if(chk.submitType === 'REQUIRED' || this.form.optAtChk[chk.id].length > 0) {
             return this.onCheckOptNum(chk, this.form.optAtChk[chk.id])

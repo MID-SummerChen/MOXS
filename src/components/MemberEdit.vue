@@ -62,7 +62,7 @@
                                 <div v-if="editMode" class="form-content">
                                     <el-date-picker v-model="form.birth" type="date" @change="function(val) {form.birth = val}"></el-date-picker>
                                 </div>
-                                <div v-else class="form-content-static">{{form.birth}}</div>
+                                <div v-else class="form-content-static">{{form.birth | fullDate}}</div>
     
                             </div>
                             <div class="form-group">

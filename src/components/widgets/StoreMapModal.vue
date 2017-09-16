@@ -54,6 +54,10 @@
           var {lat, lng} = res.results[0].geometry.location
           var _opt = {center: {lat, lng}, zoom: 15};
           var map = new google.maps.Map(this.$refs.map, _opt);
+          var marker = new google.maps.Marker({
+            position: {lat, lng},
+            map
+          });
         }
       }
     }

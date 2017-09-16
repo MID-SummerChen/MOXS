@@ -3,7 +3,7 @@
     <v-container fluid>
       <div class="slogan-wrap">
         <h3 class="slogan">{{pageMsgs.title}}</h3>
-        <router-link to="/">立即訂位點餐</router-link>
+        <router-link v-if="checkoutType.code === 'resv'" to="/">立即訂位點餐</router-link>
       </div>
     </v-container>
   </v-content>
@@ -35,6 +35,7 @@ export default {
     ...mapGetters([
       'account',
       'pageMsgs',
+      'checkoutType',
     ]),
     bgImgSrc() {
       return this.resources.WEB_INDEX_MAIN_IMG ? `${this.resHttpPath}${this.resources.WEB_INDEX_MAIN_IMG}` : ''
